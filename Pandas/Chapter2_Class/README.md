@@ -15,82 +15,75 @@
 
 <img width="1081" alt="2-2" src="https://user-images.githubusercontent.com/43739827/73939781-857ae080-492d-11ea-9978-725862ba6344.png"></img>  
 
-<img width="888" alt="1" src="https://user-images.githubusercontent.com/43739827/73742430-c5a45c80-478f-11ea-9ad3-d94ddf767525.png"></img>  
+시리즈 클래스의 생성자(constructor, 일종의 메소드로써 멤버 변수를 초기화함)를 이용해 시리즈를 만들고자 한다면 매개변수 data, index, name에 값을 지정한다.  
 
-시리즈 클래스의 생성자를 이용해 하나의 객체를 만들려면 생성자 내의 매개변수 data, index, name을 넣어 실행한다. 일단 data가 첫 번째 인자인데 파이썬 리스트로 4개의 원소를 가지고, index에서 리스트로 4개의 문자열의 원소를 넣었다. 시리즈를 생성할 때 index를 지정했기 때문에 실제 결과 값을 확인하면 이 문자열로 행의 레이블을 처리한다.  
+<img width="1075" alt="2-3" src="https://user-images.githubusercontent.com/43739827/74022938-e5cb5a00-49e1-11ea-876a-1e92cf4fc610.png"></img>  
 
-마지막 인자인 name에서 이름을 넣어서 실생하면 data, index, name에 지정된 인자들이 시리즈 안에 객체의 속성으로 들어간다.  
+<img width="892" alt="2-4" src="https://user-images.githubusercontent.com/43739827/74023056-19a67f80-49e2-11ea-8e43-5dc4ac31a2b7.png"></img>  
+> 판다스의 생성자 [Pandas Github(Series)](https://github.com/pandas-dev/pandas/blob/v1.0.1/pandas/core/series.py#L122-L4567, "Pandas Github")
 
-<img width="883" alt="2" src="https://user-images.githubusercontent.com/43739827/73742693-5418de00-4790-11ea-9ecd-fd5fcc31317c.png"></img>
+시리즈에 name을 확인해보면 생성시에 지정한 'ex_series'가 반환되는것을 알 수 있다. 또한 chapter1에서 언급한것처럼 자료형을 따로 지정하지 않아도 요소들을 확인해 자료형을 자동으로 인식하는데 객체를 생성할때 짝수인 정수들을 선언했으므로 **int64** 가 반환되는것을 알 수 있다.  
 
-시리즈 객체의 name 속성을 확인하면 전달된 인자가 그대로 들어가 있는 것을 볼 수 있다. 이 객체의 원소들이 하나의 자료형을 유지하므로 dtype 속성을 확인해보면 int64 정수 자료형이라는 것을 볼 수 있다. 현재 자료형에 대한 정보를 dtype 매개변수(parameter variable)에 넘기지 않았지만 생성할 때 실제 data로 전달을 받은 원소들을 보고 자료형을 추론해 결정한다.  
+<img width="1076" alt="2-5" src="https://user-images.githubusercontent.com/43739827/74023429-00ea9980-49e3-11ea-8a66-b484ff258f85.png"></img>
 
-<img width="877" alt="3" src="https://user-images.githubusercontent.com/43739827/73742954-ddc8ab80-4790-11ea-8c27-2902b70ad456.png"></img>  
+시리즈나 데이터 프레임의 형태와 차원을 알고싶다면 **.shape** 와 **.ndim** 을 사용한다. 앞서 생성한 시리즈인 'series'에는 5개의 정수가 들어있기 때문에 (5,)라는 튜플로 출력이되며 1차원이므로 .ndim은 1을 반환한다. 마찬가지로 데이터 프레임을 생성하고 shape와 ndim을 사용하면 모양과 차원이 반환되는것을 알 수 있다.
 
-다른 배열과 달리 다양한 속성이 있고 시리즈가 배열이므로 차원 정보나 차원의 생긴 모양등도 관리가 필요하다. 이 속성에는 .shape와 .ndim이 있고 조회하면 1차원이다. 원소의 개수는 튜플인 (4,)이므로 한 개이기 때문에 차원은 1로 표시된다.  
+<img width="1078" alt="2-6" src="https://user-images.githubusercontent.com/43739827/74024016-4c517780-49e4-11ea-80be-3bd0e66b1c87.png"></img>
 
-시리즈도 실제 확장이 가능하므로 크기와 확장 정보인 .size와 .strides 속성이 있다. 원소의 개수는 .size를 보고 확인이 가능하다. 이 배열의 지속적인 확장 기준인 .strides 속성안의 정보를 가지고 시리즈가 추가될 때마다 확장이 된다.  
+<img width="1083" alt="2-7" src="https://user-images.githubusercontent.com/43739827/74024154-8fabe600-49e4-11ea-9b4f-727b5bac74ee.png"></img>  
+> 데이터 프레임에서는 .name을 사용할 수 없다. 이유는 name은 시리즈에서만 생성자로 사용되기 때문이다.  
 
-<img width="876" alt="4" src="https://user-images.githubusercontent.com/43739827/73743946-0d78b300-4793-11ea-81e5-b76900315b5e.png"></img>  
+<img width="884" alt="2-8" src="https://user-images.githubusercontent.com/43739827/74024299-ec0f0580-49e4-11ea-9d79-d5c1d61902f9.png"></img>  
+> 데이터 프레임 생성자 [Pandas Github(Data Frame)](https://github.com/pandas-dev/pandas/blob/v1.0.1/pandas/core/frame.py#L319-L8448, "Pandas Github")
 
-시리즈에 레이블 정보를 관리하는 .index 속성을 조회하면 별도의 index 객체가 들어있는 것을 알 수 있다. 이 객체 안의 원소 값은 파이썬의 자료형인 문자열로 구성되어 판다스의 자료형인 object로 표시한다.
+시리즈와 데이터 프레임은 **.size** 를 사용하여 크기를 알 수 있다.  
+<img width="1083" alt="2-9" src="https://user-images.githubusercontent.com/43739827/74024558-80796800-49e5-11ea-9ff9-98b9836957da.png"></img>  
+> 크기가 정수로 반환된것을 확인할 수 있다.
+
+앞서 생성한 시리즈에 인덱스를 지정해줬었다. 이 인덱스를 확인하기 위해서는 **.index** 를 사용한다. 'series' 객체를 생성할 때 인덱스를 문자형 '12345'를 리스트로 쪼개어 분할 지정해주었기 때문에 자료형이 판다스의 자료형인 'object'로 반환되었다.  
+
+<img width="1087" alt="2-10" src="https://user-images.githubusercontent.com/43739827/74025021-655b2800-49e6-11ea-98f7-5a529c17e588.png"></img>  
+> 인덱스의 선언방식에 따라 정수도 가능하다.
 
 * 데이터 프레임  
-배열 중에 2차원인 경우는 열이나 행 중씸으로 원소를 관리한다. 1차원인 시리즈를 가지고 2차원 배열인 데이터 프레임을 관리한다. 데이터 프레임의 구성은 열을 기반으로 관리하므로 1차원 배열인 시리즈가 열 단위로 저장된다.  
 
-시리즈와 데이터 프레임의 차이점은 일차적으로 차원이 확대되었고 각 차원에 대한 원소가 시리즈로 들어온다는 것이다.  
-
-데이터 프레임의 구조와 가장 비슷한 것은 파이썬의 자료형인 딕셔너리다. 딕셔너리의 첫 번째 키는 열이 이름으로 들어가고 실제 깞은 내부의 딕셔너리 값이 들어간다.  
-
-* 데이터 프레임 구성  
-데이터 프레임은 두 개의 인덱스(.index, .columns)로 들어간다. 생성할 때 들어가는 데이터는 .values 속성에 들어가서 인덱스를 이용해 조회하는 구조이다.  
-
-데이터 프레임은 행과 열에 이에대한 레이블이 있고 내부의 데이터는 시리즈를 통해 행과 열로 구조화되어 있다.  
+데이터 프레임은 열을 기반으로 되어있기에 각 차원의 원소가 1차원인 시리즈로 저장된다. 또한 데이터 프레임은 두 개의 인덱스(.index, .column)로 구성되어 있으며(즉 행과 열에 라벨링되어 있다는 의미이다.) 자료를 검색할 때는 .values 속성을 이용해 인덱스를 참조하여 원하는 요소를 찾는 구조이다.
 
 기본적으로 파이썬 리스트나 딕셔너리를 이용해 데이터를 넣어 생성할 수 있다.  
 
-<img width="886" alt="5" src="https://user-images.githubusercontent.com/43739827/73744352-f8e8ea80-4793-11ea-8909-4f1e8bb471a7.png"></img>  
+<img width="1073" alt="2-11" src="https://user-images.githubusercontent.com/43739827/74025611-b3246000-49e7-11ea-941d-c34150f68f91.png"></img>  
 
-데이터 프레임도 data, index, columns 매개변수에 값을 넣어서 생성이 가능하다. 먼저 2차원 리스트를 data에 넣고 index, columns에 행(.row)과 열(.columns) 레이블을 할당해 생성한다.  
+데이터 프레임도 생성자를 이용한 생성이 가능하다. 단, 시리즈와 달리 2차원이기에 생성자의 종류가 다르기 때문에 이 차이를 확실히 알고 있어야 한다. 기본적으로는 data, index, columns를 선언하며 data에는 저장될 요소가 들어가고 index는 행, columns는 열의 레이블을 설정한다.
 
-생성한 후에 변수 df에 할당된 것을 조회하면 행과 열의 레이블과 값들이 매핑된 것을 출력한다.
+<img width="1085" alt="2-22" src="https://user-images.githubusercontent.com/43739827/74025915-5bd2bf80-49e8-11ea-9849-1dffc5d3bde1.png"></img>  
+> 행과 열에 레이블과 값들이 매핑된것을 확인할 수 있다.  
 
-<img width="887" alt="6" src="https://user-images.githubusercontent.com/43739827/73744529-52511980-4794-11ea-8ec3-039866c1587d.png"></img>  
+데이터 프레임은 2차원이기 때문에 .index속성과 **.columns** 속성을 제공한다. 이 두 속성으로 행과 열의 레이블과 그것의 자료형을 확인할 수 있다.  
 
-데이터 프레임의 모양(.shape), 차원(.ndim), 사이즈(.size) 속성을 확인해 원소의 구성을 확인할 수 있다.  
+<img width="716" alt="2-13" src="https://user-images.githubusercontent.com/43739827/74026140-dac7f800-49e8-11ea-925d-92febdede172.png"></img>
 
-<img width="887" alt="7" src="https://user-images.githubusercontent.com/43739827/73744656-96dcb500-4794-11ea-91f0-fda8d0b7d71b.png"></img>  
+데이터 프레임의 간결한 정보를 확인하고 싶다면 **.info** 메소드를 사용한다.
 
-데이터 프레임은 2차원 레이블의 속성인 행(.index)과 열(.columns) 속성을 확인하면 index 클래스의 객체로 저장된다. index 클래스를 별도로 제공해서 인덱스 레이블을 관리한다.  
+<img width="715" alt="2-14" src="https://user-images.githubusercontent.com/43739827/74026355-59bd3080-49e9-11ea-9211-78b32bfdb242.png"></img>  
+> 요소의 정보나 메모리에 대한 정보까지도 확인할 수 있다.  
 
-<img width="892" alt="8" src="https://user-images.githubusercontent.com/43739827/73744783-dd321400-4794-11ea-942d-c9a5b7cf6587.png"></img>  
-
-데이터 프레임의 객체를 생성한 후에 종합적인 정보를 확인하려면 .info 메소드로 내부 정보를 확인한다. 각 열에 저장된 정보와 전체 메모리에 대한 정보(memory usage)도 표시되는 것을 볼 수 있다.  
-
-* 시리즈와 데이터 프레임 내부 멤버 확인하기  
-판다스의 시리즈와 데이터 프레임 클래스들에는 다양한 속성과 메소드가 있다.  
-
-파이썬에 있는 dir 함수는 시리즈와 데이터 프레임 클래스의 멤버들을 볼 수 있다. 이를 이용해서 내부 멤버를 확인한다.  
-
-파이썬 comprehension에 시리즈와 데이터 프레임 클래스에 있는 스페셜 속성이나 보호 속성을 제외한 멤버들만 추출하여 set클래스로 비교할 수 있는 객체를 생성한다.  
+* 시리즈와 데이터 프레임 내부 멤버 확인  
 
 <img width="886" alt="9" src="https://user-images.githubusercontent.com/43739827/73745585-bbd22780-4796-11ea-991d-d8d136cb36cf.png"></img>  
-
-시리즈를 기준으로 데이터 프레임과 공통된 껏을 뺀 시리즈만 있는 것을 추출한다.  
-
-추출할 때 집합 연산의 차집합(-) 연산을 통해 새로운 부분집합을 만들어 내부의 문자열을 출력하면 시리즈에만 있는 멤버들을 출력할 수 있다.  
+> dir 함수로 시리즈와 데이터 프레임 클래스의 내부 멤버를 확인한다.  
 
 <img width="883" alt="10" src="https://user-images.githubusercontent.com/43739827/73745747-11a6cf80-4797-11ea-9f16-3f6c96257a2b.png"></img>  
-
-데이터 프레임에 있는 내용을 차집합 연산을 통해 문자열 형태로 출력한다.  
+> 차집합을 사용해 시리즈에만 속한 멤버만 출력한다.
 
 <img width="890" alt="11" src="https://user-images.githubusercontent.com/43739827/73745843-49157c00-4797-11ea-8fb9-92faf3249637.png"></img>  
+> 차집합을 사용해 데이터 프레임에만 있는 멤버만 출력한다.
 
-시리즈와 데이터 프레임 클래스에 공통으로 있는 것은 교집합(&) 연산을 통해 부분집합을 만들어서 출력하면 시리즈와 데이터 프레임이 공통으로 가지는 멤버들이 출력된다.  
+<img width="1086" alt="2-15" src="https://user-images.githubusercontent.com/43739827/74026992-a48b7800-49ea-11ea-97ab-c643ed8a8558.png"></img>    
+> 교집합을 사용해 시리즈와 데이터 프레임에 공통으로 있는 멤버만 출력한다.
 
-<img width="890" alt="12" src="https://user-images.githubusercontent.com/43739827/73746235-13bd5e00-4798-11ea-8864-430b847a628b.png"></img>  
 
-<img width="907" alt="13" src="https://user-images.githubusercontent.com/43739827/73746259-1fa92000-4798-11ea-9863-50cfbd786f70.png"></img>  
+<img width="470" alt="2-16" src="https://user-images.githubusercontent.com/43739827/74027246-21b6ed00-49eb-11ea-9e51-f8c7e0def158.png"></img>  
+> 출력 결과
 
 
 * 파일에 저장된 멤버 정보 읽고 확인하기  
@@ -101,7 +94,10 @@
 
 저장된 df_f 변수에 데이터 프레임이 할당되어 있으므로 점 연산자를 통해서 .head 메소드로 내부의 값을 조회한다.  
 
-<img width="889" alt="14" src="https://user-images.githubusercontent.com/43739827/73746802-63505980-4799-11ea-820e-ae9dc0ea95d5.png"></img>  
+판다스에는 csv 파일을 읽어 데이터 프레임으로 변환할 수 있는 **.read_csv** 함수가 존재한다. 이때 각 열에 대한 정보는 **usecols** 매개변수를 이용한다.
+
+<img width="1087" alt="2-17" src="https://user-images.githubusercontent.com/43739827/74027741-1c0dd700-49ec-11ea-8ee8-5c0a69a1f6e4.png">  
+> head를 이용해 위 5개행을 출력하여 확인.  
 
 이 데이터 프레임의 행과 열에 대한 정보에서 모양(.shape) 속성을 확인하면 행은 19개이고 열은 2개인 것을 알 수 있다.  
 
@@ -111,6 +107,11 @@
 
 <img width="890" alt="16" src="https://user-images.githubusercontent.com/43739827/73747078-f5f0f880-4799-11ea-90ef-8a3955ec7903.png"></img>  
 
-두 열을 인덱싱 연산자를 통해 읽어와서 비교 연산자를 실행하면 같은 이름은 True로 표시하고, 같지 않은 이름은  False로 표시하므로 공통된 것은 .sum 메소드로 계산하면 건수를 구할 수 있다. 일단 비교 연산자의 처리된 결과가 새로운 시리즈로 나오고 그 내부의 값이 True나 False로 처리되는 것을 볼 수 있다.  
+각 열의 누락값의 개수를 확인하기 위해 각 열을 검색 조건으로 지정하고 **.isnull().sum()** 을 하였다. 만약 각 열마다 누락값이 존재한다면 그에 맞는 정수가 반환될것이다.  
+
+<img width="1085" alt="2-18" src="https://user-images.githubusercontent.com/43739827/74028084-e0bfd800-49ec-11ea-858e-a52790fc477b.png"></img>  
+> 파이썬의 bool 클래스가 int 클래스를 상속하기 때문에 .sum이 사용가능하다. 단순히 isnull을 사용하면 True 혹은 False의 결과가 출력될것이다.
+
+데이터 프레임 각 열에 비교연산자를 사용한 결과가 시리즈로 출력되는것을 확인할 수 있으며 내부 데이터는 True혹은 False의 bool값으로 채워지는것을 알 수 있다.
 
 <img width="887" alt="17" src="https://user-images.githubusercontent.com/43739827/73747301-829bb680-479a-11ea-96d1-61a85189e7a3.png"></img>
