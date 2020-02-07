@@ -114,4 +114,49 @@
 
 데이터 프레임 각 열에 비교연산자를 사용한 결과가 시리즈로 출력되는것을 확인할 수 있으며 내부 데이터는 True혹은 False의 bool값으로 채워지는것을 알 수 있다.
 
-<img width="887" alt="17" src="https://user-images.githubusercontent.com/43739827/73747301-829bb680-479a-11ea-96d1-61a85189e7a3.png"></img>
+<img width="887" alt="17" src="https://user-images.githubusercontent.com/43739827/73747301-829bb680-479a-11ea-96d1-61a85189e7a3.png"></img>  
+
+## 2. 시리즈 생성 방법  
+* 시리즈 생성자   
+시리즈는 크게 리스트, 딕셔너리, 넘파이를 이용해 생성할 수 있다.  
+
+<img width="1085" alt="2-19" src="https://user-images.githubusercontent.com/43739827/74029368-e4089300-49ef-11ea-846b-6bdc90282351.png"></img>  
+> 리스트로 시리즈를 생성하였다. **.values** 속성을 사용하면 시리즈의 값들이 넘파이 배열로 표시된다.  
+
+<img width="1084" alt="2-20" src="https://user-images.githubusercontent.com/43739827/74029554-4b264780-49f0-11ea-9d3c-af51082d5629.png"></img>  
+> index를 설정하지 않아 암묵적인 RangeIndex가 설정되었다. 또한 일정 범위의 정수이므로 자료형은 int64이다.
+
+<img width="754" alt="2-21" src="https://user-images.githubusercontent.com/43739827/74029958-372f1580-49f1-11ea-84f7-10a9175f298f.png"></img>  
+> .dtype속성의 자료형들<출처: 손에 잡히는 판다스 p.51. 문용준 저>  
+
+<img width="1083" alt="2-22" src="https://user-images.githubusercontent.com/43739827/74030234-e835b000-49f1-11ea-9a85-f879bc06f3aa.png"></img>  
+> 딕셔너리로 시리즈를 생성하였다. 또한 name을 설정하여 시리즈에 따로 이름을 부여하였다.  
+
+<img width="1086" alt="2-23" src="https://user-images.githubusercontent.com/43739827/74030623-d9033200-49f2-11ea-8488-472b27de7111.png"></img>  
+> 넘파이로 시리즈를 생성하였다.  
+
+* 시리즈 구성 속성  
+
+<img width="1082" alt="2-24" src="https://user-images.githubusercontent.com/43739827/74031100-01d7f700-49f4-11ea-9a83-dd04f821596a.png"></img>  
+> **.empty** 속성은 시리즈의 내부가 비어있는지 확인할 때 사용한다.  
+
+## 3.데이터 프레임 생성  
+* 데이터 프레임 생성자  
+데이터 프레임은 크게 리스트, 딕셔너리, 시리즈를 이용해 생성할 수 있다.  
+
+<img width="1086" alt="2-25" src="https://user-images.githubusercontent.com/43739827/74031672-79f2ec80-49f5-11ea-87e7-9efc8b0d578b.png"></img>  
+> 리스트로 데이터 프레임을 생성하였다.  
+
+<img width="1086" alt="2-26" src="https://user-images.githubusercontent.com/43739827/74031735-9ee75f80-49f5-11ea-882c-c6ec5080cff2.png"></img>  
+> 딕셔너리로 데이터 프레임을 생성하였다. 시리즈와 다르게 데이터 프레임은 2차원으로 구성되어 있으므로 딕셔너리안에 딕셔너리가 들어가는 형태로 저장해야 한다.  
+
+<img width="1086" alt="2-27" src="https://user-images.githubusercontent.com/43739827/74032121-917ea500-49f6-11ea-8861-dbe4cacdc16c.png"></img>  
+> 시리즈로 데이터 프레임을 생성하였다.
+
+<img width="1085" alt="2-28" src="https://user-images.githubusercontent.com/43739827/74032245-d0145f80-49f6-11ea-8848-349813127e23.png"></img>  
+> 데이터 프레임의 특정 열 추출 및 원본 시리즈와의 비교 연산자 반환 결과  
+
+<img width="1088" alt="2-29" src="https://user-images.githubusercontent.com/43739827/74032351-1964af00-49f7-11ea-9133-510ec51d795b.png"></img>  
+> 시리즈를 딕셔너리형태가 아닌 파이썬의 리스트형태로 데이터 프레임을 생성하면 모양이 달라지는것을 확인할 수 있다. 이것은 키 값이 없기 때문에 시리즈를 행의 레이블로 인식하여 행 단위로 저장하기 때문이다.  
+
+* 데이터 프레임 구성 기본 속성
