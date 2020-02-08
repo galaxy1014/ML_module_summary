@@ -147,6 +147,9 @@
 <img width="1086" alt="2-25" src="https://user-images.githubusercontent.com/43739827/74031672-79f2ec80-49f5-11ea-87e7-9efc8b0d578b.png"></img>  
 > 리스트로 데이터 프레임을 생성하였다.  
 
+<img width="1076" alt="2-30" src="https://user-images.githubusercontent.com/43739827/74083162-491dc080-4aa4-11ea-8530-d66898c4f6f6.png"></img>  
+> 두 개의 리스트를 zip으로 묶어 마치 딕셔너리처럼 만든 후에 데이터 프레임을 생성할 수도 있다.  
+
 <img width="1086" alt="2-26" src="https://user-images.githubusercontent.com/43739827/74031735-9ee75f80-49f5-11ea-882c-c6ec5080cff2.png"></img>  
 > 딕셔너리로 데이터 프레임을 생성하였다. 시리즈와 다르게 데이터 프레임은 2차원으로 구성되어 있으므로 딕셔너리안에 딕셔너리가 들어가는 형태로 저장해야 한다.  
 
@@ -159,4 +162,107 @@
 <img width="1088" alt="2-29" src="https://user-images.githubusercontent.com/43739827/74032351-1964af00-49f7-11ea-9133-510ec51d795b.png"></img>  
 > 시리즈를 딕셔너리형태가 아닌 파이썬의 리스트형태로 데이터 프레임을 생성하면 모양이 달라지는것을 확인할 수 있다. 이것은 키 값이 없기 때문에 시리즈를 행의 레이블로 인식하여 행 단위로 저장하기 때문이다.  
 
-* 데이터 프레임 구성 기본 속성
+## 4. 인덱스 검색  
+시리즈는 행 단위로 구성되어 있어 인덱스 검색을 하게되면 행을 기준으로 검색한다. 그러나 데이터 프레임은 2차원 구조로써 열 단위로 구성되어 있기 때문에 인덱스 검색을 하게되면 열 단위로 조회가 가능하다.  
+
+<img width="1076" alt="2-31" src="https://user-images.githubusercontent.com/43739827/74083453-85065500-4aa7-11ea-83f1-b7c838202d3d.png"></img>  
+> csv파일을 불러와 데이터 프레임으로 생성하였다.   
+
+**팬시 인덱싱** 을 통한 검색도 가능하다.  
+
+<img width="1093" alt="2-32" src="https://user-images.githubusercontent.com/43739827/74083481-eaf2dc80-4aa7-11ea-9b09-5e3da0256eef.png"></img>  
+> 팬시 인덱싱이란 열의 레이블을 리스트형으로 지정하거나 행을 **콜론(:)** 으로 지정하여 검색하는 방식을 사용한다.  
+
+<img width="1093" alt="2-33" src="https://user-images.githubusercontent.com/43739827/74083529-77050400-4aa8-11ea-8555-16a9714107dc.png"></img>  
+> loc과 iloc을 사용한 검색도 가능하다. 결과는 동일하지만 두 속성이 가지는 매개변수의 차이점을 명확히 알고 있어야 한다.  
+
+<img width="1089" alt="2-34" src="https://user-images.githubusercontent.com/43739827/74083552-c1868080-4aa8-11ea-9846-3fe5c28f4efb.png"></img>  
+> .drop을 사용해서 지정한 조건을 제외한 데이터 프레임을 보여줄수도 있다. 괄호안에는 추출할 열과 축(0은 열 1은 헹)을 지정한다.  
+
+1. 일반 검색  
+
+<img width="1092" alt="2-35" src="https://user-images.githubusercontent.com/43739827/74083716-a583de80-4aaa-11ea-9d42-d20ae12321c3.png"></img>  
+> 데이터를 확인할때는 행과 열의 개수는 필수적으로 확인해야할 사항이다.  
+
+2. [] 검색  
+
+<img width="1087" alt="2-36" src="https://user-images.githubusercontent.com/43739827/74083797-538f8880-4aab-11ea-8664-7d5a6384561d.png"></img>  
+
+3. [] 슬라이싱  
+슬라이싱 검색은 행을 기준으로 처리하며 열을 기준으로 처리하는것은 불가능하다.  
+
+<img width="1091" alt="2-37" src="https://user-images.githubusercontent.com/43739827/74083853-e16b7380-4aab-11ea-824b-5bf6884c738d.png"></img>  
+
+* 마스킹 검색  
+판다스는 인덱스 검색 조건을 다양하게 지정할 수 있도록 되어있다. 예로 논리식을 사용해 내부 요소를 True or False로 찾아낼 수도 있다. 이것을 **Boolean Masking** 이라 한다.  
+
+<img width="1088" alt="2-39" src="https://user-images.githubusercontent.com/43739827/74084307-31006e00-4ab1-11ea-9605-77c770b958ae.png"></img>  
+> 단일 논리식에 의한 불리언 검색결과  
+
+<img width="1089" alt="2-38" src="https://user-images.githubusercontent.com/43739827/74084347-89d00680-4ab1-11ea-8f2f-851587778681.png"></img>
+> 다중 논리식에 의한 불리언 검색결과  
+
+* 팬시 검색  
+
+<img width="1088" alt="2-39" src="https://user-images.githubusercontent.com/43739827/74084519-44acd400-4ab3-11ea-9848-211da8913e50.png"></img>  
+> 많은 정보가 들어있는 csv 파일을 불러와 데이터 프레임으로 만들었다.  
+
+<img width="1088" alt="2-40" src="https://user-images.githubusercontent.com/43739827/74084575-ca308400-4ab3-11ea-93d4-015cfb718767.png"></img>  
+> 열의 레이블을 리스트형으로 지정하여 필요한 정보만 추출하였다.**isnull().sum()** 을 사용하여 누락값이 있는지를. 확인하였다.  
+
+<img width="1091" alt="2-41" src="https://user-images.githubusercontent.com/43739827/74084623-2eebde80-4ab4-11ea-8b7c-9293f92bc7e5.png"></img>  
+> 시리즈또한 팬시 검색이 가능하다.  
+
+## 5. 인덱서 검색  
+
+데이터 프레임은 인덱스 검색을 하게되면 열을 기준으로 처리한다고 설명했었다. 만약 행을 기준으로 처리하고자 한다면 인덱서 클래스의 속성으로 처리할 수 있다. 또한 인덱서 검색은 복합 조회도 가능해 행과 열을 동시에 지정할 수 있다.  
+
+인덱서는 크게 명시적인 레이블을 사용하는 .loc과 암묵적인 레이블을 사용하는 .iloc이 있다.  
+
+* 명시적 인덱서  
+명시적이란 시리즈와 데이터 프레임이 가지는 행과 열에 레이블의 정보를 이용한다는 뜻이다.  
+
+<img width="1098" alt="2-42" src="https://user-images.githubusercontent.com/43739827/74084746-61e2a200-4ab5-11ea-9c15-9cff8094a5ae.png"></img>  
+> 행과 열의 레이블을 모두 입력하면 해당 정보를 얻을 수 있다.  
+
+파이썬 슬라이싱의 경우도 행과 열에서 모두 사용할 수 있다.  
+
+<img width="1098" alt="2-42" src="https://user-images.githubusercontent.com/43739827/74084746-61e2a200-4ab5-11ea-9c15-9cff8094a5ae.png"></img>  
+> 시리즈로 출력되는것을 확인할 수 있다.  
+
+<img width="1088" alt="2-43" src="https://user-images.githubusercontent.com/43739827/74084814-24cadf80-4ab6-11ea-8f8a-d3eedc51afdf.png"></img>  
+> 데이터 프레임으로의 출력도 가능하다.  
+
+시리즈와 데이터 프레임의 공통적인 메소드중 **.xs()** 는 행과 열을 중심으로 데이터를 가져올 수 있다. 기본적으로는 행 단위 정보를 가져온다.  
+
+<img width="1087" alt="2-44" src="https://user-images.githubusercontent.com/43739827/74084893-14673480-4ab7-11ea-8353-c627a7a3e315.png"></img>  
+> 열 단위로 정보를 가져오고 싶다면 특정 열을 지정해주고 axis=1(1만 써주어도 된다.)를 지정하면 된다.  
+
+<img width="1095" alt="2-45" src="https://user-images.githubusercontent.com/43739827/74084990-c56dcf00-4ab7-11ea-9e8b-dda70a8f32ad.png"></img>  
+> 특정 행과 열의 레이블을 지정해 값을 출력하는 **.lookup()** 메소드는 해당값을 넘파이 배열로 반환한다.
+
+* 암묵적 인덱서  
+암묵적 인덱서는 레이블에 관련 없이 모두 0에서부터 시작하여 접근한다.
+
+<img width="1099" alt="2-46" src="https://user-images.githubusercontent.com/43739827/74085067-b3406080-4ab8-11ea-9566-d95419350478.png"></img>  
+> 반환값을 시리즈로 하기 위해서는 열의 위치에 리스트를 넣으면 된다.  
+
+<img width="1096" alt="2-47" src="https://user-images.githubusercontent.com/43739827/74085092-f3074800-4ab8-11ea-84c6-fa31dc3456b1.png"></img>  
+> 여러 열에 대한 정보를 얻기위해선 열의 리스트에 원하는 포지션 넘버를 지정해주면 된다.  
+
+<img width="1096" alt="2-48" src="https://user-images.githubusercontent.com/43739827/74085147-598c6600-4ab9-11ea-8d7f-ee2872519c1b.png"></img>  
+> 행과 열에 콜론을 넣어 슬라이스를 해주면 그 범위만큼의 데이터 프레임이 반환된다.  
+
+* 복합 검색  
+
+<img width="1097" alt="2-49" src="https://user-images.githubusercontent.com/43739827/74085246-6d849780-4aba-11ea-81f3-2828d72b5bbc.png"></img>  
+> 조건문을 통한 명시적 인덱서를 통해 조건에 부합하는 데이터 프레임을 생성할 수 있다.  
+
+* 문자열 값  
+인덱서는 문자열로 된 레이블을 처리할 때 문자열의 순서로 검색할 수 있도록 내부적으로 지원한다. 특히 슬라이스는 문자의 순서가 중요하기 때문에 정렬하지 않으면 예외가 발생할 수 있다.  
+
+<img width="1097" alt="2-50" src="https://user-images.githubusercontent.com/43739827/74085721-6e6bf800-4abf-11ea-9196-7dd6a6808654.png"></img>  
+> 지정한 열의 정보가 인덱스로 만들어진다.   
+
+<img width="1099" alt="2-51" src="https://user-images.githubusercontent.com/43739827/74085760-ecc89a00-4abf-11ea-9978-bfc85b09f47b.png"></img>  
+> 행의 인덱스가 정렬된것을 확인할 수 있다.  
