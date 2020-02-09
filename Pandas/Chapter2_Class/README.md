@@ -266,3 +266,91 @@
 
 <img width="1099" alt="2-51" src="https://user-images.githubusercontent.com/43739827/74085760-ecc89a00-4abf-11ea-9978-bfc85b09f47b.png"></img>  
 > 행의 인덱스가 정렬된것을 확인할 수 있다.  
+
+##  6. 갱신과 삭제  
+
+* 열 및 원소 추가 및 갱신  
+데이터 프레임의 열을 단순 추가 및 갱신할 때는 파이썬의 **__setitem__** 메소드를 사용한다. 이렇게하면 인덱스 검색과 할당 연산자를 동시에 사용해 할당 연산자 다음에 값을 넣어 처리한다.  
+
+<img width="893" alt="2-52" src="https://user-images.githubusercontent.com/43739827/74100088-3ff92600-4b6e-11ea-86c8-545cc49b3468.png"></img>  
+> 데이터 프레임의 __setitem__ [Pandas DataFrame Github](https://github.com/pandas-dev/pandas/blob/v1.0.1/pandas/core/frame.py#L319-L8448, "Pandas Github")  
+
+<img width="1081" alt="2-53" src="https://user-images.githubusercontent.com/43739827/74100269-3a9cdb00-4b70-11ea-8f3c-4516f560e047.png"></img>  
+> usecols를 사용하여 특정한 열만을 csv파일로부터 읽어들여 데이터 프레임을 만들었다.
+
+<img width="1082" alt="2-54" src="https://user-images.githubusercontent.com/43739827/74100327-037af980-4b71-11ea-987c-dd4270d7552a.png"></img>  
+> 'count'라는 열을 생성하고 초기값을 스칼라(상수)값 0을 지정하였다. loop문 없이도 판다스는 자동적으로 브로드캐스팅하여 열의 길이를 맞춰준다.  
+
+<img width="1105" alt="2-55" src="https://user-images.githubusercontent.com/43739827/74100627-92d5dc00-4b74-11ea-8227-f3f22b7f9ead.png"></img>  
+> 인덱스를 불러와 + 1을 해주고 'count'열에 삽입하였다. 누락된 값이 없는것을 확인할 수 있다.  
+
+**.insert** 메소드를 이용해 열을 추가할 수 있다.
+
+<img width="1091" alt="2-56" src="https://user-images.githubusercontent.com/43739827/74100759-99b11e80-4b75-11ea-9371-0202c5456b2d.png"></img>  
+> **replace** 는 데이터값을 변환할때 사용하며 변환할 값과 변환한 후의 값을 명시해야 한다.  
+
+<img width="1089" alt="2-57" src="https://user-images.githubusercontent.com/43739827/74100829-4be8e600-4b76-11ea-88c9-88ced3dc200c.png"></img>  
+> **get_loc** 메소드로 지정한 열의 위치를 정수값으로 얻을 수 있다.  
+
+* 특정 원소 갱신  
+
+<img width="1090" alt="2-58" src="https://user-images.githubusercontent.com/43739827/74101696-fdd8e000-4b7f-11ea-85b8-4d0fc11d428f.png"></img>  
+> 행과 열의 레이블을 입력하여 특정 데이터만을 변경할 수 있다.
+
+* 행 및 열 삭제  
+시리즈와 데이터 프레임의 행과 열을  삭제할때는 **.drop** 메소드를 이용한다.  
+
+데이터 프레임은 .drop 메소드를 사용할 때 축(axis)를 지정한다. 행 단위 삭제는 axis=0, 열 단위 삭제는 axis=1임을 기억한다.  
+
+<img width="1091" alt="2-59" src="https://user-images.githubusercontent.com/43739827/74101846-5e1c5180-4b81-11ea-9e30-53394a516854.png"></img>
+
+
+<img width="1092" alt="2-60" src="https://user-images.githubusercontent.com/43739827/74101886-bf442500-4b81-11ea-95c4-07069a131fa9.png"></img>  
+
+데이터 프레임 내부를 변경하기 위해서는 **inplace=True** 를 인자로 넣어야 한다. 데이터의 양이 많다면 자신을 변경하는 것에 문제가 발생할 수 있으므로 지속적인 삭제가 도움이 될 수 있다.  
+
+<img width="1088" alt="2-61" src="https://user-images.githubusercontent.com/43739827/74101983-9a03e680-4b82-11ea-8f74-adeec1b0808e.png"></img>  
+> inplace의 여부에 따라 반환되는 데이터 프레임이 다른것을 알 수 있다.  
+
+## 7. 문자열 데이터 처리  
+
+* 문자열 조회  
+문자열을 처리하기 위해 하나의 열을 지정하여 시리즈로 만들었다.  
+
+<img width="1087" alt="2-62" src="https://user-images.githubusercontent.com/43739827/74102049-34642a00-4b83-11ea-969c-2a6c6157f2d8.png"></img>  
+
+<img width="1085" alt="2-63" src="https://user-images.githubusercontent.com/43739827/74102104-cbc97d00-4b83-11ea-9b30-53f84cdb0da7.png"></img>  
+
+<img width="1091" alt="2-64" src="https://user-images.githubusercontent.com/43739827/74102130-0a5f3780-4b84-11ea-9517-ea4fd4b7690d.png"></img>  
+
+<img width="1093" alt="2-65" src="https://user-images.githubusercontent.com/43739827/74102170-5f9b4900-4b84-11ea-8444-fb6e05781ae3.png"></img>  
+
+* 문자열 변경  
+문자열은 변하지 않는 값으로써 변경이 불가능하다. 그렇기 때문에 새로운 값으로 대체하여 마치 변경한것처럼 하는것이 가능하다.  
+
+<img width="1088" alt="2-66" src="https://user-images.githubusercontent.com/43739827/74102339-13510880-4b86-11ea-8bc8-5b141c6a7b2a.png"></img>  
+
+<img width="768" alt="2-67" src="https://user-images.githubusercontent.com/43739827/74102376-59a66780-4b86-11ea-8cdb-2117d9b17da0.png"></img>  
+> strip은 시리즈에서는 가능하나 데이터 프레임에서는 사용할 수 없다.  
+
+**split** 메소드는 문자열을 특정 단위로 나눌 때 사용한다.  
+
+<img width="1088" alt="2-68" src="https://user-images.githubusercontent.com/43739827/74102494-35975600-4b87-11ea-9a23-887708b03f09.png"></img>  
+
+split 메소드에 **expand=True** 를 넣어주면 시리즈를 데이터 프레임으로 변환하는것이 가능하다. 또한 **n** 을 지정하면 문자열을 조건대로 분할할때의 제한을 둘 수 있다.  
+
+<img width="1097" alt="2-69" src="https://user-images.githubusercontent.com/43739827/74102579-24027e00-4b88-11ea-8548-0871092c21db.png"></img>  
+> rsplit과 split에 따라 같은 n=1임에도 반환되는 데이터 프레임이 달라지는것을 확인할 수 있다.  
+
+문자열에 특정 단어를 바꾸고자 할때는 **.replace** 메소드를 사용한다.  
+
+<img width="1097" alt="2-70" src="https://user-images.githubusercontent.com/43739827/74102605-67f58300-4b88-11ea-9da4-a8617f4053d5.png"></img>   
+
+**.cat** 메소드는 문자열을 통합시키는 역할을 하며 합쳐질 단어마다 구분을 하고 싶다면 **sep** 에 특정한 심볼을 넣어준다.  
+
+<img width="1101" alt="2-71" src="https://user-images.githubusercontent.com/43739827/74102625-befb5800-4b88-11ea-85de-3039290bc019.png"></img>  
+
+기존의 객체에 새롭게 추가하고자 할 때는 행의 개수가 일치하도록 해야 한다.  
+
+<img width="1103" alt="2-72" src="https://user-images.githubusercontent.com/43739827/74102667-0eda1f00-4b89-11ea-93cd-1cf23c9044b4.png"></img>
+> 행의 개수가 맞지않아 오류가 발생하였다.
