@@ -79,4 +79,74 @@
 
 데이터 프레임을 생성하여 내부 값들의 이동절차에 대해 알아보고자 한다.  
 
-<img width="1101" alt="5-17" src="https://user-images.githubusercontent.com/43739827/74337756-4264b580-4de4-11ea-8381-213d48113d24.png"></img>
+<img width="1101" alt="5-17" src="https://user-images.githubusercontent.com/43739827/74337756-4264b580-4de4-11ea-8381-213d48113d24.png"></img>  
+> 가장 긴 열을 기준으로 나머지 열들이 누락 값을 채운것을 확인할 수 있다.  
+
+누락 값이 있는 특정한 열을 지정하여 검색하고 그 열에 별도의 시리즈를 생성하여 할당하면 위에서 생성한 데이터 프레임의 내용이 바뀐것을 확인할 수 있다.  
+
+<img width="1084" alt="5-18" src="https://user-images.githubusercontent.com/43739827/74421526-87debc80-4e90-11ea-8cbf-c2c17369dcdf.png"></img>  
+
+누락 값이 없는 열들을 따로 추출하여 새로운 데이터 프레임 변수에 할당하였다. **.shift** 메소드는 열 내부의 원소들을 위 혹은 아래로 이동시킬 수 있으며 원소들을 위로 올리고자 한다면 괄호안에 음수를 입력하고 아래로 내리고자 한다면 양수를 입력한다.  
+
+<img width="1095" alt="5-19" src="https://user-images.githubusercontent.com/43739827/74422907-b65d9700-4e92-11ea-811b-d505dc94e541.png"></img>  
+
+## 2. 데이터 구조 변경  
+
+데이터를 분석함에 있어 **데이터 전처리** 는 많이 사용되는 과정이다. 데이터 전처리란 원본의 데이터를 그대로 사용하지 않고 분석하고자 하는 형태로 재구조화하여 분석을 하는 과정이다. 데이터를 재구조화하는 과정또한 다양한 메소드가 존재한다.  
+
+1. 피봇(pivot)  
+-------------  
+원래 피봇 테이블은 존재하는 테이블에서 필요한 데이터들만을 뽑아 새로운 표로 만드는 것이다.  
+
+<img width="208" alt="5-20" src="https://user-images.githubusercontent.com/43739827/74424696-c5921400-4e95-11ea-999c-4e4f3d82367c.png"></img>  
+> 엑셀에서의 피봇 테이블  
+
+우선 데이터 프레임을 생성하고 피벗테이블을 통해 그룹화 할 열들을 확인한다.  
+
+<img width="1099" alt="5-21" src="https://user-images.githubusercontent.com/43739827/74427304-2b809a80-4e9a-11ea-996f-cc9921cbeefe.png"></img>  
+
+데이터 프레임을 피벗 테이블로 만들기 위해서는 **.pivot** 메소드를 사용한다. 매개변수로는 index, columns, value가 들어간다.  
+
+<img width="1087" alt="5-22" src="https://user-images.githubusercontent.com/43739827/74427408-62ef4700-4e9a-11ea-902f-a87ab2c1d5c0.png"></img>  
+
+피봇 테이블을 만들때 중복되는 데이터가 많아지면 생성이 불가능하기 때문에 어떠한 테이블에서는 중복을 제거해야 할 경우가 필수적일수 있음을 알아야한다.  
+
+<img width="1084" alt="5-23" src="https://user-images.githubusercontent.com/43739827/74427955-74851e80-4e9b-11ea-91cb-aded94cb62cf.png"></img>  
+
+<img width="1085" alt="5-24" src="https://user-images.githubusercontent.com/43739827/74427994-836bd100-4e9b-11ea-9b03-c286299c79bc.png"></img>  
+
+피봇테이블을 생성하는 또 하나의 메소드로는 **.pivot_table** 이 있다. pivot_table은 집계 연산을 할 수 있다는 장점이 있다.  
+
+<img width="1092" alt="5-25" src="https://user-images.githubusercontent.com/43739827/74431265-e2ccdf80-4ea1-11ea-9cc1-bb6f5c95e3b6.png"></img>  
+
+<img width="919" alt="5-26" src="https://user-images.githubusercontent.com/43739827/74432062-13147e00-4ea2-11ea-9762-e7c1c7f84ff5.png"></img>
+> [Pandas Document](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pivot_table.html#pandas.DataFrame.pivot_table, "Pandas DOC")  
+
+2. 스택(Stack)
+-------------  
+테이터 프레임에서 행이 상대적으로 많거나 혹은 열이 상대적으로 많거나하는 비율이 비대칭한 경우, 행과 열의 구조를 변경한다고 해도 실질적인 값의 변화는 없다. 이 경우 행과 열의 인덱스를 추출해 재구조화해야 하는데 이때 사용하는 메소득가 **.stack** 과 **.unstack** 메소드가 있다.
+
+<img width="1083" alt="5-27" src="https://user-images.githubusercontent.com/43739827/74435255-5de4c480-4ea7-11ea-8fa7-b6c027be9220.png"></img>  
+
+<img width="1086" alt="5-28" src="https://user-images.githubusercontent.com/43739827/74435325-8967af00-4ea7-11ea-9d47-91519116a1d0.png"></img>  
+> 행에 비해 열이 커진 형태가 되었다.  
+
+스택메소드로 반환된 결과를 보면 열의 인덱스가 사라져 1차원인 시리즈로 변환된 것을 확인할 수 있다.  
+
+<img width="1087" alt="5-29" src="https://user-images.githubusercontent.com/43739827/74435857-b9638200-4ea8-11ea-8a12-add2d75d291b.png"></img>  
+
+또한 행이 멀티인덱스로 변환된 것을 확인할 수 있다.  
+
+<img width="1095" alt="5-30" src="https://user-images.githubusercontent.com/43739827/74436191-58887980-4ea9-11ea-9d9d-a9bb9cb0d051.png"></img>  
+
+인덱스의 레벨을 확인해보면 set_index로 지정한 열 이외의 열 레이블들이 행의 마지막 레이블로 들어간것을 확인할 수 있다. 또한 시리즈 내부의 값들은 set_index로 지정한 열 이외의 열들의 데이터들로 이루어져 있다.    
+
+<img width="1110" alt="5-31" src="https://user-images.githubusercontent.com/43739827/74436965-ad78bf80-4eaa-11ea-993e-10d63179dc7d.png"></img>  
+
+<img width="1103" alt="5-32" src="https://user-images.githubusercontent.com/43739827/74437534-9f776e80-4eab-11ea-9985-870ed63f1bdf.png"></img>  
+
+<img width="1098" alt="5-33" src="https://user-images.githubusercontent.com/43739827/74438083-b8345400-4eac-11ea-9fc0-66614b2b90db.png"></img>  
+
+만약 시리즈를 데이터 프레임으로 변환하고자 한다면 **.to_frame** 매소드를 사용한다.  
+
+<img width="1104" alt="5-34" src="https://user-images.githubusercontent.com/43739827/74438301-29740700-4ead-11ea-9b01-ab9f5457db9e.png"></img>  
