@@ -150,3 +150,6 @@
 만약 시리즈를 데이터 프레임으로 변환하고자 한다면 **.to_frame** 매소드를 사용한다.  
 
 <img width="1104" alt="5-34" src="https://user-images.githubusercontent.com/43739827/74438301-29740700-4ead-11ea-9b01-ab9f5457db9e.png"></img>  
+
+<img width="889" alt="5-35" src="https://user-images.githubusercontent.com/43739827/74512432-95a54800-4f4b-11ea-8479-b7dbd246fc05.png"></img>  
+> 열의 인덱스가 RangeIndex로 이루어진것을 확인할 수 있다.  
