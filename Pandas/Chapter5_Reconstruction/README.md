@@ -153,3 +153,28 @@
 
 <img width="889" alt="5-35" src="https://user-images.githubusercontent.com/43739827/74512432-95a54800-4f4b-11ea-8479-b7dbd246fc05.png"></img>  
 > 열의 인덱스가 RangeIndex로 이루어진것을 확인할 수 있다.  
+
+**unstack** 메소드를 실행하면 행의 인덱스중 하나가 열의 인덱스로 넘어가는것을 확인할 수 있다.  
+
+<img width="1094" alt="5-36" src="https://user-images.githubusercontent.com/43739827/74513523-19603400-4f4e-11ea-96e6-abf07f053269.png"></img>  
+
+<img width="1101" alt="5-37" src="https://user-images.githubusercontent.com/43739827/74513597-4876a580-4f4e-11ea-8813-a93ed6ee2d6f.png"></img>  
+
+<img width="892" alt="5-38" src="https://user-images.githubusercontent.com/43739827/74513690-84116f80-4f4e-11ea-9116-54f60d49f896.png"></img>  
+> 데이터 프레임의 round행이 열로 넘어간것을 확인할 수 있다.  
+
+unstack 메소드를 두 번 사용하면 시리즈로 생성되는것을 확인할 수 있다.  
+
+<img width="903" alt="5-39" src="https://user-images.githubusercontent.com/43739827/74513935-000bb780-4f4f-11ea-8f14-15fb67ebd0f4.png"></img>  
+
+이번에는 데이터 프레임에서 특정 열을 추출하여 이 열에 해당하는 행의 멀티인덱스를 가져와 하나의 시리즈를 생성하였다.  
+
+<img width="895" alt="5-40" src="https://user-images.githubusercontent.com/43739827/74514721-84126f00-4f50-11ea-81e4-4ab5f6541dce.png"></img>  
+
+생성된 시리즈를 unstack하면 멀티 인덱스가 각각 행과 열의 레이블로 나뉘어 데이터 프레임을 생성하는것을 확인할 수 있다.  
+
+<img width="900" alt="5-41" src="https://user-images.githubusercontent.com/43739827/74514809-b15f1d00-4f50-11ea-9b16-6066d896a249.png"></img>  
+
+unstack 메소드에 매개변수로 level을 입력하면 행의 멀티 인덱스가 행과 열의 레이블로 바뀔때 위치를 조정할 수 있다.  
+
+<img width="900" alt="5-42" src="https://user-images.githubusercontent.com/43739827/74514991-026f1100-4f51-11ea-9773-40f2267e315b.png"></img>  
