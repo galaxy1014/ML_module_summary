@@ -284,3 +284,28 @@ id_vars나 values_vars는 리스트로 지정하면 많은 열들을 지정할 �
 
 <img width="1102" alt="5-66" src="https://user-images.githubusercontent.com/43739827/74590855-c1acf000-5055-11ea-9912-82f9f32c5038.png"></img>  
 > .assign 메소드를 통해 원본 데이터 프레임에서 result열을 가져와 생성한 데이터 프레임의 새로운 열로 만들었다.  
+
+6. 여러 열 변형  
+-------------  
+
+여러 열을 하나의 특징을 기준으로 하나로 처리하고자 할때 **pd.wide_to_long** 함수를 사용한다.  
+
+<img width="1103" alt="5-67" src="https://user-images.githubusercontent.com/43739827/74591258-c5db0c80-5059-11ea-88bb-416edbde516b.png"></img>  
+
+생성된 데이터 프레임에서 그룹화할 열을 지정한다. 고정할 열은 매개변수 **i** 에 기입하고 새롭게 처리할 열의 이름을 매개변수 **j** 로 지정한다.  
+
+<img width="1104" alt="5-68" src="https://user-images.githubusercontent.com/43739827/74591338-7ea14b80-505a-11ea-8bd2-2f769c0f782c.png"></img>  
+
+데이터 프레임을 다시 원래의 형태로 되돌리고자 한다면 unstack 메소드를 사용한다.  
+
+<img width="1098" alt="5-69" src="https://user-images.githubusercontent.com/43739827/74591478-c7a5cf80-505b-11ea-905a-c106cdd37b1e.png"></img>  
+> 행과 열의 인덱스가 멀티인덱스로 구성되었다.  
+
+<img width="1101" alt="5-70" src="https://user-images.githubusercontent.com/43739827/74591523-09cf1100-505c-11ea-91cc-e4f2475906c4.png"></img>  
+> **.map** 매소드를 사용해 열의 멀티인덱스를 단일 인덱스로 변형시킨다.  
+
+<img width="1100" alt="5-71" src="https://user-images.githubusercontent.com/43739827/74591535-22d7c200-505c-11ea-9819-c4bd8c2c3793.png"></img>  
+> **reset_index** 메소드는 멀티인덱스를 한차원 혹은 그 이상의 차원을 낮추는 기능을 한다.  
+
+<img width="950" alt="5-72" src="https://user-images.githubusercontent.com/43739827/74591585-67635d80-505c-11ea-809f-b90849f18944.png"></img>
+> [Pandas Document](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.reset_index.html?highlight=reset_index#pandas.DataFrame.reset_index, 'Pandas DOC')  
