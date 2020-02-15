@@ -178,3 +178,74 @@ unstack 메소드를 두 번 사용하면 시리즈로 생성되는것을 확인
 unstack 메소드에 매개변수로 level을 입력하면 행의 멀티 인덱스가 행과 열의 레이블로 바뀔때 위치를 조정할 수 있다.  
 
 <img width="900" alt="5-42" src="https://user-images.githubusercontent.com/43739827/74514991-026f1100-4f51-11ea-9773-40f2267e315b.png"></img>  
+
+3. 데이터 병합  
+
+하나의 데이터 프레임을 재구조화한것처럼 두 개의 시리즈나 데이터 프레임을 하나로 합치는것이 가능하다. 먼저 데이터 프레임에 공통적으로 들어갈 열(columns)을 설정하고 데이터 프레임에 들어갈 데이터를 넘파이 배열로 만든다. 이 때 데이터의 요소가 행의 기준으로 되어있기 때문에 전치(Transpose)하여 열을 기준으로 하도록 수정한다. 전치는 행과 열의 길이가 같아야 가능한것을 알고있어야 한다.  
+
+<img width="1086" alt="5-43" src="https://user-images.githubusercontent.com/43739827/74588128-43dcea80-503d-11ea-9454-54da10754055.png"></img>  
+> 전치가 되기 전과 후의 데이터 프레임이 어떻게 다른지 알 수 있다.  
+
+<img width="918" alt="5-44" src="https://user-images.githubusercontent.com/43739827/74588201-be0d6f00-503d-11ea-87c8-12c259f1a1ca.png"></img>  
+> [Pandas Document](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.T.html#pandas.DataFrame.T, "Pandas DOCS")  
+
+<img width="1092" alt="5-45" src="https://user-images.githubusercontent.com/43739827/74588334-d631be00-503e-11ea-85b0-890bdeb5ac38.png"></img>  
+
+두 개의 데이터 프레임의 열이 같다면 **concat** 함수를 사용해 합칠 수 있다.  
+
+<img width="1089" alt="5-46" src="https://user-images.githubusercontent.com/43739827/74588405-9919fb80-503f-11ea-920b-ba9470bf63fc.png"></img>  
+> 행의 레이블을 보면 각 데이터 프레임의 행이 그대로 유지되는 것을 알 수 있다.  
+
+행의 레이블을 변경하기 위해 별도의 리스트를 만들어 합쳐진 데이터 프레임에 넣어준다.  
+
+<img width="1088" alt="5-47" src="https://user-images.githubusercontent.com/43739827/74588593-29a50b80-5041-11ea-911e-b59b8bf52a9b.png"></img>  
+
+혹은 데이터 프레임간의 병합 과정에서 concat의 매개변수로 **ignore_index=True** 를 기입하면 별도의 변환과정을 거치지 않아도 된다.  
+
+<img width="1084" alt="5-48" src="https://user-images.githubusercontent.com/43739827/74588659-ccf62080-5041-11ea-98ca-4cfef8a3ebb2.png"></img>  
+> RangeIndex로 생성된것을 확인할 수 있다.  
+
+만약 데이터 프레임간의 연결을 가로로 하고싶다면 매개변수에 axis=1을 기입한다.  
+
+<img width="1084" alt="5-49" src="https://user-images.githubusercontent.com/43739827/74588757-ab496900-5042-11ea-8f11-f124ac776c94.png"></img>  
+
+이 때 열의 레이블이 중복되기 때문에 따로 열의 레이블을 따로 생성하여 병합한 데이터 프레임에 넣어야 한다.  
+
+<img width="1085" alt="5-50" src="https://user-images.githubusercontent.com/43739827/74588858-77bb0e80-5043-11ea-976d-ed105b5b4415.png"></img>  
+
+행의 레이블과 마찬가지로 매개변수에 ignore_index=True를 기입하면 별도의 변환 과정을 거치지않고 RangeIndex가 생성된다.  
+
+<img width="1093" alt="5-51" src="https://user-images.githubusercontent.com/43739827/74588909-07f95380-5044-11ea-9a7a-e72bb55cbf54.png"></img>  
+
+* 데이터 추가  
+
+<img width="1086" alt="5-52" src="https://user-images.githubusercontent.com/43739827/74589006-dc2a9d80-5044-11ea-9f97-295c00fd993b.png"></img>  
+
+<img width="1090" alt="5-53" src="https://user-images.githubusercontent.com/43739827/74589108-bf429a00-5045-11ea-8cb0-aa6d16663cad.png"></img>  
+
+* 조인 처리  
+
+concat 함수는 default값으로 axis=0을 가진다. 이때 같은 열의 레이블끼리만 합치고자 한다면 매개변수로 **join='inner'** 를 사용한다.  
+
+<img width="1091" alt="5-54" src="https://user-images.githubusercontent.com/43739827/74589487-26ae1900-5049-11ea-9a4c-404e2bdbd467.png"></img>  
+
+axis=1로 설정하면 같은 행의 레이블을 기준으로 두 개의 데이터 프레임이 연결된 것을 확인할 수 있다.  
+
+<img width="1088" alt="5-55" src="https://user-images.githubusercontent.com/43739827/74589572-b94eb800-5049-11ea-870d-383d5de62b60.png"></img>  
+
+**join='outer'** 는 단순연결을 하고자 할때 사용한다.  
+
+<img width="1092" alt="5-56" src="https://user-images.githubusercontent.com/43739827/74589723-0f702b00-504b-11ea-8683-fd9f477f0cfe.png"></img>  
+> outer join을 확인하기 위해 행의 레이블이 일치하지 않는 별도의 데이터 프레임을 생성하였다.  
+
+outer join은 각각의 행 레이블 중에 존재하지 않는 레이블이 있으면 그 행의 데이터를 누락 값으로 채우는 반면 inner join은 값 자체가 없음을 확인할 수 있다.  
+
+<img width="1086" alt="5-57" src="https://user-images.githubusercontent.com/43739827/74589751-5d852e80-504b-11ea-8bdb-11059865305e.png"></img>  
+
+데이터 프레임을 계층적으로 설계하고 싶다면 concat의 매개변수로 keys를 사용한다.  
+
+<img width="1088" alt="5-58" src="https://user-images.githubusercontent.com/43739827/74589889-c620db00-504c-11ea-94dd-f126b3c6e1c9.png"></img>  
+
+**.join** 변수를 사용해 데이터 프레임을 합칠 수 있다. 이때 같은 열의 이름을 구분해야하기 때문에 **lsuffix** 매개변수를 통해 왼쪽 데이터 프레임(원본)의 동일한 열 레이블 끝에 표시할 문자열을, **rsuffix** 매개변수를 통해 오른쪽 데이터 프레임(대상)의 동일한 열 레이블 끝에 표시할 문자열을 지정한다.  
+
+<img width="1086" alt="5-59" src="https://user-images.githubusercontent.com/43739827/74589973-94f4da80-504d-11ea-81d8-b770254d338d.png"></img>
