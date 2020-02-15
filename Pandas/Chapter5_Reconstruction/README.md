@@ -180,6 +180,7 @@ unstack 메소드에 매개변수로 level을 입력하면 행의 멀티 인덱�
 <img width="900" alt="5-42" src="https://user-images.githubusercontent.com/43739827/74514991-026f1100-4f51-11ea-9773-40f2267e315b.png"></img>  
 
 3. 데이터 병합  
+------------  
 
 하나의 데이터 프레임을 재구조화한것처럼 두 개의 시리즈나 데이터 프레임을 하나로 합치는것이 가능하다. 먼저 데이터 프레임에 공통적으로 들어갈 열(columns)을 설정하고 데이터 프레임에 들어갈 데이터를 넘파이 배열로 만든다. 이 때 데이터의 요소가 행의 기준으로 되어있기 때문에 전치(Transpose)하여 열을 기준으로 하도록 수정한다. 전치는 행과 열의 길이가 같아야 가능한것을 알고있어야 한다.  
 
@@ -248,4 +249,20 @@ outer join은 각각의 행 레이블 중에 존재하지 않는 레이블이 �
 
 **.join** 변수를 사용해 데이터 프레임을 합칠 수 있다. 이때 같은 열의 이름을 구분해야하기 때문에 **lsuffix** 매개변수를 통해 왼쪽 데이터 프레임(원본)의 동일한 열 레이블 끝에 표시할 문자열을, **rsuffix** 매개변수를 통해 오른쪽 데이터 프레임(대상)의 동일한 열 레이블 끝에 표시할 문자열을 지정한다.  
 
-<img width="1086" alt="5-59" src="https://user-images.githubusercontent.com/43739827/74589973-94f4da80-504d-11ea-81d8-b770254d338d.png"></img>
+<img width="1086" alt="5-59" src="https://user-images.githubusercontent.com/43739827/74589973-94f4da80-504d-11ea-81d8-b770254d338d.png"></img>  
+
+4. 데이터 변형  
+------------  
+
+데이터를 분석할때 여러 열들을 하나의 기준을 정해 그룹화해야할 경우가 있다. 이렇듯 여러 열을 통합해 하나의 변수와 값으로 처리하기 위해 **pd.melt** 함수를 사용한다. 고정하고자 하는 열을 **id_vars** 로 지정하고 값으로 사용하고자 하는 열을 **value_vars** 로 지정한다.  
+
+<img width="1092" alt="5-60" src="https://user-images.githubusercontent.com/43739827/74590372-1bf78200-5051-11ea-96b4-188d7b0da8d6.png"></img>  
+> 기준이 되는 열을 제외하면 variable과 value로 기본 설정이 된 것를 확인할 수 있다.  
+
+데이터 분석에 있어 기본값으로 지정된 열의 레이블들에 따로 이름을 부여해 관리해주는것이 좋다. 그러기 위해선 pd.melt 함수에 매개변수로  **var_name** 과 **value_name** 으로 이름을 지정해준다.  
+
+<img width="1090" alt="5-61" src="https://user-images.githubusercontent.com/43739827/74590441-c1125a80-5051-11ea-8c41-e6e61cc4d0a2.png"></img>  
+
+id_vars나 values_vars는 리스트로 지정하면 많은 열들을 지정할 수 있다.  
+
+<img width="1091" alt="5-62" src="https://user-images.githubusercontent.com/43739827/74590488-3716c180-5052-11ea-9b21-4157dba8c05e.png"></img>  
