@@ -266,3 +266,21 @@ outer join은 각각의 행 레이블 중에 존재하지 않는 레이블이 �
 id_vars나 values_vars는 리스트로 지정하면 많은 열들을 지정할 수 있다.  
 
 <img width="1091" alt="5-62" src="https://user-images.githubusercontent.com/43739827/74590488-3716c180-5052-11ea-9b21-4157dba8c05e.png"></img>  
+
+5. .assign 메소드  
+-----------------  
+
+**.assign** 메소드의 매개변수를 활용해 새로운 값을 가지는 열을 만들어낼 수 있다.  
+
+<img width="1089" alt="5-63" src="https://user-images.githubusercontent.com/43739827/74590638-7f82af00-5053-11ea-8331-47e61ae3617b.png"></img>  
+
+<img width="1086" alt="5-64" src="https://user-images.githubusercontent.com/43739827/74590695-d12b3980-5053-11ea-9935-80e4da07435a.png"></img>  
+
+* .filter  
+.filter 메소드와 .assign 메소드를 사용해 데이터 프레임을 간략하게 할 수 있다.  
+
+<img width="1101" alt="5-65" src="https://user-images.githubusercontent.com/43739827/74590830-7abefa80-5055-11ea-869e-4f527ca4bbea.png"></img>  
+> sql문처럼 like는 지정한 문자열이 포함된 문자열을 찾는다.  
+
+<img width="1102" alt="5-66" src="https://user-images.githubusercontent.com/43739827/74590855-c1acf000-5055-11ea-9912-82f9f32c5038.png"></img>  
+> .assign 메소드를 통해 원본 데이터 프레임에서 result열을 가져와 생성한 데이터 프레임의 새로운 열로 만들었다.  
