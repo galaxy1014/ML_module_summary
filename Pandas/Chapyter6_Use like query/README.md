@@ -7,7 +7,6 @@
 **.merge** 메소드는 다양한 매개변수를 이용해 두 개의 데이터 프레임 요소들의 병합을 가능하게 한다.  
 
 * 데이터 통합   
-
 데이터를 합치는 과정을 확인하기 위해 행과 열의 인덱스 레이블이 같고 모양도 동일한 두 개의 데이터 프레임을 생성한다.   
 
 <img width="1090" alt="6-1" src="https://user-images.githubusercontent.com/43739827/74600987-2a3eb000-50dc-11ea-8e1c-fb43f68276e1.png"></img>  
@@ -51,4 +50,58 @@ merge된 데이터 프레임을 보면 키로 지정된 열의 레이블이 다�
 
 일치하는 데이터를 찾아 두 데이터 프레임을 병합시켰다면 행의 인덱스를 기준으로 통합하는 방법도 존재한다. 두 데이터 프레임을 생성하고 키를 설정하기 위해 하나의 열은 동일하게 생성하였다. 또한 행을 기준으로 병합하기위해 각 데이터 프레임에 .set_index 메소드로 키 열을 지정해주었다.  
 
-  
+<img width="1088" alt="6-11" src="https://user-images.githubusercontent.com/43739827/74601677-23b43680-50e4-11ea-8436-b706d46bf787.png"></img>  
+
+두 데이터 프레임의 인덱스를 기준으로 병합하기 때문에 merge 메소드의 매개변수로 **left_index=True** 와 **right_index=True** 를 기입하였다.  
+
+<img width="1100" alt="6-12" src="https://user-images.githubusercontent.com/43739827/74601746-c10f6a80-50e4-11ea-9362-d8ecbab014c9.png"></img>  
+
+* 데이터 통합 응용  
+두 개의 데이터 프레임을 생성하고 각 데이터 프레임내의 데이터중 수정하고자 하는 요소가 있는지 확인한다. 두 데이터 프레임의 데이터에 쉼표가 들어있는것을 확인하였다. 이를 한번에 처리하기위해 하나의 데이터 프레임으로 병합한다.  
+
+<img width="1091" alt="6-13" src="https://user-images.githubusercontent.com/43739827/74602018-bacebd80-50e7-11ea-9a9b-91af2d8b7398.png"></img>  
+> 열의 레이블이 일치하지 않기 때문에 행의 인덱스 레이블을 기준으로 통합시킨다.
+
+<img width="1094" alt="6-14" src="https://user-images.githubusercontent.com/43739827/74602001-97a40e00-50e7-11ea-8b74-fedcd2b270e0.png"></img>  
+
+<img width="1094" alt="6-15" src="https://user-images.githubusercontent.com/43739827/74602046-1600b000-50e8-11ea-8226-e84a3309fbce.png"></img>  
+
+## 2. 조건절  
+
+데이터 프레임의 행과 열을 처리할 때 조건을 지정하여 검색이나 정보갱신을 할 수 있다.  
+
+* .query 메소드  
+**.query** 메소드는 논리식을 문자열로 처리하면 바로 실행되는 강점을 가진 메소드다.  
+
+<img width="1094" alt="6-16" src="https://user-images.githubusercontent.com/43739827/74602739-6a5b5e00-50ef-11ea-9931-b643926eedac.png"></img>  
+
+query 메소드로 조건을 처리하되 특정 열만을 처리하고자 한다면 인덱스 연산자로 특정 열을 지정한다.  
+
+<img width="1093" alt="6-17" src="https://user-images.githubusercontent.com/43739827/74602768-b5757100-50ef-11ea-9858-bb1d0ff6049d.png"></img>  
+> 시리즈로 반환되는것을 확인할 수 있다.  
+
+<img width="1088" alt="6-18" src="https://user-images.githubusercontent.com/43739827/74602780-df2e9800-50ef-11ea-8926-ff4b55316e44.png"></img>  
+> 데이터 프레임으로 반환하고자 한다면 인덱스 검색에 열의 레이블을 인덱스 처리하여 기입한다.  
+
+* .where 메소드  
+**.where** 메소드는 True일 때의 데이터만 출력하고 나머지는 누락 값으로 나타낸다.  
+
+<img width="1088" alt="6-19" src="https://user-images.githubusercontent.com/43739827/74602867-94f9e680-50f0-11ea-94e5-a60d16ca6403.png"></img>  
+
+디폴트 값을 설정하면 누락 값대신 설정한 값이 들어간다.  
+
+<img width="1095" alt="6-20" src="https://user-images.githubusercontent.com/43739827/74602890-c4105800-50f0-11ea-949c-c8c83d2d222b.png"></img>  
+
+* .mask 메소드  
+**.mask** 메소드는 .where 메소드와 반대로 조건이 False일 때의 데이터만 출력하고 나머지는 누락 값으로 나타낸다.  
+
+<img width="1096" alt="6-21" src="https://user-images.githubusercontent.com/43739827/74602916-105b9800-50f1-11ea-9fa0-043084ec9e2e.png"></img>  
+
+.where 메소드와 마찬가지로 디폴트 값을 설정하면 누락 값대신에 설정한 값이 들어간다.  
+
+<img width="1089" alt="6-22" src="https://user-images.githubusercontent.com/43739827/74602954-4e58bc00-50f1-11ea-817d-d250712bbaee.png"></img>  
+
+* .take 메소드  
+**.take** 메소드는 매개변수로 가져올 행/열의 위치를 지정하고 그에 맞는 축을 설정하면 선택한 부분만을 반환할 수 있다. 또한 행이나 열의 위치는 여러 개 지정할 수 있다.  
+
+<img width="1093" alt="6-23" src="https://user-images.githubusercontent.com/43739827/74603124-8eb93980-50f3-11ea-85ed-1f84302a368d.png"></img>  
