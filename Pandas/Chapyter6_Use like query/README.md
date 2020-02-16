@@ -105,3 +105,41 @@ query 메소드로 조건을 처리하되 특정 열만을 처리하고자 한�
 **.take** 메소드는 매개변수로 가져올 행/열의 위치를 지정하고 그에 맞는 축을 설정하면 선택한 부분만을 반환할 수 있다. 또한 행이나 열의 위치는 여러 개 지정할 수 있다.  
 
 <img width="1093" alt="6-23" src="https://user-images.githubusercontent.com/43739827/74603124-8eb93980-50f3-11ea-85ed-1f84302a368d.png"></img>  
+
+## 3. groupby 메소드  
+
+**.groupby** 메소드는 데이터 프레임 내의 특정한 범주를 가지는 데이터들을 묶어 연산을 할 수 있도록 한다.  
+
+그룹화 과정을 확인하기 위해 데이터 프레임을 만들어 특정 열만을 추출하였다.
+
+<img width="1099" alt="6-24" src="https://user-images.githubusercontent.com/43739827/74603679-72b89680-50f9-11ea-97d9-5bdd9f5c6f5c.png"></img>  
+
+<img width="1095" alt="6-25" src="https://user-images.githubusercontent.com/43739827/74603692-a1367180-50f9-11ea-834e-f600eed643f1.png"></img>  
+
+.groupby 메소드와 함께 **.agg** 메소드를 사용하면 집계 처리할 수 있다.  
+
+<img width="1102" alt="6-26" src="https://user-images.githubusercontent.com/43739827/74603811-b364df80-50fa-11ea-9604-c2c6599b3ce9.png"></img>  
+
+* 여러열의 그룹화  
+하나의 열만이 아닌 다수의 열을 키로 지정하여 그룹화하면 복합적인 키를 이용해 처리되는 것뿐 다른 차이는 없다.  
+
+그룹화할 열과 집계처리할 열을 지정하여 멀티인덱스로 구성된 데이터 프레임을 만들 수 있다.  
+
+<img width="1103" alt="6-27" src="https://user-images.githubusercontent.com/43739827/74603854-6cc3b500-50fb-11ea-9ae4-11bc4357484c.png"></img>  
+
+.agg 메소드 대신 **.transform** 메소드를 사용해 단순히 계산된 결과만을 데이터 프레임 내부의 데이터로 채울 수 있다.  
+
+<img width="1103" alt="6-28" src="https://user-images.githubusercontent.com/43739827/74603914-fffcea80-50fb-11ea-9d99-69a42321607a.png"></img>  
+
+transform 메소드에는 사용자 지정 함수를 입력할 수도 있다.  
+
+<img width="1111" alt="6-29" src="https://user-images.githubusercontent.com/43739827/74603939-5bc77380-50fc-11ea-811b-7261dc2d54c9.png"></img>  
+> 반환 결과가 시리즈인것을 확인할 수 있다.  
+
+반환 결과를 데이터 프레임으로 만들고자 한다면 팬시 검색을 사용한다.  
+
+<img width="1098" alt="6-30" src="https://user-images.githubusercontent.com/43739827/74603973-9fba7880-50fc-11ea-9693-2be149ae4542.png"></img>  
+
+생성한 데이터 프레임을 csv 파일로 저장하고자 한다면 **to_csv** 메소드를 사용한다.  
+
+<img width="1105" alt="6-31" src="https://user-images.githubusercontent.com/43739827/74604023-3850f880-50fd-11ea-82d6-76a10564cc1c.png"></img>
