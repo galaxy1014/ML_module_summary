@@ -42,3 +42,16 @@
 eval의 결과를 데이터 프레임 내부에 직접 변경하고자 한다면 매개변수로 **inplace=True** 를 기입한다.  
 
 <img width="1091" alt="8-11" src="https://user-images.githubusercontent.com/43739827/74641232-49a90c00-51b4-11ea-98e2-7a39eac72a4e.png"></img>  
+
+## 3. pipe method  
+
+**.pipe** 메소드는 시리즈나 데이터 프레임에서 사용되는 함수로, 여러가지 함수를 사용할때 가독성이 떨어지고 오류가 발생할 수 있기 때문에 pipe를 사용해 간결하게 한다.  
+
+<img width="1087" alt="8-12" src="https://user-images.githubusercontent.com/43739827/74644118-26349000-51b9-11ea-92f8-b89707c0a783.png"></img>  
+
+<img width="1090" alt="8-13" src="https://user-images.githubusercontent.com/43739827/74645197-cf2fba80-51ba-11ea-9d80-6b001a0bc087.png"></img>  
+> 데이터 프레임에서의 사용  
+
+
+<img width="1086" alt="8-14" src="https://user-images.githubusercontent.com/43739827/74645674-bbd11f00-51bb-11ea-92ca-84529e89d228.png"></img>  
+> 시리즈에서의 사용  
