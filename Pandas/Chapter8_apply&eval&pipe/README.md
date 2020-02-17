@@ -34,3 +34,11 @@
 > 데이터 프레임의 열만큼 입력받은 스칼라값이나 리스트를 확장시킨다.  
 
 ## 2. eval method  
+
+판다스의 **.eval** 메소드는 문자열 형태로 열 끼리의 연산결과를 입력하면 그 결과를 반환하는 역할을 한다.  
+
+<img width="1085" alt="8-10" src="https://user-images.githubusercontent.com/43739827/74641116-1a929a80-51b4-11ea-8553-4bc38b94cc0f.png"></img>  
+
+eval의 결과를 데이터 프레임 내부에 직접 변경하고자 한다면 매개변수로 **inplace=True** 를 기입한다.  
+
+<img width="1091" alt="8-11" src="https://user-images.githubusercontent.com/43739827/74641232-49a90c00-51b4-11ea-98e2-7a39eac72a4e.png"></img>  
