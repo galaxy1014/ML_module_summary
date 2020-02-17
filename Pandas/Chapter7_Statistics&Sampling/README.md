@@ -30,4 +30,38 @@
 
 ## 2. 샘플링 메소드  
 
- 
+샘플링이란 데이터의 일부를 분석하는 데이터 분석 기법이다. 데이터 프레임으로 데이터를 불러온 뒤 표본을 추출하기위해 샘플링 메소드를 사용하는 방법을 알아본다.  
+
+외부 데이터를 읽어들이기 위해 **pandas_datareader** 모듈을 설치한다.  
+
+<img width="1090" alt="7-7" src="https://user-images.githubusercontent.com/43739827/74631275-ed3bf180-519f-11ea-8094-104d01ae9043.png"></img>  
+
+셀트리온의 주식 정보를 불러와 데이터 프레임으로 만들기 위해 설치한 pandas_datareader 모듈을 임포트하고 읽어들일 정보의 시작일과 끝일을 지정한다. 셀트리온 주식 정보 코드는 "068270.KS" 이고 정보 관리 주체는 "yahoo" 이다.  
+
+<img width="1094" alt="7-8" src="https://user-images.githubusercontent.com/43739827/74631408-3f7d1280-51a0-11ea-8f9c-444c60cd7631.png"></img>  
+
+**.sample** 메소드에 매개변수 **n** 을 지정해 임의의 n개를 가져온다. 실행할 때 마다 새로운 임의의 값을 가져오는것을 알 수 있다.  
+
+<img width="1098" alt="7-9" src="https://user-images.githubusercontent.com/43739827/74631594-b1555c00-51a0-11ea-8b8c-431ff7570b00.png"></img>  
+
+이전에 샘플링한 데이터도 포함해 샘플링하고자 한다면 매개변수로 **replace=True** 를 기입한다.  
+
+<img width="1089" alt="7-10" src="https://user-images.githubusercontent.com/43739827/74631721-fed1c900-51a0-11ea-94bc-78714ed6abb9.png"></img>  
+
+매개변수 n대신 **frac** 을 입력하면 지정한 퍼센트만큼 샘플링하는것을 확인할 수 있다.  
+
+<img width="1092" alt="7-11" src="https://user-images.githubusercontent.com/43739827/74631827-4a847280-51a1-11ea-8f40-19dffa4fd752.png"></img>  
+> frac=0.1 즉 10%의 데이터가 출력되었다.  
+
+샘플링한 데이터를 가지고 통계 수치를 측정한다.  
+
+<img width="1084" alt="7-12" src="https://user-images.githubusercontent.com/43739827/74631994-b535ae00-51a1-11ea-9a73-c9077dfd9c73.png"></img>  
+
+* 리샘플링  
+판다스에서 데이터를 샘플링하면 데이터 프레임을 만들어서 정적으로 처리한다. 그렇기 때문에 연산이나 갱신을 위해선 정적으로 만들어 처리해야 할 필요가 있다.  
+
+<img width="1094" alt="7-13" src="https://user-images.githubusercontent.com/43739827/74634585-7e629680-51a7-11ea-8bdb-53ab76c5a8db.png"></img>  
+
+<img width="351" alt="7-14" src="https://user-images.githubusercontent.com/43739827/74634702-c08bd800-51a7-11ea-81dc-9d69cf94689a.png"></img>  
+
+<img width="1090" alt="7-15" src="https://user-images.githubusercontent.com/43739827/74634844-182a4380-51a8-11ea-97ae-5210e5c549df.png"></img>
