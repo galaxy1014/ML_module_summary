@@ -57,12 +57,12 @@ df = pd.DataFrame([[1,2,3],[4,5,6],[7,8,9]], index=list('ABC'), columns=['One','
 df
 ```  
 
-```
-  One	Two	Three
-A	  1	  2	  3
-B	  4	  5	  6
-C 	7	 8	  9  
-```  
+ | | One | Two | Three |
+ |-|:---:|:---:|:-----:|
+A	| 1	| 2 |	3
+B	| 4 |	5	| 6
+C |	7 |	8 |	9
+
 
 ```Python
 # 딕셔너리로 데이터프레임 생성
@@ -70,12 +70,13 @@ df2 = pd.DataFrame({'One' : [1,2,3], 'Two' : [4,5,6], 'Three' : [7,8,9]}, index=
 df2
 ```  
 
-```
-  One	Two	Three
-A	1	  4	  7
-B	2	  5	  8
-C	3	  6	  9
-```  
+
+| | One | Two | Three
+|-|:---:|:---:|:-----:
+A | 1	| 4 | 7
+B |	2	| 5	| 8
+C |	3	| 6	| 9
+
 
 ```Python
 # 넘파이 배열로 데이터프레임 생성
@@ -85,11 +86,12 @@ df3 = pd.DataFrame({'One' : np.random.randint(10, size=3),
 df3
 ```   
 
-```
-  One	Two	Three
-A	8	  19	3
-B	4	  14	12
-C	6	  0	  19
-```  
+
+| | One | Two | Three
+|- |:---:|:---:|:-----:
+A | 8 | 19 | 3
+B |	4	| 14 | 12
+C | 6 | 0	| 19
+
 
 ## 2. 데이터 출력  
