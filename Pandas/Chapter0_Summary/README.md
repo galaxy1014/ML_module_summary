@@ -207,8 +207,6 @@ array([[ 1,  4,  7, 10, 13, 16],
 df.describe()
 ```  
 
-<img width="222" alt="0-5" src="https://user-images.githubusercontent.com/43739827/74829415-57959300-5354-11ea-8855-5d293356c719.png"></img>  
-
  | | home_goals | away_goals  
  |-|:----------:|:----------:  
  count| 3668.000000 | 3668.000000  
@@ -331,4 +329,244 @@ df.sort_values(by='home_team').head()
  3275 | Wolverhampton Wanderers | West Ham United | 3 | 0 | H | 2018-2019  
  533 | Wolverhampton Wanderers | Stoke City | 1 | 2 | A | 2011-2012  
 
-   
+
+## 3. 선택  
+
+데이터프레임에서 하나의 열을 선택하여 출력하면 1차원의 시리즈로 반환된다.  
+
+```Python
+df2['One']
+```  
+
+```
+0    1  
+1    2  
+2    3  
+Name: One, dtype: int64
+```  
+
+```Python
+df2.One
+```  
+
+```
+0    1  
+1    2  
+2    3  
+Name: One, dtype: int64
+```  
+
+**[]** 를 이용한 검색으로 행을 추출할 수 있다.  
+
+```Python
+df3
+```  
+
+ | | A | B  
+ |-|:-:|:-:  
+ D | 1 | 5  
+ A | 2 | 6  
+ C | 3 | 7  
+ B | 4 | 8  
+
+```Python
+# 행의 포지션으로 검색  
+df3[0:2]
+```  
+
+ | | A | B  
+ |-|:-:|:-:  
+ D | 1 | 5  
+ A | 2 | 6  
+
+```Python  
+# 행의 레이블로 검색
+df3['A':'B']
+```  
+
+ | | A | B  
+ |-|:-:|:-:  
+ A | 2 | 6  
+ C | 3 | 7  
+ B | 4 | 8  
+
+* 레이블 선택  
+**.loc** 속성은 행의 레이블을 명시하여 데이터를 추출하는 기능을하고 있으며, 레이블의 이름을 모른다면 검색할 수 없다는 단점이 있다. 또한 []안에 [행의 레이블, 열의 레이블]순으로 기입하면 해당하는 위치의 데이터를 출력한다.
+
+```Python  
+df3.loc['D']
+```
+
+```
+A    1  
+B    5  
+Name: D, dtype: int64
+```  
+
+```Python
+df3.loc['D','A']
+```
+
+```
+1
+```  
+
+**.iloc** 속성은 loc처럼 []안에 행과 열의 정보를 기입하면 해당하는 데이터를 출력하는 기능을 가지고 있지만 레이블을 기입하는것이 아닌 위치를 기입하여 정보를 얻어온다는 차이점이 있다.  
+
+```Python  
+df3.iloc[1]
+```
+
+```
+A    2  
+B    6  
+Name: A, dtype: int64
+```  
+
+```Python  
+df3.iloc[0:2, 0]
+```
+
+```
+D    1   
+A    2  
+Name: A, dtype: int64
+```
+
+파이썬의 리스트형태로 행과 열의 위치를 입력해도 해당하는 정보들을 출력한다.  
+
+```Python
+df.iloc[[0,2],[0,4]]
+```
+
+ | | home_team | result  
+ |-|:---------:|:------:  
+ 0 | Tottenham Hotspur | D  
+ 2 | Blackburn Rovers  | H  
+
+.iloc은 행의 위치정보로 데이터를 추출하기 때문에 가장 마지막행의 열의 레이블을 모르는 상태에서 데이터를 얻고자 한다면 **[-1]** 을 기입한다.  
+
+```Python
+df.iloc[-1]
+```  
+
+```
+home_team           ManchesterUnited  
+away_team     WolverhamptonWanderers  
+home_goals                         0  
+away_goals                         0  
+result                             D  
+season                           NaN  
+Name: 3667, dtype: object
+```  
+
+
+* 논리 인덱싱(Boolean Indexing)  
+
+데이터프레임의 []안에 특정한 하나의 열에대한 조건식을 설정한다면 그 조건에 참인 요소의 행을 출력한다.  
+
+```Python
+df3[df3['A'] > 2]
+```  
+
+ | | A | B  
+ |-|:-:|:-:  
+ C | 3 | 7  
+ B | 4 | 8  
+
+데이터프레임의 []안에 데이터프레임 전체에 대한 조건식을 설정한다면 그 조건에 참인 요소들은 그대로 출력하고 거짓인 요소들은 누락값인 NaN으로 채워진다.  
+
+```Python
+df3[df3 > 2]
+```  
+
+| | A | B  
+|-|:-:|:-:  
+D | NaN | 5  
+A | NaN | 6
+C | 3.0 | 7  
+B | 4.0 | 8  
+> NaN의 자료형이 **float64** 이기때문에 해당열의 자료형이 float64로 바뀐것을 확인할 수 있다.  
+
+**isin** 메소드는 필터링을 하는 역할을 하며 ()안에 찾을 데이터값을 기입한다.  
+
+```Python
+df[df['result'].isin(['H','A'])].head()
+```
+
+ | | home_team | away_team | home_goals | away_goals | result | season  
+ |-|:---------:|:---------:|:----------:|:----------:|:------:|:------:  
+ 1 | Aston Villa | West Ham United | 3 | 0 | H | 2010-2011  
+ 2 | Blackburn Rovers | Everton | 1 | 0 | H | 2010-2011  
+ 5 | Wigan Athletic | Blackpool | 0 | 4 | A | 2010-2011  
+ 6 | Wolverhampton Wanderers | Stoke City | 2 | 1 | H | 2010-2011  
+ 7 | Chelsea | West Bromwich Albion | 6 | 0 | H | 2010-2011  
+
+
+* 설정  
+데이터프레임에 열을 추가하거나 전체적으로 값들을 바꾸는 것이 가능하다.  
+
+```Python  
+# 데이터프레임 생성
+df = pd.DataFrame({'One' : [1,2,3,4,5], 'Two' : [6,7,8,9,10]})
+df
+```
+
+ | | One | Two  
+ |-|:---:|:---:  
+ 0 | 1 | 6  
+ 1 | 2 | 7  
+ 2 | 3 | 8  
+ 3 | 4 | 9  
+ 4 | 5 | 10  
+
+```Python
+# 시리즈 생성
+series = np.random.randint(50, size=5)
+series
+```
+
+```
+array([47,  4, 35,  6, 28])
+```  
+
+```Python
+# 시리즈를 데이터프레임의 새로운 열로 추가
+df['Three'] = series  
+df
+```  
+
+ | | One | Two | Three  
+ |-|:---:|:---:|:-----:  
+ 0 | 1 | 6 | 47   
+ 1 | 2 | 7 | 4  
+ 2 | 3 | 8 | 35  
+ 3 | 4 | 9 | 6  
+ 4 | 5 | 10 | 28  
+
+```Python
+# 특정 열의 전체 데이터값 변경
+df.loc[:, 'Two'] = np.array(np.random.randint(100,size=5))
+df
+```  
+
+| | One | Two | Three  
+|-|:---:|:---:|:-----:  
+0 | 1 | 1 | 47   
+1 | 2 | 85 | 4  
+2 | 3 | 51 | 35  
+3 | 4 | 5 | 6  
+4 | 5 | 71 | 28  
+
+```Python  
+# 특정 조건에 의한 데이터프레임 내부 값 변경
+df[df > 5] = -df
+df
+```
+| | One | Two | Three  
+|-|:---:|:---:|:-----:  
+0 | 1 | 1 | -47   
+1 | 2 | -85 | 4  
+2 | 3 | -51 | -35  
+3 | 4 | 5 | 6  
+4 | 5 | -71 | -28  
