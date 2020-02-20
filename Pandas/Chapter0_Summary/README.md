@@ -7,8 +7,8 @@
 
 ```Python
 # 리스트로 시리즈 생성
-se = pd.Series([1,3,'One'], index=list('ABC'))  
-se  
+>>> se = pd.Series([1,3,'One'], index=list('ABC'))  
+>>> se  
 ```  
 
 ```
@@ -20,8 +20,8 @@ dtype: object
 
 ```Python
 # 넘파이 배열로 시리즈 생성
-n_se = pd.Series(np.random.randn(3), index=list('ABC'))  
-n_se
+>>> n_se = pd.Series(np.random.randn(3), index=list('ABC'))  
+>>> n_se
 ```  
 
 ```
@@ -35,8 +35,8 @@ dtype: float64
 
 ```Python
 # 누락값 데이터 타입 확인
-Nan_se = pd.Series([1,np.nan,2])  
-Nan_se
+>>> Nan_se = pd.Series([1,np.nan,2])  
+>>> Nan_se
 ```  
 
 ```
@@ -53,8 +53,8 @@ dtype: float64
 
 ```Python
 # 리스트로 데이터프레임 생성
-df = pd.DataFrame([[1,2,3],[4,5,6],[7,8,9]], index=list('ABC'), columns=['One','Two','Three'])  
-df
+>>> df = pd.DataFrame([[1,2,3],[4,5,6],[7,8,9]], index=list('ABC'), columns=['One','Two','Three'])  
+>>> df
 ```  
 
  | | One | Two | Three |
@@ -66,8 +66,8 @@ C |	7 |	8 |	9
 
 ```Python
 # 딕셔너리로 데이터프레임 생성
-df2 = pd.DataFrame({'One' : [1,2,3], 'Two' : [4,5,6], 'Three' : [7,8,9]}, index=list('ABC'))  
-df2
+>>> df2 = pd.DataFrame({'One' : [1,2,3], 'Two' : [4,5,6], 'Three' : [7,8,9]}, index=list('ABC'))  
+>>> df2
 ```  
 
 
@@ -80,10 +80,10 @@ C |	3	| 6	| 9
 
 ```Python
 # 넘파이 배열로 데이터프레임 생성
-df3 = pd.DataFrame({'One' : np.random.randint(10, size=3),
+>>> df3 = pd.DataFrame({'One' : np.random.randint(10, size=3),
                    'Two' : np.random.randint(20, size=3),
                    'Three' : np.random.randint(30, size=3)}, index=list('ABC'))  
-df3
+>>> df3
 ```   
 
 
@@ -95,8 +95,8 @@ C | 6 | 0	| 19
 
 ```Python  
 # 시리즈로 데이터프레임 생성(s1)
-s1 = pd.Series(np.random.randint(10, size=4), index=list('ABCD'))
-s1
+>>> s1 = pd.Series(np.random.randint(10, size=4), index=list('ABCD'))
+>>> s1
 ```  
 
 ```
@@ -109,8 +109,8 @@ dtype: int64
 
 ```Python
 # 시리즈로 데이터프레임 생성(s2)
-s2 = pd.Series(np.random.randint(20, size=4), index=list('ABCD'))
-s2
+>>> s2 = pd.Series(np.random.randint(20, size=4), index=list('ABCD'))
+>>> s2
 ```  
 
 ```
@@ -122,8 +122,8 @@ dtype: int64
 ```
 
 ```Python
-df4 = pd.DataFrame({'One' : s1 , 'Two' : s2})  
-df4
+>>> df4 = pd.DataFrame({'One' : s1 , 'Two' : s2})  
+>>> df4
 ```
 
 | | One | Two
@@ -143,21 +143,21 @@ D | 6 | 17
 
 ```Python
 # 위에서 5개의 행 출력(매개변수의 기본값이 5이다.)
-df.head()
+>>> df.head()
 ```  
 
 <img width="517" alt="0-3" src="https://user-images.githubusercontent.com/43739827/74827693-2b2c4780-5351-11ea-9541-b5880bef8751.png"></img>  
 
 ```Python
 # 아래에서 7개의 행 출력
-df.tail(7)
+>>> df.tail(7)
 ```    
 
 <img width="573" alt="0-4" src="https://user-images.githubusercontent.com/43739827/74827973-a1c94500-5351-11ea-9fa6-0c0c0f24371c.png"></img>  
 
 ```Python
 # 행의 레이블 확인
-df.index
+>>> df.index
 ```  
 
 ```
@@ -166,7 +166,7 @@ RangeIndex(start=0, stop=3668, step=1)
 
 ```Python
 # 열의 레이블 확인
-df.columns
+>>> df.columns
 ```  
 
 ```
@@ -177,7 +177,7 @@ Index(['home_team', 'away_team', 'home_goals', 'away_goals', 'result','season'],
 **DataFrame.to_numpy** 메소드는 데이터프레임의 데이터를 넘파이 모듈의 ndarray로 반환하여 보여준다. 각 열마다의 값의 자료형이 다르다면 수행시간이 전부 동일한 자료형을 가지는 데이터프레임보다 오래 걸리게 된다.  
 
 ```Python
-df.head(3).to_numpy()
+>>> df.head(3).to_numpy()
 ```  
 
 ```
@@ -188,9 +188,10 @@ array([['TottenhamHotspur', 'ManchesterCity', 0, 0, 'D', '2010-2011'],
 ```  
 
 ```Python
-df2 = pd.DataFrame({'One' : [1,2,3], 'Two' : [4,5,6], 'Three' : [7,8,9], 'Four' : [10,11,12], 'Five' : [13,14,15], 'Six' : [16,17,18]})  
+>>> df2 = pd.DataFrame({'One' : [1,2,3], 'Two' : [4,5,6], 'Three' : [7,8,9], 'Four' : [10,11,12],
+ 'Five' : [13,14,15], 'Six' : [16,17,18]})  
 
-df2.to_numpy()
+>>> df2.to_numpy()
 ```  
 
 ```
@@ -204,7 +205,7 @@ array([[ 1,  4,  7, 10, 13, 16],
 **describe** 메소드는 데이터프레임의 간략한 통계 수치를 확인할 때 사용한다.  
 
 ```Python
-df.describe()
+>>> df.describe()
 ```  
 
  | | home_goals | away_goals  
@@ -230,7 +231,7 @@ df.describe()
 
 ```Python  
 # 열의 레이블 정렬(내림차순)
-df2.sort_index(axis=1, ascending=False)
+>>> df2.sort_index(axis=1, ascending=False)
 ```  
 
  | | Two | Three | Six | One | Four | Five  
@@ -239,10 +240,10 @@ df2.sort_index(axis=1, ascending=False)
  1 | 5 | 8 | 17 | 2 | 11 | 14  
  2 | 6 | 9 | 18 | 3 | 12 | 15  
 
- ```Python
- # 열의 레이블 정렬(오름차순)
- df2.sort_index(axis=1, ascending=True)
- ```  
+```Python
+# 열의 레이블 정렬(오름차순)
+>>> df2.sort_index(axis=1, ascending=True)
+```  
 
  | | Five | Four | One | Six | Three | Two  
  |-|:----:|:----:|:---:|:---:|:-----:|:----:  
@@ -252,8 +253,8 @@ df2.sort_index(axis=1, ascending=False)
 
 
 ```Python  
-df3 = pd.DataFrame({'A' : [1,2,3,4], 'B' : [5,6,7,8]}, index=list('DACB'))  
-df3
+>>> df3 = pd.DataFrame({'A' : [1,2,3,4], 'B' : [5,6,7,8]}, index=list('DACB'))  
+>>> df3
 ```  
 
  | | A | B  
@@ -264,8 +265,8 @@ df3
  B | 4 | 8  
 
 ```Python  
- # 행의 레이블 정렬(내림차순)
- df3.sort_index(axis=0, ascending=False)
+# 행의 레이블 정렬(내림차순)
+>>> df3.sort_index(axis=0, ascending=False)
 ```  
 
  | | A | B  
@@ -277,7 +278,7 @@ df3
 
 ```Python
 # 행의 레이블 정렬(오름차순)
-df3.sort_index(axis=0, ascending=True)
+>>> df3.sort_index(axis=0, ascending=True)
 ```  
 
 | | A | B  
@@ -290,8 +291,8 @@ D | 1 | 5
 
 ```Python
 # 시리즈의 행 레이블 정렬
-series = pd.Series(np.random.randint(5, size=3), index=list('BAC'))  
-series.sort_index(axis=0)
+>>> series = pd.Series(np.random.randint(5, size=3), index=list('BAC'))  
+>>> series.sort_index(axis=0)
 ```
 
 ```
@@ -305,7 +306,7 @@ dtype: int64
 
 ```Python
 # home_team열의 값들을 기준으로 정렬(기본값: 오름차순)
-df.sort_values(by='home_team').head()
+>>> df.sort_values(by='home_team').head()
 ```
 
  | | home_team | away_team | home_goals | away_goals | result | season  
@@ -317,10 +318,10 @@ df.sort_values(by='home_team').head()
  3080 | AFC Bournemouth | Leicester City | 4 | 2 | H | 2018-2019  
 
 
- ```Python  
- # home_team열의 값들을 기준으로 내림차순 정렬
- df.sort_values(by='home_team', ascending=False).head()
- ```  
+```Python  
+# home_team열의 값들을 기준으로 내림차순 정렬
+>>> df.sort_values(by='home_team', ascending=False).head()
+```  
  | | home_team | away_team | home_goals | away_goals | result | season  
  |-|:---------:|:---------:|:----------:|:----------:|:------:|:------:  
  685 | Wolverhampton Wanderers | Bolton Wanderers | 2 | 3 | A | 2011-2012  
@@ -332,10 +333,10 @@ df.sort_values(by='home_team').head()
 
 ## 3. 선택  
 
-데이터프레임에서 하나의 열을 선택하여 출력하면 1차원의 시리즈로 반환된다.  
+데이터프레임에서 하나의 열을 선택하여 출력하면 1차원의 시리즈로 반환된다.  
 
 ```Python
-df2['One']
+>>> df2['One']
 ```  
 
 ```
@@ -346,7 +347,7 @@ Name: One, dtype: int64
 ```  
 
 ```Python
-df2.One
+>>> df2.One
 ```  
 
 ```
@@ -359,7 +360,7 @@ Name: One, dtype: int64
 **[ ]** 를 이용한 검색으로 행을 추출할 수 있다.  
 
 ```Python
-df3
+>>> df3
 ```  
 
  | | A | B  
@@ -371,7 +372,7 @@ df3
 
 ```Python
 # 행의 포지션으로 검색  
-df3[0:2]
+>>> df3[0:2]
 ```  
 
  | | A | B  
@@ -381,7 +382,7 @@ df3[0:2]
 
 ```Python  
 # 행의 레이블로 검색
-df3['A':'B']
+>>> df3['A':'B']
 ```  
 
  | | A | B  
@@ -394,7 +395,7 @@ df3['A':'B']
 **.loc** 속성은 행의 레이블을 명시하여 데이터를 추출하는 기능을하고 있으며, 레이블의 이름을 모른다면 검색할 수 없다는 단점이 있다. 또한 [ ]안에 [행의 레이블, 열의 레이블]순으로 기입하면 해당하는 위치의 데이터를 출력한다.
 
 ```Python  
-df3.loc['D']
+>>> df3.loc['D']
 ```
 
 ```
@@ -404,7 +405,7 @@ Name: D, dtype: int64
 ```  
 
 ```Python
-df3.loc['D','A']
+>>> df3.loc['D','A']
 ```
 
 ```
@@ -414,7 +415,7 @@ df3.loc['D','A']
 **.iloc** 속성은 loc처럼 [ ]안에 행과 열의 정보를 기입하면 해당하는 데이터를 출력하는 기능을 가지고 있지만 레이블을 기입하는것이 아닌 위치를 기입하여 정보를 얻어온다는 차이점이 있다.  
 
 ```Python  
-df3.iloc[1]
+>>> df3.iloc[1]
 ```
 
 ```
@@ -424,7 +425,7 @@ Name: A, dtype: int64
 ```  
 
 ```Python  
-df3.iloc[0:2, 0]
+>>> df3.iloc[0:2, 0]
 ```
 
 ```
@@ -436,7 +437,7 @@ Name: A, dtype: int64
 파이썬의 리스트형태로 행과 열의 위치를 입력해도 해당하는 정보들을 출력한다.  
 
 ```Python
-df.iloc[[0,2],[0,4]]
+>>>df.iloc[[0,2],[0,4]]
 ```
 
  | | home_team | result  
@@ -447,7 +448,7 @@ df.iloc[[0,2],[0,4]]
 .iloc은 행의 위치정보로 데이터를 추출하기 때문에 가장 마지막행의 열의 레이블을 모르는 상태에서 데이터를 얻고자 한다면 **[-1]** 을 기입한다.  
 
 ```Python
-df.iloc[-1]
+>>> df.iloc[-1]
 ```  
 
 ```
@@ -466,7 +467,7 @@ Name: 3667, dtype: object
 데이터프레임의 [ ]안에 특정한 하나의 열에대한 조건식을 설정한다면 그 조건에 참인 요소의 행을 출력한다.  
 
 ```Python
-df3[df3['A'] > 2]
+>>> df3[df3['A'] > 2]
 ```  
 
  | | A | B  
@@ -477,7 +478,7 @@ df3[df3['A'] > 2]
 데이터프레임의 [ ]안에 데이터프레임 전체에 대한 조건식을 설정한다면 그 조건에 참인 요소들은 그대로 출력하고 거짓인 요소들은 누락값인 NaN으로 채워진다.  
 
 ```Python
-df3[df3 > 2]
+>>> df3[df3 > 2]
 ```  
 
 | | A | B  
@@ -491,7 +492,7 @@ B | 4.0 | 8
 **isin** 메소드는 필터링을 하는 역할을 하며 ()안에 찾을 데이터값을 기입한다.  
 
 ```Python
-df[df['result'].isin(['H','A'])].head()
+>>> df[df['result'].isin(['H','A'])].head()
 ```
 
  | | home_team | away_team | home_goals | away_goals | result | season  
@@ -508,8 +509,8 @@ df[df['result'].isin(['H','A'])].head()
 
 ```Python  
 # 데이터프레임 생성
-df = pd.DataFrame({'One' : [1,2,3,4,5], 'Two' : [6,7,8,9,10]})
-df
+>>> df = pd.DataFrame({'One' : [1,2,3,4,5], 'Two' : [6,7,8,9,10]})
+>>> df
 ```
 
  | | One | Two  
@@ -522,8 +523,8 @@ df
 
 ```Python
 # 시리즈 생성
-series = np.random.randint(50, size=5)
-series
+>>> series = np.random.randint(50, size=5)
+>>> series
 ```
 
 ```
@@ -532,8 +533,8 @@ array([47,  4, 35,  6, 28])
 
 ```Python
 # 시리즈를 데이터프레임의 새로운 열로 추가
-df['Three'] = series  
-df
+>>> df['Three'] = series  
+>>> df
 ```  
 
  | | One | Two | Three  
@@ -546,8 +547,8 @@ df
 
 ```Python
 # 특정 열의 전체 데이터값 변경
-df.loc[:, 'Two'] = np.array(np.random.randint(100,size=5))
-df
+>>> df.loc[:, 'Two'] = np.array(np.random.randint(100,size=5))
+>>> df
 ```  
 
 | | One | Two | Three  
@@ -560,8 +561,8 @@ df
 
 ```Python  
 # 특정 조건에 의한 데이터프레임 내부 값 변경
-df[df > 5] = -df
-df
+>>> df[df > 5] = -df
+>>> df
 ```
 | | One | Two | Three  
 |-|:---:|:---:|:-----:  
@@ -576,8 +577,8 @@ df
 판다스에서는 누락값을 나타내는 표현으로 **np.nan** 을 사용한다. 이 누락값은 해당 열 혹은 행의 연산시에 무시된다.  
 
 ```Python
-df = pd.DataFrame(data=[[1,2,np.nan],[3,np.nan,4]])
-df
+>>> df = pd.DataFrame(data=[[1,2,np.nan],[3,np.nan,4]])
+>>> df
 ```
 
  | | 0 | 1 | 2  
@@ -586,7 +587,7 @@ df
  1 | 3 | NaN | 4.0  
 
 ```Python
-df[0].sum()
+>>> df[0].sum()
 ```
 
 ```
@@ -594,7 +595,7 @@ df[0].sum()
 ```
 
 ```Python
-df[1].sum()
+>>> df[1].sum()
 ```
 
 ```
@@ -602,7 +603,7 @@ df[1].sum()
 ```
 
 ```Python
-df[2].sum()
+>>> df[2].sum()
 ```
 
 ```
@@ -614,8 +615,8 @@ df[2].sum()
 인덱스에 추가작업을 하는 메소드는 **reindex** 메소드로, 매개변수는 index와 columns를 사용해 축의 레이블을 설정할 수 있다.  
 
 ```Python
-df1 = df.reindex(index=np.arange(5))  
-df1
+>>> df1 = df.reindex(index=np.arange(5))  
+>>> df1
 ```
 
  | | 0 | 1 | 2  
@@ -629,7 +630,7 @@ df1
 누락값을 가지는 행을 삭제하고자 한다면 **dropna** 메소드를 사용한다.  
 
 ```Python
-df1.dropna(how='any')
+>>> df1.dropna(how='any')
 ```   
 
  | | 0 | 1 | 2  
@@ -638,7 +639,7 @@ df1.dropna(how='any')
 누락값을 지정한 값으로 채우고자 한다면 **.fillna** 메소드를 사용하며 매개변수로 **value=n** 을 기입하여 채워질 특정 값을 지정할 수 있다.  
 
 ```Python
-df1.fillna(value=10)
+>>> df1.fillna(value=10)
 ```
 
  | | 0 | 1 | 2  
@@ -652,7 +653,7 @@ df1.fillna(value=10)
 데이터프레임의 요소들이 누락값인지를 불리언값으로 확인하고자 한다면 **pd.isna** 를 사용하여 괄호안에 확인할 데이터프레임명을 기입한다.   
 
 ```Python
-pd.isna(df1)
+>>> pd.isna(df1)
 ```
 
  | | 0 | 1 | 2  
@@ -668,13 +669,13 @@ pd.isna(df1)
 1. 통계(Stats)  
 일반적으로 연산을 수행할때 누락값은 예외처리한다.  
 
-산술통계를 처리하는 메소드는 **mean** 를 사용한다. 기본적으로는 열을 기준으로 계산하고 ( )안에 1을 기입하면 행을 기준으로 계산한ㄷ.  
+산술통계를 처리하는 메소드는 **mean** 를 사용한다. 기본적으로는 열을 기준으로 계산하고 ( )안에 1을 기입하면 행을 기준으로 계산한다.  
 
 ```Python  
-df = pd.DataFrame({'One' : np.random.randint(20, size=4),
+>>> df = pd.DataFrame({'One' : np.random.randint(20, size=4),
                   'Two' : np.random.randn(4)},
                  index=list('ABCD'))  
-df
+>>> df
 ```
 
  | | One | Two  
@@ -685,7 +686,7 @@ df
  D | 14 | 0.263641  
 
 ```Python
-df.mean()
+>>> df.mean()
 ```
 
 ```
@@ -695,7 +696,7 @@ dtype: float64
 ```
 
 ```Python
-df.mean(1)
+>>> df.mean(1)
 ```
 
 ```
@@ -710,8 +711,8 @@ dtype: float64
 
 ```Python
 # 시리즈와 데이터프레임에 사용할 인덱스 생성(시계열)
-t_idx = pd.date_range('2020-01-01', periods=5)  
-t_idx
+>>> t_idx = pd.date_range('2020-01-01', periods=5)  
+>>> t_idx
 ```  
 
 ```
@@ -722,8 +723,8 @@ DatetimeIndex(['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-04',
 
 ```Python
 # 시계열 인덱스를 사용하여 5개의 난수를 가지는 시리즈를 생성.
-series = pd.Series(np.random.randint(20, size=5), index=t_idx)  
-series
+>>> series = pd.Series(np.random.randint(20, size=5), index=t_idx)  
+>>> series
 ```  
 
 ```
@@ -737,8 +738,8 @@ Freq: D, dtype: int64
 
 ```Python
 # 시리즈의 요소들을 우측으로 1씩 이동
-series = series.shift(1)  
-series
+>>> series = series.shift(1)  
+>>> series
 ```  
 
 ```
@@ -752,8 +753,8 @@ Freq: D, dtype: float64
 
 ```Python
 # 시계열 인덱스를 가지는 5X2 크기의 데이터프레임을 생성
-df = pd.DataFrame({ 'A' : np.random.randn(5), 'B' : np.random.randn(5)}, index=t_idx)  
-df
+>>> df = pd.DataFrame({ 'A' : np.random.randn(5), 'B' : np.random.randn(5)}, index=t_idx)  
+>>> df
 ```  
 
  | | A | B  
@@ -766,7 +767,7 @@ df
 
 ```Python
 # 행을 기준으로 시리즈와 데이터프레임의 차(subtraction)를 구함.
-df.sub(series, axis='index')
+>>> df.sub(series, axis='index')
 ```  
 
  | | A | B  
@@ -779,7 +780,7 @@ df.sub(series, axis='index')
 
 ```Python  
 # 열을 기준으로 시리즈와 데이터프레임의 차(subtraction)를 구함.
-df.sub(series, axis='columns')
+>>> df.sub(series, axis='columns')
 ```  
 
 <img width="789" alt="0-6" src="https://user-images.githubusercontent.com/43739827/74929957-efac7e80-541f-11ea-9d75-0db33339d8dd.png"></img>  
@@ -788,7 +789,7 @@ df.sub(series, axis='columns')
 **apply** 메소드를 사용하여 시리즈나 데이터프레임의 값들을 변결할 수 있다.  
 
 ```Python  
-df.apply(np.sum)
+>>> df.apply(np.sum)
 ```  
 
 ```
@@ -798,7 +799,7 @@ dtype: float64
 ```  
 
 ```Python  
-df.apply(lambda x : x * 1000)
+>>> df.apply(lambda x : x * 1000)
 ```  
 
  | | A | B  
@@ -812,8 +813,8 @@ df.apply(lambda x : x * 1000)
 3. 중복값 개수 찾기  
 
 ```Python  
-series2 = pd.Series(np.random.randint(2, 20, size=10))
-series2
+>>> series2 = pd.Series(np.random.randint(2, 20, size=10))
+>>> series2
 ```  
 
 ```
@@ -831,7 +832,7 @@ dtype: int64
 ```  
 
 ```Python
-series2.value_counts()
+>>> series2.value_counts()
 ```  
 
 ```
@@ -850,8 +851,8 @@ dtype: int64
 시리즈의 속성중 **str** 은 문자열 요소간의 연산을 편하게해주는 기능을 하고있다.  
 
 ```Python  
-s = pd.Series(['Ss','Aa','Bb','Cc',np.nan,'Ff','AbCdEfG'])
-s
+>>> s = pd.Series(['Ss','Aa','Bb','Cc',np.nan,'Ff','AbCdEfG'])
+>>> s
 ```  
 
 ```
@@ -867,7 +868,7 @@ dtype: object
 
 ```Python
 # 문자열 요소 소문자로 변환
-s.str.lower()
+>>> s.str.lower()
 ```  
 
 ```
@@ -883,7 +884,7 @@ dtype: object
 
 ```Python
 # 문자열 요소 대문자로 변환
-s.str.upper()
+>>> s.str.upper()
 ```  
 
 ```
@@ -903,7 +904,7 @@ dtype: object
 
 ```Python
 # 열을 기준으로 시리즈와 데이터프레임을 연결(default axis=0)
-pd.concat([df, series])
+>>> pd.concat([df, series])
 ```  
 
  | | A | B | 0  
@@ -921,7 +922,7 @@ pd.concat([df, series])
 
 ```Python  
 # 행을 기준으로 시리즈와 데이터프레임을 연결
-pd.concat([df, series], axis=1)
+>>> pd.concat([df, series], axis=1)
 ```  
 
  | | A | B | 0  
@@ -938,8 +939,8 @@ pd.concat([df, series], axis=1)
 Sql문 형식의 병합을 나타낸다. **merge** 메소드를 사용하며 매개변수로 합칠 데이터프레임의 이름들을 입력하고 **on="기준이되는 열"** 을 입력한다.  
 
 ```Python
-df = pd.DataFrame({'main' : [1,2,3,4,5], 'PlusOne' : [2,3,4,5,6]})
-df
+>>> df = pd.DataFrame({'main' : [1,2,3,4,5], 'PlusOne' : [2,3,4,5,6]})
+>>> df
 ```
 
  | | main | PlusOne  
@@ -951,8 +952,8 @@ df
 4 | 5 | 6  
 
 ```Python
-df2 = pd.DataFrame({'main' : [1,2,3,4,5], 'Abs' : [1,4,9,16,25]})
-df2
+>>> df2 = pd.DataFrame({'main' : [1,2,3,4,5], 'Abs' : [1,4,9,16,25]})
+>>> df2
 ```  
 
  | | main | Abs  
@@ -964,7 +965,7 @@ df2
  4 | 5 | 25  
 
 ```Python  
-pd.merge(df, df2, on='main')
+>>> pd.merge(df, df2, on='main')
 ```  
  | | main | PlusOne | Abs  
  |-|:----:|:-------:|:---:  
