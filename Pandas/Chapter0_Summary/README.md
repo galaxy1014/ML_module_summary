@@ -664,3 +664,237 @@ pd.isna(df1)
  4 | True | True | True  
 
 ## 5.연산  
+
+1. 통계(Stats)  
+일반적으로 연산을 수행할때 누락값은 예외처리한다.  
+
+산술통계를 처리하는 메소드는 **mean** 를 사용한다. 기본적으로는 열을 기준으로 계산하고 ( )안에 1을 기입하면 행을 기준으로 계산한ㄷ.  
+
+```Python  
+df = pd.DataFrame({'One' : np.random.randint(20, size=4),
+                  'Two' : np.random.randn(4)},
+                 index=list('ABCD'))  
+df
+```
+
+ | | One | Two  
+ |-|:---:|:---:  
+ A | 17 | -0.777915  
+ B | 19 | -1.434760  
+ C | 2 | 0.921095  
+ D | 14 | 0.263641  
+
+```Python
+df.mean()
+```
+
+```
+One    13.000000  
+Two    -0.256985  
+dtype: float64  
+```
+
+```Python
+df.mean(1)
+```
+
+```
+A    8.111043  
+B    8.782620  
+C    1.460547  
+D    7.131821  
+dtype: float64   
+```  
+
+시리즈와 데이터프레임의 연산을 수행하게되면 판다스는 자동적으로 시리즈를 데이터프레임의 크기에 맞게 브로드캐스팅한다. 만약 시리즈나 데이터프레임에 누락값이 들어있다면 그 데이터의 연산결과는 무조건 누락값이다.  
+
+```Python
+# 시리즈와 데이터프레임에 사용할 인덱스 생성(시계열)
+t_idx = pd.date_range('2020-01-01', periods=5)  
+t_idx
+```  
+
+```
+DatetimeIndex(['2020-01-01', '2020-01-02', '2020-01-03', '2020-01-04',
+               '2020-01-05'],
+              dtype='datetime64[ns]', freq='D')
+```
+
+```Python
+# 시계열 인덱스를 사용하여 5개의 난수를 가지는 시리즈를 생성.
+series = pd.Series(np.random.randint(20, size=5), index=t_idx)  
+series
+```  
+
+```
+2020-01-01    17  
+2020-01-02    16  
+2020-01-03    18  
+2020-01-04     6  
+2020-01-05     9  
+Freq: D, dtype: int64
+```  
+
+```Python
+# 시리즈의 요소들을 우측으로 1씩 이동
+series = series.shift(1)  
+series
+```  
+
+```
+2020-01-01     NaN  
+2020-01-02    17.0  
+2020-01-03    16.0  
+2020-01-04    18.0  
+2020-01-05     6.0  
+Freq: D, dtype: float64  
+```
+
+```Python
+# 시계열 인덱스를 가지는 5X2 크기의 데이터프레임을 생성
+df = pd.DataFrame({ 'A' : np.random.randn(5), 'B' : np.random.randn(5)}, index=t_idx)  
+df
+```  
+
+ | | A | B  
+ |-|:-:|:-:  
+ 2020-01-01 | -0.243296 | 0.370846  
+ 2020-01-02 | -0.320402 | 0.566230  
+ 2020-01-03 | 0.680802 | -0.485805  
+ 2020-01-04 | 0.376472 | -1.527842  
+ 2020-01-05 | -0.404380 | -0.372984  
+
+```Python
+# 행을 기준으로 시리즈와 데이터프레임의 차(subtraction)를 구함.
+df.sub(series, axis='index')
+```  
+
+ | | A | B  
+ |-|:-:|:-:  
+ 2020-01-01 | NaN | NaN  
+ 2020-01-02 | -17.320402 | -16.433770  
+ 2020-01-03 | -15.319198 | -16.485805  
+ 2020-01-04 | -17.623528 | -19.527842  
+ 2020-01-05 | -6.404380 | -6.372984
+
+```Python  
+# 열을 기준으로 시리즈와 데이터프레임의 차(subtraction)를 구함.
+df.sub(series, axis='columns')
+```  
+
+<img width="789" alt="0-6" src="https://user-images.githubusercontent.com/43739827/74929957-efac7e80-541f-11ea-9d75-0db33339d8dd.png"></img>  
+
+2. 적용(Apply)  
+**apply** 메소드를 사용하여 시리즈나 데이터프레임의 값들을 변결할 수 있다.  
+
+```Python  
+df.apply(np.sum)
+```  
+
+```
+A    0.089196  
+B   -1.449555  
+dtype: float64  
+```  
+
+```Python  
+df.apply(lambda x : x * 1000)
+```  
+
+ | | A | B  
+ |-|:-:|:-:  
+ 2020-01-01 | -243.296000 | 370.845837  
+ 2020-01-02 | -320.401912 | 566.229513  
+ 2020-01-03 | 680.802131 | -485.804716  
+ 2020-01-04 | 376.472100 | -1527.841624  
+ 2020-01-05 | -404.380176 | -372.984363  
+
+3. 중복값 개수 찾기  
+
+```Python  
+series2 = pd.Series(np.random.randint(2, 20, size=10))
+series2
+```  
+
+```
+0     2  
+1    16  
+2    19  
+3     6  
+4    16  
+5     7  
+6     6  
+7     4  
+8    12  
+9     5  
+dtype: int64  
+```  
+
+```Python
+series2.value_counts()
+```  
+
+```
+6     2  
+16    2  
+12    1  
+7     1  
+5     1  
+4     1  
+19    1  
+2     1  
+dtype: int64  
+```  
+
+4. 문자열 연산(String Methods)  
+시리즈의 속성중 **str** 은 문자열 요소간의 연산을 편하게해주는 기능을 하고있다.  
+
+```Python  
+s = pd.Series(['Ss','Aa','Bb','Cc',np.nan,'Ff','AbCdEfG'])
+s
+```  
+
+```
+0         Ss  
+1         Aa  
+2         Bb  
+3         Cc  
+4        NaN  
+5         Ff  
+6    AbCdEfG  
+dtype: object  
+```  
+
+```Python
+# 문자열 요소 소문자로 변환
+s.str.lower()
+```  
+
+```
+0         ss   
+1         aa  
+2         bb  
+3         cc  
+4        NaN  
+5         ff  
+6    abcdefg  
+dtype: object  
+```  
+
+```Python
+# 문자열 요소 대문자로 변환
+s.str.upper()
+```  
+
+```
+0         SS  
+1         AA  
+2         BB  
+3         CC  
+4        NaN  
+5         FF  
+6    ABCDEFG  
+dtype: object  
+```  
+
+## 6.병합(Merge)  
