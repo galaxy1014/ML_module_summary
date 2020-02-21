@@ -434,10 +434,10 @@ A    2
 Name: A, dtype: int64
 ```
 
-파이썬의 리스트형태로 행과 열의 위치를 입력해도 해당하는 정보들을 출력한다.  
+파이썬의 리스트 형태로 행과 열의 위치를 입력해도 해당하는 정보들을 출력한다.  
 
 ```Python
->>>df.iloc[[0,2],[0,4]]
+>>> df.iloc[[0,2],[0,4]]
 ```
 
  | | home_team | result  
@@ -672,8 +672,7 @@ array([47,  4, 35,  6, 28])
 산술통계를 처리하는 메소드는 **mean** 를 사용한다. 기본적으로는 열을 기준으로 계산하고 ( )안에 1을 기입하면 행을 기준으로 계산한다.  
 
 ```Python  
->>> df = pd.DataFrame({'One' : np.random.randint(20, size=4),
-                  'Two' : np.random.randn(4)},
+>>> df = pd.DataFrame({'One' : np.random.randint(20, size=4), 'Two' : np.random.randn(4)},  
                  index=list('ABCD'))  
 >>> df
 ```
@@ -978,3 +977,54 @@ Sql문 형식의 병합을 나타낸다. **merge** 메소드를 사용하며 매
 
 
 ## 7.그룹화(Grouping)  
+
+그룹화를 하기 위해선 아래 3가지의 처리과정준 하나 이상을 따른다.  
+
+1. 임의의 기준에 맞추어 데이터를 몇가지로 나눈다.  
+2. 각 그룹에 독립적으로 함수를 적용시킨다.  
+3. 연산된 결과들을 하나로 합친다.  
+
+```Python  
+
+# 데이터프레임 생성
+>>> df = pd.DataFrame({'Club' : ['Real Madrid', 'FC Barcelona','Real Madrid', 'FC Barcelona', 'Real Madrid', 'FC Barcelona', 'Real Madrid', 'FC Barcelona'],
+                  'Number' : [4, 4, 7, 8, 10, 10, 11, 11],
+                  'Name' : ['Sergio Ramos','Ivan Rakitic','Eden Hazard','Arthur','Luka Modric','Lionel Messi','Gareth Bale','Ousmane Dembele'],
+                  'Country' : ['Spain', 'Croatia','Belgium', 'Brazil', 'Croatia' , 'Argentina' ,'Wales', 'France']})  
+>>> df
+
+```  
+
+ | | Club | Number | Name | Country  
+ |-|:----:|:------:|:----:|:-------:  
+ 0 | Real Madrid | 4 | Sergio Ramos | Spain  
+ 1 | FC Barcelona | 4 | Ivan Rakitic | Croatia  
+ 2 | Real Madrid | 7 | Eden Hazard | Belgium  
+ 3 | FC Barcelona | 8 | Arthur | Brazil  
+ 4 | Real Madrid | 10 | Luka Modric | Croatia  
+ 5 | FC Barcelona | 10 | Lionel Messi | Argentina  
+ 6 | Real Madrid | 11 | Gareth Bale | Wales  
+ 7 | FC Barcelona | 11 | Ousmane Dembele  
+
+```Python
+# 특정한 열을 기준으로 그룹화하여 조건에맞는 개수(count)를 찾음
+>>> df.groupby('Number').count()
+```  
+<img width="207" alt="0-7" src="https://user-images.githubusercontent.com/43739827/75029494-7bd4a980-54e5-11ea-968d-0a0623a9e819.png"></img>  
+
+```Python
+# 특정한 두 개의 열을 기준으로 그룹화하여 조건에맞는 개수(count)를 찾음
+>>> df.groupby(['Number','Country']).count()
+```
+
+<img width="219" alt="0-8" src="https://user-images.githubusercontent.com/43739827/75029656-d110bb00-54e5-11ea-8ac1-004de96f3c69.png"></img>  
+
+## 8.재구조화(Reshaping)  
+
+## 9.시계열(Time series)  
+
+## 10.범주형(Categoricals)  
+
+## 11.그래프화(Plotting)  
+
+## 12.입/출력 데이터  
