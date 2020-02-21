@@ -1021,6 +1021,142 @@ Sql문 형식의 병합을 나타낸다. **merge** 메소드를 사용하며 매
 
 ## 8.재구조화(Reshaping)  
 
+* 스택(Stack)  
+**스택** 은 다차원의 데이터프레임으로부터 열의 차원을 1차원 줄인다.  
+
+```Python
+>>> # 멀티인덱스로 지정하기위한 튜플 생성
+idx = list(zip(*[['Manchester United', 'Manchester United', 'Manchester City', 'Manchester City',
+                 'Liverpool','Liverpool','Chelsea','Chelsea'],
+                 ['home_goals','away_goals','home_goals','away_goals',
+                  'home_goals','away_goals','home_goals','away_goals']]))
+
+>> idx
+```
+
+```
+[('Manchester United', 'home_goals'),  
+ ('Manchester United', 'away_goals'),  
+ ('Manchester City', 'home_goals'),  
+ ('Manchester City', 'away_goals'),  
+ ('Liverpool', 'home_goals'),  
+ ('Liverpool', 'away_goals'),  
+ ('Chelsea', 'home_goals'),  
+ ('Chelsea', 'away_goals')]  
+```
+
+```Python
+# 인덱스를 멀티인덱스로 변환
+>>> m_idx = pd.MultiIndex.from_tuples(idx, names=['Club','Goals'])  
+>>> m_idx
+```  
+
+```
+MultiIndex([('Manchester United', 'home_goals'),  
+            ('Manchester United', 'away_goals'),  
+            (  'Manchester City', 'home_goals'),  
+            (  'Manchester City', 'away_goals'),  
+            (        'Liverpool', 'home_goals'),  
+            (        'Liverpool', 'away_goals'),  
+            (          'Chelsea', 'home_goals'),  
+            (          'Chelsea', 'away_goals')],  
+           names=['Club', 'Goals'])  
+```
+
+```Python  
+>>> df2 = pd.DataFrame({'September' : np.random.randint(8, size=8),
+                   'October' : np.random.randint(8, size=8)}, index=m_idx)  
+
+>>> df2
+```  
+
+<img width="346" alt="0-9" src="https://user-images.githubusercontent.com/43739827/75031559-e1c33000-54e9-11ea-9926-8b41e29002fd.png"></img>  
+
+```Python  
+>>> s_df = df2.stack()  
+>>> s_df
+```  
+
+```
+Club               Goals                
+Manchester United  home_goals  September    3  
+                               October      4  
+                   away_goals  September    1  
+                               October      3  
+Manchester City    home_goals  September    5  
+                               October      2  
+                   away_goals  September    4  
+                               October      6  
+Liverpool          home_goals  September    6  
+                               October      2  
+                   away_goals  September    3  
+                               October      7  
+Chelsea            home_goals  September    1  
+                               October      6  
+                   away_goals  September    7  
+                               October      6  
+dtype: int64  
+```  
+
+스택처리된 데이터프레임이나 시리즈를 되돌리는 연산으로 **unstack** 메소드가 있다. 매개변수로 unstack할 인덱스의 레벨을 기입할 수 있으며 default값은 -1이다.  
+
+```Python  
+>>> s_df.unstack()
+```  
+<img width="346" alt="0-10" src="https://user-images.githubusercontent.com/43739827/75032601-45e6f380-54ec-11ea-90ae-c386fa049acf.png"></img>  
+
+```Python  
+>>> s_df.unstack(1)
+```
+<img width="363" alt="0-11" src="https://user-images.githubusercontent.com/43739827/75032661-6adb6680-54ec-11ea-9393-399ab7ef6f6b.png"></img>  
+
+```Python  
+>>> s_df.unstack(0)
+```  
+
+<img width="517" alt="0-12" src="https://user-images.githubusercontent.com/43739827/75032718-8e061600-54ec-11ea-8454-4096edec6ee7.png"></img>  
+
+```Python  
+>>> s_df.unstack(-1)
+```  
+
+<img width="345" alt="0-13" src="https://user-images.githubusercontent.com/43739827/75032764-b261f280-54ec-11ea-9015-af0f5bd2ae47.png"></img>  
+
+* 피벗 테이블(Pivot table)  
+
+피벗 테이블이란 테이블에서 필요한 데이터만을 추출하여 새로운 테이블로 만드는 것이다.  
+
+```Python  
+>>> f3 = pd.DataFrame({'Country' : ['Korea', 'Japan','China'] * 4,  
+                    'Part' : ['P1', 'P2', 'P3', 'P4'] * 3,  
+                    'Boolean' : ['Y','Y','Y','F','F','F'] * 2 ,  
+                    'In' : np.random.randn(12),  
+                    'Out' : np.random.randn(12)})  
+>>> df3
+```
+
+ | | Country | Part | Boolean | In | Out  
+ |-|:-------:|:----:|:-------:|:--:|:---:  
+ 0 | Korea | P1 | Y | 0.705770 | 0.170821  
+ 1 | Japan | P2 | Y | 0.012764 | -0.956052  
+ 2 | China | P3 | Y | 2.047783 | 0.868328  
+ 3 | Korea | P4 | F | -0.212842 | 0.106059  
+ 4 | Japan | P1 | F | 1.487557 | 1.054390  
+ 5 | China | P2 | F | 0.175353 | -1.497004  
+ 6 | Korea | P3 | Y | 2.002593 | 0.881311  
+ 7 | Japan | P4 | Y | -0.306823 | -1.569362  
+ 8 | China | P1 | Y | 0.231235 | -1.525929  
+ 9 | Korea | P2 | F | 0.795160 | 0.385938  
+ 10 | Japan | P3 | F | -1.353346 | -0.596935  
+ 11 | China | P4 | F | 0.758078 | -1.077861  
+
+```Python  
+>>> pd.pivot_table(df3, values='In', index=['Country','Part'], columns='Boolean')
+```
+
+<img width="259" alt="0-14" src="https://user-images.githubusercontent.com/43739827/75033784-01a92280-54ef-11ea-96a9-0e0c60ffaea2.png"></img>  
+
+
 ## 9.시계열(Time series)  
 
 ## 10.범주형(Categoricals)  
