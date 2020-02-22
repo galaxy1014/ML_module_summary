@@ -1281,6 +1281,94 @@ DatetimeIndex(['2020-01-01', '2021-01-01', '2022-01-01', '2023-01-01',
 
 ## 10.범주형(Categoricals)  
 
+**범주형** 이란 특정 기준을 가지고 반복되는 자료형이다.  
+
+```Python  
+>>> df = pd.DataFrame({'A' : ['Red', 'Blue', 'Black', 'White', 'Green', 'Indigo', 'Purple'],
+                  'B' : ['x','x','y','y','z','z','z']})  
+>>> df
+```
+
+ | | A | B  
+ |-|:-:|:-:  
+ 0 | Red | x  
+ 1 | Blue | x  
+ 2 | Black | y  
+ 3 | White | y  
+ 4 | Green | z  
+ 5 | Indigo | z  
+ 6 | Purple | z  
+
+```Python  
+>>> df['Value'] = df['B'].astype('category')  
+>>> df['Value']
+```  
+
+```
+0    x  
+1    x  
+2    y  
+3    y  
+4    z  
+5    z  
+6    z  
+Name: Value, dtype: category  
+Categories (3, object): [x, y, z]
+```  
+
+범주형 데이터들의 이름을 좀 더 의미를 가지는 이름으로 변경할 수도 있다.  
+
+```Python  
+>>> df['Value'].cat.categories = ['Good', 'Normal', 'Bad']  
+>>> df['Value']
+```  
+
+```
+0      Good  
+1      Good  
+2    Normal  
+3    Normal  
+4       Bad  
+5       Bad  
+6       Bad  
+Name: Value, dtype: category  
+Categories (3, object): [Good, Normal, Bad]  
+```
+
+또한 범주를 재설정하여 새로운 값들로 채울 수 있다.  
+
+```Python  
+>>> df['Value'] = df['Value'].cat.set_categories(['Best', 'Good', 'Normal', 'Bad', 'Worst'])  
+>>> df['Value']
+```
+
+```
+0      Good  
+1      Good  
+2    Normal  
+3    Normal  
+4       Bad  
+5       Bad  
+6       Bad  
+Name: Value, dtype: category  
+Categories (5, object): [Best, Good, Normal, Bad, Worst]  
+```
+
+```Python  
+# 범주형 데이터들의 갯수 확인
+>>> df.groupby('Value').size()
+```  
+
+```
+Value   
+Best      0  
+Good      2  
+Normal    2  
+Bad       3  
+Worst     0  
+dtype: int64  
+```
+
 ## 11.그래프화(Plotting)  
 
 ## 12.입/출력 데이터  
