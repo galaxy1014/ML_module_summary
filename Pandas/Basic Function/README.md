@@ -278,3 +278,30 @@ array([[ 1.,  4.],
 ```  
 
 ## 3.Accelerated operations  
+
+판다스는 **numexpr** 라이브러리와 **bottleneck** 라이브러리를 사용하여 이진 숫자와 불리언 연산의 처리 속도를 가속화할 수 있다. 이 라이브러리들은 특히 큰 데이터 셋을 다룰때 유용하다. 특히 bottleneck은 NaN이 있는 배열을 다룰때 유용하다.  
+
+```Python  
+>>> import bottleneck as bn  
+>>> import time  
+```  
+
+```Python  
+# bottleneck 라이브러리 사용   
+>>> start = time.time() # 시작시간 측정  
+>>> print(bn.nanmean(df['home_goals']), time.time() - start)
+```  
+
+```  
+1.5517993456924755 0.0002181529998779297
+```  
+
+```Python  
+# 넘파이 모듈 사용  
+start = time.time() # 시작시간 측정
+print(np.nanmean(df['home_goals']), time.time() - start)
+```  
+
+```  
+1.5517993456924755 0.00026988983154296875
+```
