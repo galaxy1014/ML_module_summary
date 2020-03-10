@@ -305,3 +305,235 @@ print(np.nanmean(df['home_goals']), time.time() - start)
 ```  
 1.5517993456924755 0.00026988983154296875
 ```
+
+## 4. Flexible binary operations  
+
+판다스에서 두 데이터프레임간의 연산을 수행하게 되면 두 가지에 중점을 두게된다.  
+
+```
+1. 고차원 혹은 저차원의 데이터프레임간 브로드캐스팅  
+2. 누락값의 계산
+```  
+
+이런 문제를 관리하는 방법들을 아래에 설명한다.  
+
+### 1. Matching / broadcasting behavior  
+
+데이터프레임은 이항 연산을 수행하기 위해 **add(), sub(), mul(), div(), radd(), rsub()** 메소드를 지원한다.  
+
+이 메소드들을 사용하고자 할 땐 행이나 열의 축을 기준으로 잡아야한다.  
+
+```Python  
+>>> df = pd.DataFrame({'One' : pd.Series(np.random.randn(4), index=['a','b','c','d']),
+                    'Two' : pd.Series(np.random.randn(3), index=['a','c','d']),
+                   'Three' : pd.Series(np.random.randn(3), index=['b','c','d'])})  
+
+>>> df
+```  
+
+ | | One | Two | Three  
+ |-|:---:|:---:|:-----:  
+a | 1.008765 | -0.175352 | NaN  
+b | 1.748897 | NaN | 0.624603  
+c | 1.078679 | -0.866894 | -0.950405  
+d | -1.573860 | 0.170444 | 0.322723  
+
+```Python  
+# 연산을 할 시리즈 생성(데이터프레임에서 한 행을 추출)
+>>> row = df.iloc[1]  
+>>> row
+```  
+
+```  
+One      1.748897  
+Two           NaN  
+Three    0.624603  
+Name: b, dtype: float64
+```  
+
+```Python  
+>>> df.sub(row, axis='columns')
+```  
+
+| | One | Two | Three  
+|-|:---:|:---:|:-----:  
+a | -0.740132 | NaN | NaN  
+b | 0.000000 | NaN | 0.000000  
+c | -0.670218 | NaN | -1.575008  
+d | -3.322757 | NaN | -0.301881  
+
+```Python  
+>>> df.sub(row, axis=1)
+```  
+
+| | One | Two | Three  
+|-|:---:|:---:|:-----:  
+a | -0.740132 | NaN | NaN  
+b | 0.000000 | NaN | 0.000000  
+c | -0.670218 | NaN | -1.575008  
+d | -3.322757 | NaN | -0.301881  
+
+```Python  
+# 연산을 할 시리즈 생성(데이터프레임에서 한 열을 추출)
+>>> column = df['One']  
+>>> column
+```  
+
+```
+a    1.008765  
+b    1.748897  
+c    1.078679  
+d   -1.573860  
+Name: One, dtype: float64
+```
+
+```Python  
+>>> df.sub(column, axis=0)
+```  
+
+| | One | Two | Three  
+|-|:---:|:---:|:-----:  
+a | 0.0 | -1.184117 | NaN  
+b | 0.0 | NaN | -1.124294  
+c | 0.0 | -1.945573 | -2.029084  
+d | 0.0 | 1.744304 | 1.896582  
+
+```Python  
+>>> df.sub(column, axis='index')
+```  
+
+| | One | Two | Three  
+|-|:---:|:---:|:-----:  
+a | 0.0 | -1.184117 | NaN  
+b | 0.0 | NaN | -1.124294  
+c | 0.0 | -1.945573 | -2.029084  
+d | 0.0 | 1.744304 | 1.896582  
+
+멀티인덱스를 가지는 데이터프레임과 시리즈의 연산또한 가능하다.  
+
+```Python  
+# 데이터프레임 사본 생성
+>>> m_df = df.copy()  
+# 멀티인덱스 생성  
+>> m_df.index = pd.MultiIndex.from_tuples([(1,'a'),(1,'b'),(1,'c'),(2,'a')], names=['first','second'])
+>>> m_df
+```  
+
+<img width="304" alt="1" src="https://user-images.githubusercontent.com/43739827/76315244-a911bc00-631b-11ea-9277-7805774509d7.png"></img>  
+
+```Python  
+>>> m_df.sub(column, axis=0, level='second')
+```
+
+<img width="308" alt="2" src="https://user-images.githubusercontent.com/43739827/76315278-b75fd800-631b-11ea-8ce7-b605a39a1147.png"></img>
+
+**divmod()** 메소드를 사용하여 데이터의 나누기 연산을 했을때의 데이터를 구할 수 있다.  
+
+```Python  
+# 0~10까지의 정수를 원소로하는 시리즈 생성
+>>> s = pd.Series(np.arange(10))  
+>>> s
+```  
+
+```
+0    0  
+1    1  
+2    2  
+3    3  
+4    4  
+5    5  
+6    6  
+7    7  
+8    8  
+9    9  
+dtype: int64
+```  
+
+```Python  
+>>> div, rem = divmod(s, 3)
+```  
+
+```Python
+# s를 3으로 나눈 몫
+>>> div
+```  
+
+```
+0    0  
+1    0  
+2    0  
+3    1  
+4    1  
+5    1  
+6    2  
+7    2  
+8    2  
+9    3  
+dtype: int64  
+```  
+
+```Python
+# s를 3으로 나눈 나머지  
+>>> rem
+```  
+
+```  
+0    0  
+1    1  
+2    2  
+3    0  
+4    1  
+5    2  
+6    0  
+7    1  
+8    2  
+9    0   
+dtype: int64
+```  
+
+특정값들을 요소로 가지는 리스트의 divmod 연산또한 가능하다.  
+
+```Python  
+# 리스트를 지정
+>>> div, rem = divmod(s, [2,2,2,3,3,3,4,4,4,5])
+```  
+
+```Python
+# 리스트로 시리즈를 나눈 몫  
+>>> div
+```  
+
+```
+0    0  
+1    0  
+2    1  
+3    1  
+4    1  
+5    1  
+6    1  
+7    1  
+8    2  
+9    1  
+dtype: int64
+```  
+
+```Python
+# 리스트로 시리즈를 나눈 몫  
+>>> rem
+```  
+
+```
+0    0  
+1    1  
+2    0  
+3    0  
+4    1  
+5    2  
+6    2  
+7    3  
+8    0  
+9    4  
+dtype: int64
+```  
+
+### 2.Missing data / operations will fill values
