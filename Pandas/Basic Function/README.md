@@ -317,7 +317,7 @@ print(np.nanmean(df['home_goals']), time.time() - start)
 
 이런 문제를 관리하는 방법들을 아래에 설명한다.  
 
-### 1. Matching / broadcasting behavior  
+### Matching / broadcasting behavior  
 
 데이터프레임은 이항 연산을 수행하기 위해 **add(), sub(), mul(), div(), radd(), rsub()** 메소드를 지원한다.  
 
@@ -419,25 +419,13 @@ d | 0.0 | 1.744304 | 1.896582
 >>> m_df
 ```  
 
-|          |       One |        Two |      Three |
-|:---------|----------:|-----------:|-----------:|
-| (1, 'a') |  2.37146  |   0.820267 | nan        |
-| (1, 'b') | -2.18215  | nan        |   1.22587  |
-| (1, 'c') | -0.555885 |  -1.18565  |  -0.985316 |
-| (2, 'a') | -1.37438  |  -0.908853 |  -1.04551  |  
-
+<img width="304" alt="1" src="https://user-images.githubusercontent.com/43739827/76315244-a911bc00-631b-11ea-9277-7805774509d7.png"></img>  
 
 ```Python  
 >>> m_df.sub(column, axis=0, level='second')
 ```
 
-|          |      One |        Two |     Three |
-|:---------|---------:|-----------:|----------:|
-| (1, 'a') |  0       |  -1.5512   | nan       |
-| (1, 'b') |  0       | nan        |   3.40802 |
-| (1, 'c') |  0       |  -0.629766 |  -0.42943 |
-| (2, 'a') | -3.74584 |  -3.28032  |  -3.41697 |   
-
+<img width="308" alt="2" src="https://user-images.githubusercontent.com/43739827/76315278-b75fd800-631b-11ea-8ce7-b605a39a1147.png"></img>
 
 **divmod()** 메소드를 사용하여 데이터의 나누기 연산을 했을때의 데이터를 구할 수 있다.  
 
@@ -548,4 +536,4 @@ dtype: int64
 dtype: int64
 ```  
 
-### 2.Missing data / operations will fill values
+### Missing data / operations will fill values
