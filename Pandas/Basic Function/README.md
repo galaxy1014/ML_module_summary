@@ -740,3 +740,58 @@ True
 ```  
 
 ### Comparing array-like objects  
+
+판다스는 리스트를 이용한 간단한 논리연산이 가능하다.  
+
+```Python  
+>>> pd.Series(['One', 'Two', 'Three']) == 'Two'  
+```  
+
+```
+0    False  
+1     True  
+2    False  
+dtype: bool  
+```  
+
+```Python  
+>>> pd.Index(['Four', 'Five', 'Six']) == 'Five'
+```  
+
+```  
+array([False,  True, False])
+```  
+
+시리즈와 인덱스끼리의 논리연산이 가능하며 이때 각 객체의 길이는 같아야만 한다.  
+
+```Python
+>>> pd.Series(['One', 'Two', 'Three']) == pd.Index(['One', 'Five', 'Six'])
+```  
+
+```  
+0     True  
+1    False  
+2    False  
+dtype: bool  
+```  
+
+```Python  
+>>> pd.Series(['One', 'Two', 'Three']) == pd.Series(['One', 'Two'])
+```  
+
+```  
+0     True  
+1    False  
+2    False  
+dtype: bool  
+```  
+
+넘파이와의 차이점은 넘파이는 브로드캐스팅이 된다는것이다.  
+
+```Python  
+>>> np.array([1,2,3]) == np.array([1])
+```  
+
+```
+array([ True, False, False])
+```  
