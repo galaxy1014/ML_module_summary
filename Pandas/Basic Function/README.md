@@ -599,4 +599,144 @@ dtype: int64
 | a  |   2.78996  | 3.54503  |  2       |
 | b  |   0.686108 | 3.82425  | -0.10078 |
 | c  |   1.39049  | 2.95674  |  2.45487 |
-| d  | nan        | 0.558688 | -1.22634 |
+| d  | nan        | 0.558688 | -1.22634 |  
+
+### Flexible comparisons  
+
+시리즈와 데이터프레임은 비교 연산을 수행하는 메소드 **eq, ne, lt, gt, le, ge** 를 지원한다.  
+
+```Python
+>>> df.eq(df2)
+```  
+
+|    |   One |   Two |   Three |
+|:---|------:|------:|--------:|
+| a  |  True |  True |    Flase|
+| b  |  True |  True |    True |
+| c  |  True |  True |    True |
+| d  |  Flase|  True |    True |  
+
+```Python  
+>>> df.ne(df2)
+```  
+
+|    |   One |   Two |   Three |
+|:---|------:|------:|--------:|
+| a  |  Flase|  Flase|    True |
+| b  |  Flase|  Flase|   Flase |
+| c  |  Flase|  Flase|   Flase |
+| d  |  True |  Flase|   Flase |  
+
+```Python  
+>>> df.lt(df2)
+```  
+
+|    |   One |   Two |   Three |
+|:---|------:|------:|--------:|
+| a  |  Flase|  Flase|    Flase|
+| b  |  Flase|  Flase|    Flase|
+| c  |  Flase|  Flase|    Flase|
+| d  |  Flase|  Flase|    Flase|
+
+```  
+eq : 객체의 요소끼리가 같으면 True, 다르면 False를 반환한다. 만약 비교하는 요소가 모두 누락값이라면 False를 반환한다.  
+ne : eq의 반대개념으로 같으면 False, 다르면 True를 반환한다. 만약 비교하는 요소가 모두 누락값이라면 True를 반환한다.  
+lt : less than의 약어로 기준이 되는 요소의 값이 적으면 True, 크거나 같으면 False를 반환한다.  
+gt : greater than의 약어로 기준이 되는 요소의 값이 크면 True, 작거나 같으면 False를 반환한다.  
+le : less than or equal의 약어로 기준이 되는 요소의 값이 적거나 같으면 True, 크면 False를 반환한다.  
+ge : greater than or equal의 약어로 기준이 되는 요소의 값이 크거나 같으면 True, 작으면 False를 반환한다.  
+```  
+
+결과의 반환값이 boolean인것을 확인할 수 있다.  
+
+### Boolean reductions  
+
+불리언 결과를 간략하게 보여주는 메소드로 **empty, any(), all(), bool()** 을 제공한다.  
+
+```Python  
+>>> (df > 0).all()
+```  
+
+```
+One      False   
+Two       True  
+Three    False  
+dtype: bool  
+```  
+
+```Python  
+>>> (df > 0).any()
+```  
+
+```
+One      True  
+Two      True  
+Three    True  
+dtype: bool  
+```  
+
+최종 불리언 값만을 도출할 수 있다.  
+
+```Python  
+>>> (df > 0).any().any()
+```  
+
+```  
+True
+```  
+
+판다스 객체가 비어있음을 확인하고 싶으면 **empty** 객체를 사용한다.  
+
+```Python  
+>>> df.empty
+```  
+
+```  
+False
+```  
+
+```Python  
+>>> pd.DataFrame(columns=list('ABC')).empty
+```  
+
+```  
+True
+```  
+
+판다스의 객체가 불리언 요소를 가지는지 확인하고 싶다면 **bool()** 메소드를 사용한다.  
+
+```Python  
+>>> bool(df.iloc[0][0])
+```  
+
+```
+True
+```   
+
+### Comparing if objects are equivalent  
+
+종종 같은 결과를 반환하는 다른 연산을 확인할 수 있다. 예를들어 **df + df** 와 **df * 2** 의 결과는 같다. 그러나 False와 False의 ==연산은 False를 반환하기 때문에 단순한 ==연산으로는 객체의 요소가 같은지 정확하게 확인할 수 없다.  
+
+```Python  
+# False 끼리의 논리연산은 False를 반환한다.
+>>> df + df == df * 2
+```  
+
+|    |   One |   Two |   Three |
+|:---|------:|------:|--------:|
+| a  |   True|   True|    False|
+| b  |   True|   True|     True|
+| c  |   True|   True|     True|
+| d  |  False|   True|     True|  
+
+**equals()** 메소드를 사용하면 비교하는 대상의 객체들이 같은지를 확인할 수 있다.  
+
+```Python  
+>>> (df + df).equals(df * 2)
+```  
+
+```  
+True
+```  
+
+### Comparing array-like objects  
