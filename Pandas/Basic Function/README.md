@@ -1241,3 +1241,74 @@ dtype: object
 ```  
 'd'
 ```  
+
+### Value counts(histogrramming) / mode  
+
+**value_counts()** 시리즈 메소드는 1차원의 배열을 막대형으로 나타내며 값의 갯수를 보여준다.  
+
+```Python  
+>>> data = np.random.randint(0, 7, size=50)  
+>>> data
+```  
+
+```  
+array([5, 3, 6, 1, 4, 1, 3, 0, 0, 3, 2, 4, 5, 3, 1, 4, 6, 2, 2, 1, 5, 6,  
+       6, 0, 0, 4, 6, 5, 1, 4, 6, 3, 1, 3, 4, 6, 0, 4, 3, 6, 3, 6, 2, 2,  
+       1, 2, 5, 3, 0, 4])
+```  
+
+```Python  
+>>> s = pd.Series(data)  
+>>> s.value_counts()
+```  
+
+```  
+6    9  
+3    9  
+4    8  
+1    7  
+2    6  
+0    6  
+5    5  
+dtype: int64  
+```  
+
+```Python  
+>>> pd.value_counts(data)
+```  
+
+```  
+6    9  
+3    9  
+4    8  
+1    7  
+2    6  
+0    6  
+5    5  
+dtype: int64  
+```  
+
+또한 **mode()** 를 사용하여 시리즈 혹은 데이터프레임의 가장 빈번하게 발생하는 값들을 확인할 수 있다.  
+
+```Python  
+>>> s5 = pd.Series([1, 1, 3, 3, 3, 5, 5, 7, 7, 7])  
+>>> s5.mode()
+```  
+
+```  
+0    3  
+1    7  
+dtype: int64
+```  
+
+```Python  
+>>> df5 = pd.DataFrame({"A": np.random.randint(0, 7, size=50),  
+               "B": np.random.randint(-10, 15, size=50)})
+>>> df5.mode()
+```  
+
+|    |   A |   B |
+|---:|----:|----:|
+|  0 |   1 |   3 |
+
+### Descretization and quantiling  
