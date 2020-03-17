@@ -854,3 +854,305 @@ array([ True, False, False])
 |  5 |   7 |   8 |  
 
 ## 5.Descriptive statistics  
+
+**기술 통계학(Descriptive statistics)** 을 계산하기 위한 판다스만의 메소드가 존재한다.  
+
+```  
+* Series : axis를 지정하지 않는다.  
+* DataFrame : 인덱스설정(axis=0)<- 기본값, 컬럼설정(axis=1)
+```  
+
+Function | Description  
+:-------:|:-----------:  
+count | 누락값을 포함하지 않은 요소들의 갯수  
+sum | 값들의 합  
+mean | 값들의 평균  
+mad | 평균절대편차  
+median | 값들의 중앙값(median)  
+min | 최솟값  
+max | 최댓값  
+mode | 최빈값(가장 많이 관측되는 수)  
+abs | 절댓값  
+prod | 값들의 곱  
+std | 표준편차의 베셀 보정  
+var | 분산  
+sem | 표준 오차  
+skew | 표본 비대칭도  
+kurt | 표본 첨도(kutrosis)  
+quantile | 표본 분위수  
+cumsum | 누적합(Cumulative sum)
+cumprod | 누적곱(Cumulative product)  
+cummax | 누적 최댓값  
+cummin | 누적 최솟값
+
+
+```Python  
+>>> df
+```  
+
+|    |        One |      Two |      Three |
+|:---|-----------:|---------:|-----------:|
+| a  |   1.39498  | 1.77252  | nan        |
+| b  |   0.343054 | 1.91212  |  -0.05039  |
+| c  |   0.695246 | 1.47837  |   1.22744  |
+| d  | nan        | 0.279344 |  -0.613172 |  
+
+```Python  
+>>> df.mean(0)
+```  
+
+```  
+One      0.811094  
+Two      1.360588  
+Three    0.187958  
+dtype: float64  
+```  
+
+```Python  
+>>> df.mean(1)
+```  
+
+```  
+a    1.583749  
+b    0.734929  
+c    1.133683  
+d   -0.166914  
+dtype: float64  
+```  
+
+여기서 사용되는 모든 메소드는 **skipna** 를 매개변수로 가진다. 이 메소드는 누락값을 확인하는 기능을 하며 기본값은 **True** 이다.  
+
+```Python  
+>>> df.sum(0, skipna=False)
+```  
+
+```  
+One           NaN  
+Two      5.442353  
+Three         NaN  
+dtype: float64  
+```  
+
+```Python  
+>>> df.sum(axis=1, skipna=True)
+```  
+
+```  
+a    3.167498  
+b    2.204787  
+c    3.401050  
+d   -0.333828  
+dtype: float64  
+```  
+
+통계적 계산또한 가능하다. **std()** 메소드는 표준 편차를 구하기위해 사용하는 메소드다.
+
+```Python  
+>>> ts_stand = (df - df.mean(0)) / df.std()  
+>>> ts_stand.std()
+```  
+
+```
+One      1.0  
+Two      1.0  
+Three    1.0  
+dtype: float64  
+```  
+
+```Python  
+>>> xs_stand = df.sub(df.mean(1), axis=0).div(df.std(1), axis=0)  
+>>> xs_stand
+```  
+
+|    |        One |      Two |      Three |
+|:---|-----------:|---------:|-----------:|
+| a  |  -0.707107 | 0.707107 | nan        |
+| b  |  -0.377425 | 1.13379  |  -0.756361 |
+| c  |  -1.09639  | 0.86195  |   0.234443 |
+| d  | nan        | 0.707107 |  -0.707107 |  
+
+```Python  
+>>> xs_stand.std(1)
+```  
+
+```  
+a    1.0  
+b    1.0  
+c    1.0  
+d    1.0  
+dtype: float64  
+```  
+
+**cumsum()** 과 **comprod()** 메소드는 누락값의 위치를 보존한다.  
+
+```Python  
+>>> df.cumsum()
+```  
+
+|    |       One |     Two |      Three |
+|:---|----------:|--------:|-----------:|
+| a  |   1.39498 | 1.77252 | nan        |
+| b  |   1.73803 | 3.68464 |  -0.05039  |
+| c  |   2.43328 | 5.16301 |   1.17705  |
+| d  | nan       | 5.44235 |   0.563873 |  
+
+넘파이 모듈을 사용해 데이터프레임의 평균을 구할 수 있다.  
+
+```Python  
+>>> np.mean(df['One'])
+```  
+
+```  
+0.8110936666666667
+```  
+
+**Series.nunique()** 메소드는 시리즈에서 누락값을 제외한 유일값의 개수를 반환한다.  
+
+```Python
+>>> Series = pd.Series(np.random.randn(500))  
+>>> Series[20:200] = np.nan  
+>>> Series[10:20] = 5  
+>>> Series.nunique()
+```  
+
+```  
+311
+```  
+
+### Summarizing data: describe  
+
+**describe()** 메소드를 사용하면 간략한 통계적 정보를 얻을 수 있다.  
+
+```Python  
+>>> series = pd.Series(np.random.randn(1000))  
+>>> series[::2] = np.nan  
+>>> series.describe()
+```  
+
+```  
+count    500.000000  
+mean      -0.104046  
+std        0.973392  
+min       -3.459899  
+25%       -0.705669  
+50%       -0.057655  
+75%        0.559557  
+max        3.115283  
+dtype: float64  
+```  
+
+```Python  
+>>> df = pd.DataFrame(np.random.randn(1000,5), columns=['a','b','c','d','e'])  
+>>> df.iloc[::2] = np.nan  
+>>> df.describe()
+```  
+
+|       |           a |           b |           c |           d |           e |
+|:------|------------:|------------:|------------:|------------:|------------:|
+| count | 500         | 500         | 500         | 500         | 500         |
+| mean  |  -0.0098391 |  -0.0217725 |  -0.0133153 |   0.0329154 |   0.0208793 |
+| std   |   1.04484   |   1.02411   |   1.03689   |   0.991465  |   1.01293   |
+| min   |  -3.15347   |  -2.56002   |  -2.98677   |  -2.66778   |  -2.99676   |
+| 25%   |  -0.736796  |  -0.682348  |  -0.716998  |  -0.616957  |  -0.754231  |
+| 50%   |   0.0153571 |  -0.124131  |  -0.0624372 |   0.0335433 |   0.0098666 |
+| 75%   |   0.683469  |   0.678965  |   0.686431  |   0.705677  |   0.736733  |
+| max   |   3.26103   |   3.05544   |   3.11557   |   3.24525   |   2.79697   |  
+
+describe 메소드에 매개변수로 **percentiles** 를 사용하면 나타낼 백분율을 설정할 수 있다.  
+
+```Python  
+>>> series.describe(percentiles=[.05, .25, .75, .95])
+```  
+
+```  
+count    500.000000  
+mean      -0.104046  
+std        0.973392  
+min       -3.459899  
+5%        -1.804095  
+25%       -0.705669  
+50%       -0.057655  
+75%        0.559557  
+95%        1.402325  
+max        3.115283  
+dtype: float64  
+```  
+
+숫자형이 아닌 시리즈객체애 describe 메소드를 사용하면 유일값의 갯수나 가장 빈번하게 발생하는 값의 갯수를 출력한다.  
+
+```Python  
+>>> s = pd.Series(['a','a','a','b','b',np.nan,'c','d','a'])  
+>>> s.describe()
+```  
+
+```  
+count     8  
+unique    4  
+top       a  
+freq      4  
+dtype: object  
+```  
+
+여러 자료형이 섞인 데이터프레임에 describe 메소드를 사용하면 숫자값을 포함하고있는 열만의 정보를 출력한다.  
+
+```Python  
+>>> df = pd.DataFrame({'a' : ['Yes','Yes','No','No'], 'b' : range(4)})  
+>>> df.describe()
+```  
+
+|       |       b |
+|:------|--------:|
+| count | 4       |
+| mean  | 1.5     |
+| std   | 1.29099 |
+| min   | 0       |
+| 25%   | 0.75    |
+| 50%   | 1.5     |
+| 75%   | 2.25    |
+| max   | 3       |  
+
+이 때 매개변수로 **include/exclude** 를 사용하여 출력결과를 조절할 수 있다.  
+
+```Python  
+>>> df.describe(include=['object'])
+```  
+
+|        | a   |
+|:-------|:----|
+| count  | 4   |
+| unique | 2   |
+| top    | No  |
+| freq   | 2   |  
+
+```Python  
+>>> df.describe(include=['number'])
+```  
+
+|       |       b |
+|:------|--------:|
+| count | 4       |
+| mean  | 1.5     |
+| std   | 1.29099 |
+| min   | 0       |
+| 25%   | 0.75    |
+| 50%   | 1.5     |
+| 75%   | 2.25    |
+| max   | 3       |  
+
+```Python  
+>>> df.describe(include='all')
+```  
+
+|        | a   |         b |
+|:-------|:----|----------:|
+| count  | 4   |   4       |
+| unique | 2   | nan       |
+| top    | No  | nan       |
+| freq   | 2   | nan       |
+| mean   | nan |   1.5     |
+| std    | nan |   1.29099 |
+| min    | nan |   0       |
+| 25%    | nan |   0.75    |
+| 50%    | nan |   1.5     |
+| 75%    | nan |   2.25    |
+| max    | nan |   3       |
