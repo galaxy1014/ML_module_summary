@@ -795,3 +795,62 @@ dtype: bool
 ```
 array([ True, False, False])
 ```  
+
+### Combining overlapping data sets  
+
+두 개의 비슷한 데이터셋을 합칠때 **combine_first()** 메소드를 사용하여 기준이 되는 데이터셋의 누락값이나 가지지 않은 인덱스를 추가할 수 있다.  
+
+```Python  
+>>> df1 = pd.DataFrame({'A' : [1., np.nan, 3., 5., np.nan],
+                   'B' : [np.nan, 2., 3., np.nan, 6.]})
+```  
+
+|    |   A |   B |
+|---:|----:|----:|
+|  0 |   1 | nan |
+|  1 | nan |   2 |
+|  2 |   3 |   3 |
+|  3 |   5 | nan |
+|  4 | nan |   6 |  
+
+```Python  
+>>> df2 = pd.DataFrame({'A' : [5., 2., 4., np.nan, 3., 7.],
+                   'B' : [np.nan, np.nan, 3., 4., 6., 8.]})
+```  
+
+|    |   A |   B |
+|---:|----:|----:|
+|  0 |   5 | nan |
+|  1 |   2 | nan |
+|  2 |   4 |   3 |
+|  3 | nan |   4 |
+|  4 |   3 |   6 |
+|  5 |   7 |   8 |  
+
+```Python  
+>>> df1.combine_first(df2)
+```  
+
+|    |   A |   B |
+|---:|----:|----:|
+|  0 |   1 | nan |
+|  1 |   2 |   2 |
+|  2 |   3 |   3 |
+|  3 |   5 |   4 |
+|  4 |   3 |   6 |
+|  5 |   7 |   8 |  
+
+```Python  
+>>> df2.combine_first(df1)
+```  
+
+|    |   A |   B |
+|---:|----:|----:|
+|  0 |   5 | nan |
+|  1 |   2 |   2 |
+|  2 |   4 |   3 |
+|  3 |   5 |   4 |
+|  4 |   3 |   6 |
+|  5 |   7 |   8 |  
+
+## 5.Descriptive statistics  
