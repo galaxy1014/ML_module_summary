@@ -1412,22 +1412,22 @@ Categories (2, interval[float64]): [(-inf, 0.0] < (0.0, inf]]
 먼저 메소드를 사용해보기위해 사용자정의 함수를 두 개와 임시 데이터프레임을 생성한다.  
 
 ```Python  
-def extract_city_name(df):  
-    df['city_name'] = df['city_and_code'].str.split(",").str.get(0)  
-    return df  
+>>> def extract_city_name(df):  
+     df['city_name'] = df['city_and_code'].str.split(",").str.get(0)  
+     return df  
 
-def add_country_name(df, country_name = None):  
-    col = 'city_name'  
-    df['city_and_country'] = df[col] + country_name  
-    return df  
+>>> def add_country_name(df, country_name = None):  
+     col = 'city_name'  
+     df['city_and_country'] = df[col] + country_name  
+     return df  
 
-df_p = pd.DataFrame({'city_and_code' : ['Chicago, IL']})  
+>>> df_p = pd.DataFrame({'city_and_code' : ['Chicago, IL']})  
 ```  
 
 먼저 일반적으로 사용하는 함수 연속사용이다.  
 
 ```Python  
-add_country_name(extract_city_name(df_p), country_name='US')
+>>> add_country_name(extract_city_name(df_p), country_name='US')
 ```  
 
 |    | city_and_code   | city_name   | city_and_country   |
@@ -1436,8 +1436,8 @@ add_country_name(extract_city_name(df_p), country_name='US')
 
 이번에는 pipe() 메소드를 사용한 함수 체인이다.
 ```Python  
-(df_p.pipe(extract_city_name)  
-     .pipe(add_country_name, country_name='US'))
+>>> (df_p.pipe(extract_city_name)  
+        .pipe(add_country_name, country_name='US'))
 ```  
 
 |    | city_and_code   | city_name   | city_and_country   |
@@ -1448,4 +1448,115 @@ add_country_name(extract_city_name(df_p), country_name='US')
 두 방법이 동일하게 작동하는것을 확인할 수 있다.  
 ```  
 
-### Row or column-wise function applicatioin
+### Row or column-wise function applicatioin  
+
+**.apply()** 함수를 사용하여 데이터프레임의 축을 기준으로 통계적인 정보를 간략하게 확인할 수 있다.  
+
+```Python   
+>>> df['home_goals'].apply(np.mean)
+```
+
+```  
+0       0.0  
+1       3.0  
+2       1.0  
+3       0.0  
+4       2.0  
+       ...   
+3663    4.0  
+3664    0.0  
+3665    2.0  
+3666    3.0  
+3667    0.0  
+Name: home_goals, Length: 3668, dtype: float64
+```  
+
+또한 괄호안에 문자열을 사용할수도 있다.  
+
+```Python  
+>>> df.apply('mean')
+```  
+
+```  
+home_goals    1.551799  
+away_goals    1.198201  
+dtype: float64  
+```  
+
+apply 메서드안에 추가 매개변수를 입력하여 더 구체적인 정보를 살펴볼 수 있다.  
+
+```Python  
+>>> tsdf = pd.DataFrame(np.random.randn(1000, 3), columns=['A','B','C'],
+                   index=pd.date_range('1/1/2000', periods=1000))
+
+>>> tsdf.apply(lambda x : x.idxmax())
+```  
+
+```  
+A   2001-11-28  
+B   2000-04-24  
+C   2002-08-15  
+dtype: datetime64[ns]  
+```  
+
+```Python  
+>>> def subtract_and_divide(x, sub, divide = 1):
+     return (x-sub) / divide
+
+>>> tmp = tsdf.apply(subtract_and_divide, args=(5,), divide=3)
+>>> print(tmp.to_markdown())
+```  
+
+|                     |         A |         B |         C |
+|:--------------------|----------:|----------:|----------:|
+| 2000-01-01 00:00:00 | -1.745    | -1.67402  | -1.93762  |
+| 2000-01-02 00:00:00 | -1.85958  | -2.01404  | -1.34984  |
+| 2000-01-03 00:00:00 | -1.34948  | -1.62634  | -1.2855   |
+| 2000-01-04 00:00:00 | -1.8898   | -1.89961  | -1.82673  |
+| 2000-01-05 00:00:00 | -0.839412 | -1.496    | -1.11361  |
+| 2000-01-06 00:00:00 | -1.9484   | -1.62996  | -1.20595  |
+| 2000-01-07 00:00:00 | -1.24549  | -1.12449  | -1.33754  |
+| 2000-01-08 00:00:00 | -1.6188   | -1.83663  | -1.88883  |
+| 2000-01-09 00:00:00 | -1.56541  | -1.88771  | -1.12292  |
+| 2000-01-10 00:00:00 | -1.78074  | -1.80143  | -1.73056  |
+| 2000-01-11 00:00:00 | -1.37461  | -1.61463  | -1.79432  |
+| 2000-01-12 00:00:00 | -1.82991  | -1.59375  | -2.16066  |
+| 2000-01-13 00:00:00 | -1.45812  | -1.41979  | -1.98306  |
+| 2000-01-14 00:00:00 | -1.56264  | -1.48197  | -1.71941  |
+| 2000-01-15 00:00:00 | -2.12301  | -1.8444   | -2.21301  |
+| 2000-01-16 00:00:00 | -1.84389  | -1.62153  | -1.8379   |
+| 2000-01-17 00:00:00 | -1.79762  | -1.85483  | -1.62741  |
+| 2000-01-18 00:00:00 | -1.95687  | -1.73154  | -1.76231  |  
+> 추가적으로 출력되는 부분은 생략하였다.  
+
+행이나 열에 시리즈의 메서드를 적용할수도 있다.  
+
+```Python  
+>>> tsdf.apply(pd.Series.interpolate)
+```  
+
+|                     |            A |            B |           C |
+|:--------------------|-------------:|-------------:|------------:|
+| 2000-01-01 00:00:00 | -0.234998    | -0.0220618   | -0.812864   |
+| 2000-01-02 00:00:00 | -0.578754    | -1.04212     |  0.950494   |
+| 2000-01-03 00:00:00 |  0.951572    |  0.120993    |  1.14351    |
+| 2000-01-04 00:00:00 | -0.669386    | -0.698823    | -0.48018    |
+| 2000-01-05 00:00:00 |  2.48176     |  0.512006    |  1.65917    |
+| 2000-01-06 00:00:00 | -0.845202    |  0.110124    |  1.38216    |
+| 2000-01-07 00:00:00 |  1.26354     |  1.62652     |  0.987382   |
+| 2000-01-08 00:00:00 |  0.143601    | -0.509895    | -0.666476   |
+| 2000-01-09 00:00:00 |  0.303776    | -0.66313     |  1.63123    |
+| 2000-01-10 00:00:00 | -0.342223    | -0.404277    | -0.191693   |
+| 2000-01-11 00:00:00 |  0.876158    |  0.156111    | -0.382975   |
+| 2000-01-12 00:00:00 | -0.489744    |  0.218755    | -1.48198    |
+| 2000-01-13 00:00:00 |  0.625647    |  0.740618    | -0.94917    |
+| 2000-01-14 00:00:00 |  0.312084    |  0.554088    | -0.15822    |
+| 2000-01-15 00:00:00 | -1.36903     | -0.533213    | -1.63903    |
+| 2000-01-16 00:00:00 | -0.531657    |  0.135399    | -0.513701   |
+> 추가적으로 출력되는 부분은 생략하였다.  
+
+마지막으로 apply 메서드는 **raw** 라는 매개변수를 가지고있다. 이것은 각 열 혹은 행이 시리즈 혹은  
+ndarray 객체로 전달될지의 여부를 결정한다. 기본값은 False로, 이 때는 시리즈로 전달되며 True일 경우엔  
+ndarray로 전달되며 이 때가 더 나은 성능을 보여준다.  
+
+### Aggregation API  
