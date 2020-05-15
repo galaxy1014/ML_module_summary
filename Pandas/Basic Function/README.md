@@ -1401,3 +1401,51 @@ Categories (2, interval[float64]): [(-inf, 0.0] < (0.0, inf]]
 ```  
 
 ## 6.Function application  
+
+아래 함수들의 사용 여부를 인지하여 데이터프레임과 시리즈를 적절하게 사용하게되면 판다스 오브젝트를 훨씬  
+손 쉽게 사용할 수 있다.  
+
+### Tablewise function application  
+
+함수를 체인하여 사용해야할 경우 **.pipe()** 메소드를 사용하는것이 더 편리할 수 있다.  
+
+먼저 메소드를 사용해보기위해 사용자정의 함수를 두 개와 임시 데이터프레임을 생성한다.  
+
+```Python  
+def extract_city_name(df):  
+    df['city_name'] = df['city_and_code'].str.split(",").str.get(0)  
+    return df  
+
+def add_country_name(df, country_name = None):  
+    col = 'city_name'  
+    df['city_and_country'] = df[col] + country_name  
+    return df  
+
+df_p = pd.DataFrame({'city_and_code' : ['Chicago, IL']})  
+```  
+
+먼저 일반적으로 사용하는 함수 연속사용이다.  
+
+```Python  
+add_country_name(extract_city_name(df_p), country_name='US')
+```  
+
+|    | city_and_code   | city_name   | city_and_country   |
+|---:|:----------------|:------------|:-------------------|
+|  0 | Chicago, IL     | Chicago     | ChicagoUS          |  
+
+이번에는 pipe() 메소드를 사용한 함수 체인이다.
+```Python  
+(df_p.pipe(extract_city_name)  
+     .pipe(add_country_name, country_name='US'))
+```  
+
+|    | city_and_code   | city_name   | city_and_country   |
+|---:|:----------------|:------------|:-------------------|
+|  0 | Chicago, IL     | Chicago     | ChicagoUS          |  
+
+```  
+두 방법이 동일하게 작동하는것을 확인할 수 있다.  
+```  
+
+### Row or column-wise function applicatioin
