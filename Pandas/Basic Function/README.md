@@ -1980,3 +1980,94 @@ Freq: D, Name: A, dtype: float64
 | 2020-05-08 00:00:00 |           0.744223  |            1.9825   |        0.991212 |
 | 2020-05-09 00:00:00 |           0.439956  |            0.995246 |      nan        |
 | 2020-05-10 00:00:00 |           0.0178599 |            0.881226 |      nan        |  
+
+### Applying elementwise functions  
+
+모든 함수가 벡터화를 허용하지 않기 때문에(넘파이 배열은 벡터화를 수용하며 또다른 배열이나 값으로 반환한다) 데이터프레임에서는 **applymap()** 메소드를  
+시리즈에서는 **map()** 을 사용하여 파이썬 함수가 단일값을 가지고 이것을 반환하도록 할 수 있다.  
+
+```Python  
+>>> df4 = pd.DataFrame(np.random.randn(4,3), columns=['one','two','three'],
+                  index=['a','b','c','d'])  
+>>> df4['one']['d'] = np.nan  
+>>> df4['three']['a'] = np.nan  
+>>> df4
+```  
+
+|    |        one |       two |      three |
+|:---|-----------:|----------:|-----------:|
+| a  |  -0.245643 | -2.0549   | nan        |
+| b  |   0.22655  |  1.48683  |  -0.150279 |
+| c  |  -0.530094 |  0.254373 |  -1.08476  |
+| d  | nan        |  1.168    |   0.854002 |  
+
+```Python  
+>>> def f(x):  
+>>>    return len(str(x))  
+
+>>> df4['one'].map(f)
+```  
+
+```  
+a    19  
+b    19  
+c    19  
+d     3  
+Name: one, dtype: int64
+```  
+
+```Python  
+>>> df4.applymap(f)
+```  
+
+|    |   one |   two |   three |
+|:---|------:|------:|--------:|
+| a  |    19 |    19 |       3 |
+| b  |    19 |    18 |      19 |
+| c  |    19 |    19 |      19 |
+| d  |     3 |    18 |      17 |  
+
+**Series.map()** 이 가지는 특징 중 하나는 또 다른 시리즈 객체를 불러와 연산을 수행할 수 있다는 것이다.  
+이것은 일종의 병합기능으로 볼 수 있다.  
+
+```Python  
+>>> s = pd.Series(['six','seven','six','seven','six'],
+                index = ['a','b','c','d','e'])  
+>>> t = pd.Series({'six' : 6., 'seven' : 7.})  
+```  
+
+```Python  
+>>> s  
+```  
+
+```  
+a      six  
+b    seven  
+c      six  
+d    seven  
+e      six  
+dtype: object    
+```  
+
+```Python  
+>>> t
+```  
+
+```  
+six      6.0  
+seven    7.0  
+dtype: float64  
+```  
+
+```Python  
+>>> s.map(t)
+```  
+
+```  
+a    6.0  
+b    7.0  
+c    6.0  
+d    7.0  
+e    6.0  
+dtype: float64  
+```  
