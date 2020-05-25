@@ -1983,8 +1983,7 @@ Freq: D, Name: A, dtype: float64
 
 ### Applying elementwise functions  
 
-모든 함수가 벡터화를 허용하지 않기 때문에(넘파이 배열은 벡터화를 수용하며 또다른 배열이나 값으로 반환한다) 데이터프레임에서는 **applymap()** 메소드를  
-시리즈에서는 **map()** 을 사용하여 파이썬 함수가 단일값을 가지고 이것을 반환하도록 할 수 있다.  
+모든 함수가 벡터화를 허용하지 않기 때문에(넘파이 배열은 벡터화를 수용하며 또다른 배열이나 값으로 반환한다) 데이터프레임에서는 **applymap()** 메소드를 시리즈에서는 **map()** 을 사용하여 파이썬 함수가 단일값을 가지고 이것을 반환하도록 할 수 있다.  
 
 ```Python  
 >>> df4 = pd.DataFrame(np.random.randn(4,3), columns=['one','two','three'],
@@ -2071,3 +2070,5 @@ d    7.0
 e    6.0  
 dtype: float64  
 ```  
+
+## 7. Reindexing and altering labels  
