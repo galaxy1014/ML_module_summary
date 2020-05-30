@@ -2717,3 +2717,46 @@ Name: scalar-name, dtype: float64
 ```  
 
 <img width="154" alt="3" src="https://user-images.githubusercontent.com/43739827/83251517-ab7e0680-a1e4-11ea-9631-c75e2dcf3de3.png"></img>  
+
+##  8.Iteration  
+
+판다스 객체에서의 반복은 객체의 유형에 의존한다. 시리즈에서 반복을 하게되면 리스트 형태로 반복하게되고 데이터프레임에서 반복을 하게되면  
+딕셔너리 형태로써 키를 반복하게된다.  
+
+간단하게 나타낸다면 for i in object를 했을때에  
+```  
+Series : value  
+DataFrame : 열의 레이블
+```  
+
+```Python  
+>>> df = pd.DataFrame({'col1' : np.random.randn(3),  
+                  'col2' : np.random.randn(3)}, index=list('abc'))  
+>>> df
+```  
+
+|    |      col1 |     col2 |
+|:---|----------:|---------:|
+| a  | -0.428519 | 0.756701 |
+| b  |  0.359407 | 1.45551  |
+| c  |  0.796692 | 2.11757  |  
+
+```Python  
+>>> for col in df:  
+>>>     print(col)
+```  
+
+```   
+col1
+col2
+```  
+
+판다스 객체는  **items()** 함수를 사용할 수 있으며 이 함수를 사용하여 키와 밸류를 사용한 반복을 시행할 수 있다.  
+
+데이터프레임에서 행의 레이블을 사용해 반복하고자 한다면 아래의 함수를 사용한다.  
+
+```  
+* iterrows() : 데이터프레임의 행을 인덱스, 시리즈쌍으로하여 반복한다. 이 때의 반환결과는 시리즈가된다.  
+* itertuples() : 데이터프레임의 행을 이름이새겨진 튜플의 값으로하여 반복하며 iterrows()보다 더 빠르게 연산하기 때문에  
+데이터프레임의 값에대한 반복을할때 더 선호되는 함수이다.
+```  
