@@ -2788,3 +2788,87 @@ b    1.455514
 c    2.117571  
 Name: col2, dtype: float64  
 ```  
+
+### iterrows  
+
+**iterrows()** 함수는 데이터프레임의 행을 시리즈 객체로써 반복하며 시리즈의 인덱스 값은 해당 행의 데이터로 채워져 반환된다.  
+
+```Python  
+>>> for row_index, row in df.iterrows():  
+>>>     print(row_index, row, sep='\n')
+```  
+
+```  
+a  
+col1   -0.428519  
+col2    0.756701  
+Name: a, dtype: float64   
+b  
+col1    0.359407  
+col2    1.455514  
+Name: b, dtype: float64  
+c  
+col1    0.796692  
+col2    2.117571  
+Name: c, dtype: float64   
+```  
+
+iterrows() 함수가 각 행을 시리즈로 반환하기 때문에 행들의 타입을 보존하지 못한다.  
+
+```Python  
+>>> df_orig = pd.DataFrame([[1, 1.5]], columns=['int', 'float'])  
+>>> df_orig.dtypes    
+```  
+
+```  
+int        int64  
+float    float64   
+dtype: object  
+```  
+
+```Python  
+>>> row = next(df_orig.iterrows())[1]  
+>>> row  
+```  
+
+```  
+int      1.0  
+float    1.5  
+Name: 0, dtype: float64  
+```  
+
+시리즈로 반환되면서 모든 행의 데이터가 float 형태로 통일된것을 확인할 수 있다. 만약 행들의 타입을 보존하고자 한다면 iterrows() 함수보다  
+itertuples() 함수를 사용하는것이 더 낫다.  
+
+iterrows() 함수를 사용해 데이터프레임의 구조를 변환하는것이 가능하다.  
+
+```Python  
+>>> df = pd.DataFrame({'X' : [1, 2, 3], 'Y' : [4, 5, 6]})  
+>>> df  
+```  
+
+|    |   X |   Y |
+|---:|----:|----:|
+|  0 |   1 |   4 |
+|  1 |   2 |   5 |
+|  2 |   3 |   6 |  
+
+```Python  
+>>> df.T
+```  
+
+|    |   0 |   1 |   2 |
+|:---|----:|----:|----:|
+| X  |   1 |   2 |   3 |
+| Y  |   4 |   5 |   6 |  
+
+```Python  
+>>> df_t = pd.DataFrame({idx: values for idx,values in df.iterrows()})  
+>>> df_t  
+```  
+
+|    |   0 |   1 |   2 |
+|:---|----:|----:|----:|
+| X  |   1 |   2 |   3 |
+| Y  |   4 |   5 |   6 |  
+​  
