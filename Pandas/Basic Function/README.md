@@ -2927,3 +2927,248 @@ Pandas(Index='E', a=0.15600930560893841, b=0.3377466546133208, c=1.4363602108065
 itertuples 함수는 행을 시리즈로 반환하지 않고 객체 내 값들의 데이터 타입을 보존하기 때문에 iterrows 함수보다 일반적으로 빠르다.  
 
 ## 9. dt accessor  
+
+시리즈에는 같은 datetime/period인 경우 시리즈의 값에 대한 datetime과 같은 속성을 간결하게 반환하는 접근자가 있다. 이렇게 하면 기존 시리즈와 같이 인덱싱된 시리즈가 반환된다.  
+
+```Python  
+>>> s = pd.Series(pd.date_range('20200601 20:29:31', periods=4))  
+>>> s
+```  
+
+```  
+0   2020-06-01 20:29:31  
+1   2020-06-02 20:29:31  
+2   2020-06-03 20:29:31  
+3   2020-06-04 20:29:31  
+dtype: datetime64[ns]  
+```  
+
+```Python  
+>>> s.dt.hour
+```  
+
+```  
+0    20  
+1    20  
+2    20  
+3    20  
+dtype: int64  
+```  
+
+```Python  
+>>> s.dt.second
+```  
+
+```  
+0    31  
+1    31  
+2    31  
+3    31  
+dtype: int64  
+```  
+
+```Python  
+>>> s.dt.day
+```  
+
+```  
+0    1  
+1    2  
+2    3  
+3    4  
+dtype: int64  
+```  
+
+위의 방식들을 사용하여 간략한 응용을 할 수 있다.  
+
+```Python  
+>>> s[s.dt.day == 2]
+```  
+
+```  
+1   2020-06-02 20:29:31  
+dtype: datetime64[ns]  
+```  
+
+또한 tz(timezone, 시간대)를 설정하는 것도 가능하다.  
+
+```Python  
+>>> stz = s.dt.tz_localize('US/Eastern')  
+>>> stz
+```  
+
+```  
+0   2020-06-01 20:29:31-04:00  
+1   2020-06-02 20:29:31-04:00  
+2   2020-06-03 20:29:31-04:00  
+3   2020-06-04 20:29:31-04:00   
+dtype: datetime64[ns, US/Eastern]  
+```  
+
+```Python  
+>>> stz.dt.tz
+```  
+
+```  
+<DstTzInfo 'US/Eastern' LMT-1 day, 19:04:00 STD>
+```  
+
+```Python  
+>>> s.dt.tz_localize('UTC').dt.tz_convert('US/Eastern')
+```  
+
+```
+0   2020-06-01 16:29:31-04:00  
+1   2020-06-02 16:29:31-04:00  
+2   2020-06-03 16:29:31-04:00  
+3   2020-06-04 16:29:31-04:00  
+dtype: datetime64[ns, US/Eastern]    
+```  
+
+**Series.dt.strftime()** 을 사용해 datetime값의 형식을 변형할 수 있다.  
+
+```Python  
+# date_range
+>>> s = pd.Series(pd.date_range('20200601', periods=4))  
+>>> s
+```  
+
+```  
+0   2020-06-01  
+1   2020-06-02  
+2   2020-06-03  
+3   2020-06-04  
+dtype: datetime64[ns]  
+```  
+
+```Python  
+>>> s.dt.strftime('%Y/%m/%d')
+```  
+
+```  
+0    2020/06/01  
+1    2020/06/02  
+2    2020/06/03  
+3    2020/06/04  
+dtype: object  
+```   
+
+```Python  
+# period_range  
+>>> s = pd.Series(pd.period_range('20200601', periods=4))  
+>>> s
+```  
+
+```  
+0    2020-06-01  
+1    2020-06-02  
+2    2020-06-03  
+3    2020-06-04  
+dtype: period[D]  
+```  
+
+```Python  
+>>> s.dt.strftime('%Y/%m/%d')
+```  
+
+```  
+0    2020/06/01  
+1    2020/06/02  
+2    2020/06/03  
+3    2020/06/04   
+dtype: object   
+```  
+
+**dt** 접근자는 **period** , **timedelta** 타입의 데이터또한 작업할 수 있다.  
+
+```Python  
+# period  
+>>> s = pd.Series(pd.period_range('20200601', periods=4, freq='D'))  
+>>> s
+```  
+
+```  
+0    2020-06-01  
+1    2020-06-02  
+2    2020-06-03  
+3    2020-06-04  
+dtype: period[D]   
+```  
+
+```Python  
+>>> s.dt.year
+```  
+
+```  
+0    2020  
+1    2020  
+2    2020  
+3    2020  
+dtype: int64  
+```  
+
+```Python  
+>>> s.dt.day
+```  
+
+```  
+0    1  
+1    2  
+2    3  
+3    4  
+dtype: int64  
+```  
+
+```Python  
+# timedelta  
+>>> s = pd.Series(pd.timedelta_range('1 day 00:00:05', periods=4, freq='s'))  
+>>> s
+```  
+
+```  
+0   1 days 00:00:05  
+1   1 days 00:00:06  
+2   1 days 00:00:07  
+3   1 days 00:00:08  
+dtype: timedelta64[ns]  
+```  
+
+```Python  
+>>> s.dt.days
+```  
+
+```  
+0    1  
+1    1  
+2    1  
+3    1  
+dtype: int64    
+```  
+
+```Python  
+>>> s.dt.seconds
+```  
+
+```  
+0    5  
+1    6  
+2    7  
+3    8  
+dtype: int64  
+```  
+
+```Python  
+>>> s.dt.components
+```  
+
+|    |   days |   hours |   minutes |   seconds |   milliseconds |   microseconds |   nanoseconds |
+|---:|-------:|--------:|----------:|----------:|---------------:|---------------:|--------------:|
+|  0 |      1 |       0 |         0 |         5 |              0 |              0 |             0 |
+|  1 |      1 |       0 |         0 |         6 |              0 |              0 |             0 |
+|  2 |      1 |       0 |         0 |         7 |              0 |              0 |             0 |
+|  3 |      1 |       0 |         0 |         8 |              0 |              0 |             0 |  
+
+
+> Series.dt는 datetime이 아닌값에 사용하고자 하면 TypeError를 일으킬 수 있다.  
+
+## 10. Vectorized string methods  
