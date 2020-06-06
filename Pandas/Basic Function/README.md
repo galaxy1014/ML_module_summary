@@ -3172,3 +3172,157 @@ dtype: int64
 > Series.dt는 datetime이 아닌값에 사용하고자 하면 TypeError를 일으킬 수 있다.  
 
 ## 10. Vectorized string methods  
+
+시리즈와 인덱스는 배열의 각 요소들을 쉽게 처리하도록 문자열 처리 함수의 집합들을 가지고 있다. 이 함수는 누락값을 자동적으로 처리하며 **str** 함수를 통해 접근한다.  
+또한 파이썬에 내장된 문자열 함수와 동일한 이름을 가진다.  
+
+```Python  
+>>> s = pd.Series(['A','B','C', 'Aaba', 'Baca', np.nan, 'CABA', 'dog', 'cat'],dtype="string")  
+>>> s
+```  
+
+```  
+0       A  
+1       B  
+2       C  
+3    Aaba  
+4    Baca  
+5    <NA>  
+6    CABA  
+7     dog   
+8     cat   
+dtype: string  
+```  
+
+```Python  
+>>> s.str.lower()
+```  
+
+```  
+0       a   
+1       b  
+2       c  
+3    aaba  
+4    baca  
+5    <NA>  
+6    caba  
+7     dog  
+8     cat  
+dtype: string  
+```  
+
+```Python  
+>>> s.str.upper()
+```  
+
+```  
+0       A  
+1       B  
+2       C  
+3    AABA  
+4    BACA  
+5    <NA>  
+6    CABA   
+7     DOG   
+8     CAT   
+dtype: string  
+```  
+
+```Python  
+>>> s.str.len()
+```  
+
+```  
+0       1  
+1       1  
+2       1  
+3       4  
+4       4  
+5    <NA>  
+6       4  
+7       3  
+8       3  
+dtype: Int64  
+```  
+
+```Python  
+>>> idx = pd.Index([' jack', 'jill ', ' jesse ', 'frank'])  
+>>> idx
+```  
+
+```  
+Index([' jack', 'jill ', ' jesse ', 'frank'], dtype='object')
+```  
+
+```Python  
+>>> idx.str.strip()
+```  
+
+```  
+Index(['jack', 'jill', 'jesse', 'frank'], dtype='object')
+```  
+
+```Python  
+>>> idx.str.lstrip()
+```  
+
+```  
+Index(['jack', 'jill ', 'jesse ', 'frank'], dtype='object')  
+```  
+
+```Python  
+>>> idx.str.rstrip()
+```  
+
+```  
+Index([' jack', 'jill', ' jesse', 'frank'], dtype='object')
+```  
+
+인덱스의 문자열 함수는 특히 데이터프레임의 열의 레이블을 지우거나 변경할 때 유용하다. 예를 들어 열의 레이블이  
+앞 뒤로 공백이 있는 데이터프레임을 가지고 있다고 가정해보자.  
+
+```Python  
+>>> df = pd.DataFrame(np.random.randn(3, 2),columns=[' Column A ', ' Column B '], index=range(3))  
+>>> df
+```  
+
+|    |    Column A  |    Column B  |
+|---:|-------------:|-------------:|
+|  0 |   -0.0519944 |     0.79352  |
+|  1 |    0.589757  |    -0.601026 |
+|  2 |    0.382946  |     1.01586  |  
+
+```Python  
+>>> df.columns.str.strip()
+```
+
+```  
+Index(['Column A', 'Column B'], dtype='object')
+```  
+
+```Python  
+>>> df.columns.str.lower()
+```  
+
+```  
+Index([' column a ', ' column b '], dtype='object')
+```  
+
+이런 문자열 함수는 열의 레이블을 정리할 때 유용하게 사용할 수 있다. 예를 들어 앞, 뒤의 공백을 지우고 레이블을 소문자로 변경하며  
+사이 공백을 언더바로 대체하고자 한다고 가정해보자  
+
+```Python  
+>>> df.columns = df.columns.str.strip().str.lower().str.replace(' ','_')  
+>>> df
+```
+
+|    |   column_a |   column_b |
+|---:|-----------:|-----------:|
+|  0 | -0.0519944 |   0.79352  |
+|  1 |  0.589757  |  -0.601026 |
+|  2 |  0.382946  |   1.01586  |  
+
+만약 시리즈의 요소들이 상당수 중복된다면(단일값의 갯수가 시리즈의 길이에 비해 터무니없이 작다면) 시리즈의 유형을 **category**  
+로 변환하여 str.<함수> 혹은 dt.<프로퍼티> 를 사용하는것이 더 빠르다.  
+
+## 11. Sorting
