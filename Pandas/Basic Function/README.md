@@ -3507,3 +3507,34 @@ dtype: string
 7     dog  
 dtype: string  
 ```  
+
+### By indexes and values  
+
+DataFrame.sort_values()의 by 매개변수로 문자열을 입력하면 열 혹은 인덱스 레벨의 이름을 참조할 수 있다.  
+
+```Python  
+# 멀티인덱스 생성  
+>>> idx = pd.MultiIndex.from_tuples([('a',1),('a',2),('a',2),  
+                                 ('b',2),('b',1),('b',1)])  
+>>> idx.names = ['first','second']
+```  
+
+```Python  
+# 데이터프레임 생성  
+>>> df_multi = pd.DataFrame({'A':np.arange(6, 0, -1)}, index=idx)  
+>>> df_multi
+```  
+
+<img width="126" alt="1" src="https://user-images.githubusercontent.com/43739827/84008943-796f6000-a9ad-11ea-9762-c46f55878bf6.png"></img>  
+
+second(인덱스)와 A(열)을 정렬  
+
+```Python  
+>>> df_multi.sort_values(by=['second','A'])
+```  
+
+<img width="128" alt="2" src="https://user-images.githubusercontent.com/43739827/84009075-b3d8fd00-a9ad-11ea-9fe3-3f3b5bc82fdb.png"></img>  
+
+> 만약 열과 인덱스 이름이 동일하다면 에러가 발생한다  
+
+### searchsorted  
