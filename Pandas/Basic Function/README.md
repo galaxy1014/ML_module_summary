@@ -3538,3 +3538,49 @@ second(인덱스)와 A(열)을 정렬
 > 만약 열과 인덱스 이름이 동일하다면 에러가 발생한다  
 
 ### searchsorted  
+
+시리즈의 **searchsorted()** 함수를 사용해 이진탐색을 수행할 수 있다.  
+
+```Python  
+>>> ser = pd.Series([1,2,3])  
+>>> ser.searchsorted([0,3])
+```  
+
+```  
+array([0, 2])
+```  
+
+```Python  
+>>> ser.searchsorted([0, 4])
+```  
+
+```  
+array([0, 3])
+```  
+
+```Python  
+>>> ser.searchsorted([1, 3], side='right')
+```  
+
+```  
+array([1, 3])
+```  
+
+```Python  
+>>> ser.searchsorted([1,3], side='left')
+```  
+
+```  
+array([0, 2])
+```  
+
+```Python  
+>>> ser = pd.Series([3,1,2])  
+>>> ser.searchsorted([0, 3], sorter=np.argsort(ser))
+```  
+
+```  
+array([0, 2])  
+```  
+
+### smallest / largest values  
