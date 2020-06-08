@@ -3709,3 +3709,22 @@ dtype: int64
 |  6 |  -1 | f   |   4 |
 |  2 |   1 | d   |   4 |
 |  4 |   8 | e   | nan |  
+
+### Sorting by a MultiIndex column  
+
+열이 멀티인덱스알 때 정렬하기 위해서는 반드시 모든 레벨을 by를 써서 명시해야한다.  
+
+```Python  
+>>>  df1 = pd.DataFrame({'one': [2, 1, 1, 1],  
+                     'two': [1, 3, 2, 4],  
+                     'three': [5, 4, 3, 2]})  
+```  
+
+```Python  
+>>> df1.columns = pd.MultiIndex.from_tuples([('a','one'),('a','two'),('b','three')])  
+>>> df1.sort_values(by=('a','two'))
+```  
+
+<img width="144" alt="3" src="https://user-images.githubusercontent.com/43739827/84011474-20a1c680-a9b1-11ea-996e-89ef1b722639.png"></img>  
+
+## 12. Copying
