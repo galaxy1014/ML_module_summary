@@ -3406,3 +3406,104 @@ c   -0.809113
 d    1.566992  
 Name: three, dtype: float64  
 ```  
+
+### By values  
+
+**Series.sort_values()** 함수는 시리즈를 값으로 정렬할 때 사용한다. 또한 **DataFrame.sort_values()** 함수는 데이터프레임을 열과 행의 값을 정렬할 때 사용한다.  
+또한 DataFrame.sort_values() 함수에는 선택적 매개변수로 **by** 가 존재하는데 이는 특정 열만을 정렬할 때 열의 레이블을 명시하기 위해 사용한다.  
+
+```Python  
+>>> df = pd.DataFrame({'one' : [2,1,1,1],  
+                  'two' : [3,1,2,4],  
+                  'three' : [7,6,3,9]})  
+>>> df
+```  
+
+|    |   one |   two |   three |
+|---:|------:|------:|--------:|
+|  0 |     2 |     3 |       7 |
+|  1 |     1 |     1 |       6 |
+|  2 |     1 |     2 |       3 |
+|  3 |     1 |     4 |       9 |  
+
+```Python  
+>>> df.sort_values(by='two')
+```  
+
+|    |   one |   two |   three |
+|---:|------:|------:|--------:|
+|  1 |     1 |     1 |       6 |
+|  2 |     1 |     2 |       3 |
+|  0 |     2 |     3 |       7 |
+|  3 |     1 |     4 |       9 |  
+
+이 by 매개변수는 열의 이름들을 리스트로 받아 처리할 수 있다.  
+
+```Python  
+>>> df[['one','two','three']].sort_values(by=['one','two'])
+```  
+
+|    |   one |   two |   three |
+|---:|------:|------:|--------:|
+|  1 |     1 |     1 |       6 |
+|  2 |     1 |     2 |       3 |
+|  3 |     1 |     4 |       9 |
+|  0 |     2 |     3 |       7 |  
+
+특히 이 함수들은 누락값의 처리를 **na_position** 전달인자를 통해 처리한다.  
+
+```Python  
+>>> s = pd.Series(['A', 'B', 'C', 'Aaba', 'Baca', np.nan, 'CABA', 'dog', 'cat'],dtype="string")  
+>>> s[2] = np.nan
+```  
+
+```Python  
+>>> s
+```  
+
+```  
+0       A  
+1       B  
+2    <NA>  
+3    Aaba  
+4    Baca  
+5    <NA>  
+6    CABA  
+7     dog  
+8     cat  
+dtype: string  
+```  
+
+```Python  
+>>> s.sort_values()
+```  
+
+```  
+0       A  
+3    Aaba  
+1       B  
+4    Baca  
+6    CABA  
+8     cat  
+7     dog  
+2    <NA>  
+5    <NA>  
+dtype: string  
+```  
+
+```Python  
+>>> s.sort_values(na_position='first')
+```  
+
+```  
+2    <NA>  
+5    <NA>  
+0       A  
+3    Aaba  
+1       B  
+4    Baca  
+6    CABA  
+8     cat  
+7     dog  
+dtype: string  
+```  
