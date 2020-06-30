@@ -69,3 +69,7 @@ array([[0., 1.]])
  Text(283.2923076923077, 54.359999999999985, 'gini = 0.0\nsamples = 1\nvalue = [0, 1, 0]'),  
  Text(309.04615384615386, 90.6, 'gini = 0.0\nsamples = 43\nvalue = [0, 0, 43]')]  
 ```  
+
+## Regression  
+
+결정 트리에서 회귀 문제(regression problem)를 다루기 위해서는 **DecisionTreeRegressor** 를 사용한다.  
