@@ -27,3 +27,7 @@ ridge 계수는 잔차제곱합의 결점을 최소화한다.
 **RidgeClassifier** 는 이진대상값(binary target)을 **{-1, 1}** 로 변환하여 회귀에서 발생했던 문제들을 다루게된다.  
 
 클래스를 예측하여 그 값을 회귀에서의 예측값들의 부호로 사용한다.  
+
+### Setting the regularization parameter: generalized Cross-Validation  
+
+**RidgeCV** 는 알파를 교차검증(cross_validation)하는 ridge 회귀이다. 
