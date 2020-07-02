@@ -10,6 +10,8 @@
 
 정규방정식의 예측 계수는 특징(feature)의 독립성에 의존한다. 만약 독립성을 가지지 못한다면 예측한 대상값에서 발생하는 임의의 에러에 매우 민감해지게된다.  
 
+> [예시 코드 보기](https://github.com/galaxy1014/ML_module_summary/blob/master/Scikit-learn/1.%20Supervised%20learning/2.%20Linear%20Model/Ridge%20Classification.ipynb)  
+
 ## Ridge regression and classification  
 
 ### Regression  
@@ -22,12 +24,18 @@ ridge 계수는 잔차제곱합의 결점을 최소화한다.
 
 복잡도를 나타내는 매개변수 α가 0이상이면 수축량을 조절한다. α가 클수록 수축량은 커지고 이로인해 계수는 다중공선성(collinearity)에 더 강해진다.  
 
+> [예시 코드 보기](https://github.com/galaxy1014/ML_module_summary/blob/master/Scikit-learn/1.%20Supervised%20learning/2.%20Linear%20Model/Ridge%20Regression.ipynb)  
+
 ### Classification  
 
 **RidgeClassifier** 는 이진대상값(binary target)을 **{-1, 1}** 로 변환하여 회귀에서 발생했던 문제들을 다루게된다.  
 
 클래스를 예측하여 그 값을 회귀에서의 예측값들의 부호로 사용한다.  
 
+> [예시 코드 보기](https://github.com/galaxy1014/ML_module_summary/blob/master/Scikit-learn/1.%20Supervised%20learning/2.%20Linear%20Model/Ridge%20Classification.ipynb)  
+
 ### Setting the regularization parameter: generalized Cross-Validation  
 
-**RidgeCV** 는 알파를 교차검증(cross_validation)하는 ridge 회귀이다. 
+**RidgeCV** 는 알파를 교차검증(cross_validation)하는 ridge 회귀이다.
+
+> [예시 코드 보기](https://github.com/galaxy1014/ML_module_summary/blob/master/Scikit-learn/1.%20Supervised%20learning/2.%20Linear%20Model/RidgeCV.ipynb)
