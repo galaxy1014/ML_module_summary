@@ -3894,3 +3894,36 @@ B    float64
 C      uint8  
 dtype: object  
 ```  
+
+### defaults  
+
+정수형 자료는 사용하는 플랫폼(32-bit나 64-bit)에 상관없이 **int64** 나 **float64** 이다.  
+
+```Python  
+>>> pd.DataFrame([1, 2], columns=['A']).dtypes
+```  
+
+```  
+A    int64  
+dtype: object  
+```  
+
+```Python  
+>>> pd.DataFrame({'a' : [1, 2]}).dtypes
+```  
+
+```  
+a    int64  
+dtype: object  
+```  
+
+```Python  
+>>> pd.DataFrame({'a' : 1}, index=list(range(2))).dtypes
+```  
+
+```  
+a    int64  
+dtype: object  
+```  
+
+> 넘파이에서는 플랫폼에 의해서 생성한 배열의 유형이 정해진다.
