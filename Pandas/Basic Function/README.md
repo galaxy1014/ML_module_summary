@@ -3742,3 +3742,155 @@ dtype: int64
 만약 원래의 객체가 수정되었다면 함수에서 명시했기 때문이다.  
 
 ## 13. dtypes
+
+판다스는 넘파이의 배열, 시리즈의 dtypes, 데이터프레임에서 각 열을 사용하는 경우가 대다수다. 넘파이같은 경우 **float, int, bool, timedelta64[ns]** 와 **datetime64[ns]** 를 지원한다.  
+
+| Kind of Data | Data Type | Scalar | Array | String Aliases  
+|:------------:|:---------:|:------:|:-----:|:--------------:  
+tz-aware datetime | DatatimeTZDtype | TimeStamp | Array.DatetimeArray | 'datetime64[ns, <tz>]'  
+Categorical | CategoricalDtype | (none) | Categorical | 'category'  
+period(time spans) | PeriodDtype | Period | arrays.PeriodArray | 'period[<freq>]','Period[<freq>]'  
+SparseDtype | (none) | arrays.SparseArray | 'Sparse','Sparse[int]','Sparse[float]'  
+intervals | IntervalDtype | Interval | arrays.IntervalArray | 'interval', 'Interval', 'Interval[<numpy_dtype]', 'Interval[datetime64[ns, <tz>]]', 'Interval[timedelta64[<freq>]]'  
+nullable integer | Int64Dtype | (none) | arrays.IntegerArray | 'Int8','Int16','Int32','Int64','UInt8','UInt16','UInt32','UInt64'  
+Strings | StringDtype | str | arrays.StringArray | 'string'  
+Boolean (with NA) | BooleanDtype | bool | arrays.BooleanArray | 'boolean'  
+
+판다스에서는 두 가지 방법으로 문자열을 저장하게된다.  
+1. **object** dtye은 파이썬 객체로써 문자열또한 이에 해당한다.  
+2. **StringDtype** 은 문자열에만 해당하는 유형이다.  
+
+StringDtype를 사용하는것이 권장되지만 임의의 객체는 object dtype로 저장되게 된다.  
+
+데이터프레임에서 **dtype** 속성은 각 열의 데이터 유형을 보여주며 시리즈 객체에도 dtype를 사용할 수 있다.  
+
+```Python   
+>>> dft = pd.DataFrame({'A' : np.random.rand(3),  
+                   'B' : 1,  
+                   'C' : 'foo',  
+                   'D' : pd.Timestamp('20200703'),  
+                   'E' : pd.Series([1.0] * 3).astype('float32'),  
+                    'F' : False,  
+                    'G' : pd.Series([1] * 3, dtype='int8')})  
+>>> dft
+```  
+
+|    |        A |   B | C   | D                   |   E | F     |   G |
+|---:|---------:|----:|:----|:--------------------|----:|:------|----:|
+|  0 | 0.821896 |   1 | foo | 2020-07-03 00:00:00 |   1 | False |   1 |
+|  1 | 0.535665 |   1 | foo | 2020-07-03 00:00:00 |   1 | False |   1 |
+|  2 | 0.916056 |   1 | foo | 2020-07-03 00:00:00 |   1 | False |   1 |  
+
+```Python  
+>>> dft.dtypes
+```  
+
+```Python  
+>>> dft['A'].dtype
+```  
+
+```  
+dtype('float64')
+```  
+
+만약 하나의 열에 여러개의 dtypes가 포함된 경우, 열의 dtypes는 모든 데이터 유형을 하나로 만들어버린다(일반적으로 object가 된다)  
+
+```Python  
+>>> pd.Series([1, 2, 3,4, 5, 6.])
+```  
+
+```  
+0    1.0  
+1    2.0  
+2    3.0  
+3    4.0  
+4    5.0  
+5    6.0  
+dtype: float64  
+```  
+
+```Python  
+>>> pd.Series([1, 2, 3, 6., 'foo'])
+```  
+
+```  
+0      1  
+1      2  
+2      3  
+3      6  
+4    foo  
+dtype: object  
+```  
+
+데이터프레임에서 열의 dtypes 갯수를 파악하고자한다면 **DataFrame.dtypes.value_counts()** 를 호출한다.  
+
+```Python  
+>>> dft.dtypes.value_counts()
+```  
+
+```  
+int64             1  
+int8              1  
+float32           1  
+object            1  
+bool              1  
+float64           1  
+datetime64[ns]    1  
+dtype: int64  
+```  
+
+데이터프레임에서 숫자형 dtypes은 다른 dtypes과 공존할 수 있으며 다른종류의 숫자형 dtypes와 병합되지 않는다.  
+
+```Python  
+>>> df1 = pd.DataFrame(np.random.rand(8, 1), columns=['A'], dtype='float32')  
+>>> df1  
+```   
+
+|    |        A |
+|---:|---------:|
+|  0 | 0.392305 |
+|  1 | 0.196121 |
+|  2 | 0.161849 |
+|  3 | 0.674997 |
+|  4 | 0.330907 |
+|  5 | 0.467959 |
+|  6 | 0.858247 |
+|  7 | 0.918041 |  
+
+```Python  
+>>> df1.dtypes
+```  
+
+```  
+A    float32  
+dtype: object  
+```  
+
+```Python  
+>>> df2 = pd.DataFrame({'A' : pd.Series(np.random.randn(8), dtype='float16'),  
+                   'B' : pd.Series(np.random.randn(8)),  
+                   'C' : pd.Series(np.array(np.random.randn(8), dtype='uint8'))})  
+>>> df2
+```  
+
+|    |          A |         B |   C |
+|---:|-----------:|----------:|----:|
+|  0 |  0.507812  | -1.53397  |   0 |
+|  1 |  0.192139  |  1.7754   | 254 |
+|  2 |  0.206299  | -1.60916  |   0 |
+|  3 |  0.0204773 | -0.896763 |   0 |
+|  4 | -1.29492   | -1.21637  |   1 |
+|  5 | -0.543457  |  0.158602 |   0 |
+|  6 |  2.07227   | -0.221812 |   1 |
+|  7 | -1.4043    | -0.186775 |   0 |  
+
+```Python  
+>>> df2.dtypes
+```  
+
+```  
+A    float16  
+B    float64  
+C      uint8  
+dtype: object  
+```  
