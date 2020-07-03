@@ -47,6 +47,9 @@ ridge 계수는 잔차제곱합의 결점을 최소화한다.
 
 **lasso_path** 함수는 가질 수 있는 값의 전체 경로를 따라서 계수를 계산하며 간단한 단계의 업무에 유용하다.  
 
+> [예시 코드 보기](https://github.com/galaxy1014/ML_module_summary/blob/master/Scikit-learn/1.%20Supervised%20learning/2.%20Linear%20Model/Lasso%20and%20Elastic%20Net%20for%20Sparse%20Signals.ipynb)  
+> [예시 코드 보기](https://github.com/galaxy1014/ML_module_summary/blob/master/Scikit-learn/1.%20Supervised%20learning/2.%20Linear%20Model/Compressive%20sensing_tomography%20reconstruction%20with%20L1%20prior%20(Lasso).ipynb)  
+
 ### Setting regularization parameter  
 
 매개변수 알파 측정된 계수의 희소성의 정도를 조절한다.  
@@ -63,3 +66,9 @@ LassoLarsCV는 **Least Angle Regression** 알고리즘을 기반으로 한다.
 **LassoLarsIC** 는 AIC(Akaike Information Criterion)와 BIC(Bayes Information Criterion)의 사용을 제안한다. k-폴드 교차검증을 사용할 때  
 정규화 경로가 k+1회 대신 한 번만 계산되므로 알파 최적값을 찾는 것이 계산적으로 저렴한 대안이다. 즉, 데이터가 실제로 이 모델에 의해 생성된다고 가정한다.  
 또한 문제가 불량하게 조건화되었을 때(표본보다 더 많은 특징) 깨지는 경향이 있다.
+
+> [예시 코드 보기](https://github.com/galaxy1014/ML_module_summary/blob/master/Scikit-learn/1.%20Supervised%20learning/2.%20Linear%20Model/Lasso%20model%20selection_Cross-Validation%2CAIC%2CBIC.ipynb)  
+
+## 4. Multi-task Lasso  
+
+**MultiTaskLasso** 는 다중 회귀 문제에서의 희소 계수값을 측정하는 선형 모델이다. 제약조건으로는 task라 불리는 선택된 특징들이 모든 회귀 문제에서 동일하다는 것이다.  
