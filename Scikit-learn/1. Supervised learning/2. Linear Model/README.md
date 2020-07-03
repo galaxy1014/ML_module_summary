@@ -46,3 +46,20 @@ ridge 계수는 잔차제곱합의 결점을 최소화한다.
 최소값을 가져서 기울기가 작아지도록 해야 하는 것이다. 이 말은 가중치가 0이나 0의 근사값을 가지게 해야 한다는 것이고 이렇게되면 일부 특성들은 모델 생성과정에서 제외된다.  
 
 **lasso_path** 함수는 가질 수 있는 값의 전체 경로를 따라서 계수를 계산하며 간단한 단계의 업무에 유용하다.  
+
+### Setting regularization parameter  
+
+매개변수 알파 측정된 계수의 희소성의 정도를 조절한다.  
+
+### Using cross-validation  
+
+scikit-learn에는 α에 대해서 교차검증을 시행하는 Lasso인 **LassoCV** , **LassoLarsCV** 가 있다.  
+LassoLarsCV는 **Least Angle Regression** 알고리즘을 기반으로 한다.  
+
+많은 다중공산성을 특징들을 가지는 고차원의 데이터셋인경우 **LassoCV** 가 조금 더 선호되는 경향이 있으나, **LassoLarsCV** 는 알파 매개변수에 더 연관된 값들을 찾고자하는 경우에 더 선호된다. 그리고 만약 특징의 수가 표본의 수보다 작으면 LassoCV보다 더 빠른 경향이있다.
+
+### Information-criteria based model selection  
+
+**LassoLarsIC** 는 AIC(Akaike Information Criterion)와 BIC(Bayes Information Criterion)의 사용을 제안한다. k-폴드 교차검증을 사용할 때  
+정규화 경로가 k+1회 대신 한 번만 계산되므로 알파 최적값을 찾는 것이 계산적으로 저렴한 대안이다. 즉, 데이터가 실제로 이 모델에 의해 생성된다고 가정한다.  
+또한 문제가 불량하게 조건화되었을 때(표본보다 더 많은 특징) 깨지는 경향이 있다.
