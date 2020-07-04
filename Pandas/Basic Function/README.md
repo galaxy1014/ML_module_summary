@@ -3972,3 +3972,68 @@ dtype: object
 ```  
 dtype('float64')
 ```  
+
+### astype  
+
+**astype()** 를 사용하면 dtypes를 명시하여 원하는 dtypes로 변환할 수 있다. 기본적으로 원래의 dtypes는 변하지 않지만 사본을 만들어 반환하게 된다.  
+
+```Python   
+>>> df3.astype('float32').dtypes
+```  
+
+```  
+A    float32  
+B    float32  
+C    float32  
+dtype: object  
+```  
+
+데이터프레임 열의 일부를 변환할때도 astype를 사용할 수 있다  
+
+```Python  
+>>> dft = pd.DataFrame({'a' : [1,2,3], 'b' : [4,5,6] , 'c': [7, 8, 9]})  
+>>> dft[['a','b']] = dft[['a','b']].astype(np.uint8)  
+>>> dft
+```  
+
+|    |   a |   b |   c |
+|---:|----:|----:|----:|
+|  0 |   1 |   4 |   7 |
+|  1 |   2 |   5 |   8 |
+|  2 |   3 |   6 |   9 |  
+
+```Python  
+>>> dft.dtypes
+```  
+
+```  
+a    uint8  
+b    uint8  
+c    int64  
+dtype: object  
+```  
+
+특정 열을 딕셔너리 형태로 선언하여 astype를 사용할 수 있다.  
+
+```Python  
+>>> dft1 = pd.DataFrame({'a' : [1, 2, 3], 'b' : [4, 5, 6], 'c': [7, 8, 9]})  
+>>> dft1 = dft1.astype({'a' : np.bool, 'b' : np.float64})  
+>>> dft1
+```  
+
+|    | a    |   b |   c |
+|---:|:-----|----:|----:|
+|  0 | True |   4 |   7 |
+|  1 | True |   5 |   8 |
+|  2 | True |   6 |   9 |  
+
+```Python  
+>>> dft1.dtypes
+```  
+
+```  
+a       bool  
+b    float64  
+c      int64  
+dtype: object  
+```  
