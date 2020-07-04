@@ -3927,3 +3927,48 @@ dtype: object
 ```  
 
 > 넘파이에서는 플랫폼에 의해서 생성한 배열의 유형이 정해진다.
+
+### upcasting  
+
+데이터 유형들은 서로 조합될 때 현재의 데이터 유형으로 **upcasting** 될 수 있다.  
+
+```Python  
+>>> df1 = pd.DataFrame(np.random.rand(8, 1), columns=['A'], dtype='float32')  
+>>> df2 = pd.DataFrame({'A' : pd.Series(np.random.randn(8), dtype='float16'),  
+                   'B' : pd.Series(np.random.randn(8)),  
+                   'C' : pd.Series(np.array(np.random.randn(8), dtype='uint8'))})  
+>>> df3 = df1.reindex_like(df2).fillna(value=0.0) + df2  
+>>> df3
+```  
+
+|    |          A |         B |   C |
+|---:|-----------:|----------:|----:|
+|  0 |  0.384943  |  0.820539 |   0 |
+|  1 |  1.23377   | -0.457739 |   0 |
+|  2 |  0.628982  |  0.389797 |   0 |
+|  3 |  2.12147   |  0.103938 |   0 |
+|  4 |  0.642516  | -0.546479 |   1 |
+|  5 |  0.726423  |  1.07586  |   1 |
+|  6 |  0.0517342 |  1.6664   |   0 |
+|  7 | -0.896122  | -0.299453 |   1 |  
+
+```Python  
+>>> df3.dtypes
+```  
+
+```  
+A    float32  
+B    float64  
+C    float64  
+dtype: object  
+```  
+
+**DataFrame.to_numpy()** 를 사용하면 데이터프레임은 넘파이 배열로 변환되며 이 때의 dtypes은 가장 많이 등장한 dtypes으로 선택된다.  
+
+```Python  
+>>> df3.to_numpy().dtype
+```  
+
+```  
+dtype('float64')
+```  
