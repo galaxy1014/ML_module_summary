@@ -4037,3 +4037,140 @@ b    float64
 c      int64  
 dtype: object  
 ```  
+
+### object conversion  
+
+판다스는 object dtypes를 다른 dtypes로 강제 형변환을 지원한다. 이 때 사용하는 함수는 **DataFrame.infer_objects()** 와 **Series.infer_objects()** 를 사용한다.  
+
+```Python  
+>>> import datetime  
+>>> df = pd.DataFrame([[1, 2],  
+                  ['a', 'b'],  
+                  [datetime.datetime(2020, 7, 4),  
+                  datetime.datetime(2020, 7, 4)]])  
+>>> df = df.T  
+>>> df  
+```  
+
+|    |   0 | 1   | 2                   |
+|---:|----:|:----|:--------------------|
+|  0 |   1 | a   | 2020-07-04 00:00:00 |
+|  1 |   2 | b   | 2020-07-04 00:00:00 |  
+
+```Python  
+>>> df.dtypes
+```  
+
+```  
+0            object  
+1            object  
+2    datetime64[ns]  
+dtype: object  
+```  
+
+0번 열의 경우 원래 저장할 때 사용된 정수형이 object로 변환되었으므로 infer_objects로 올바르게 변환시킨다.  
+
+```Python  
+>>> df.infer_objects().dtypes
+```  
+
+```  
+0             int64  
+1            object  
+2    datetime64[ns]  
+dtype: object  
+```  
+
+1차원의 object 배열이나 상수를 다른 type로 변환하는 함수들이 존재한다.  
+
+* to_numeric()(정수형 dtypes로 변환)
+```Python  
+>>> m = ['1.1', 2, 3]  
+>>> pd.to_numeric(m)
+```  
+
+```  
+array([1.1, 2. , 3. ])
+```  
+
+* to_datetime()(datetime 객체로 변환)  
+
+```Python   
+>>> m = ['2020-07-04', datetime.datetime(2020, 7, 1)]  
+>>> pd.to_datetime(m)  
+```  
+
+```  
+DatetimeIndex(['2020-07-04', '2020-07-01'], dtype='datetime64[ns]', freq=None)
+```  
+
+* to_timedelta()(timedelta 객체로 변환)  
+
+```Python  
+>>> m = ['5us', pd.Timedelta('1day')]  
+>>> pd.to_timedelta(m)
+```  
+
+```  
+TimedeltaIndex(['0 days 00:00:00.000005', '1 days 00:00:00'], dtype='timedelta64[ns]', freq=None)
+```  
+
+하지만 이 함수들은 1차원의 배열, 리스트, 스칼라만을 형변환할 수 있다. 따라서 데이터프레임같은 다차원의 객체를 형변환하기 위해선 **apply** 함수를 사용해 각 열을 효율적으로 변환한다.  
+
+```Python  
+>>> df = pd.DataFrame([
+    ['2020-07-04',datetime.datetime(2020, 7, 4)]] * 2, dtype='O')  
+>>> df
+```
+
+|    | 0          | 1                   |
+|---:|:-----------|:--------------------|
+|  0 | 2020-07-04 | 2020-07-04 00:00:00 |
+|  1 | 2020-07-04 | 2020-07-04 00:00:00 |  
+
+```Python  
+>>> df.apply(pd.to_datetime)
+```  
+
+|    |           0 |           1 |
+|---:|------------:|------------:|
+|  0 | 1.59382e+18 | 1.59382e+18 |
+|  1 | 1.59382e+18 | 1.59382e+18 |  
+
+```Python  
+>>> df = pd.DataFrame([['1.1', 2, 3]] * 2, dtype='O')  
+>>> df
+```  
+
+|    |   0 |   1 |   2 |
+|---:|----:|----:|----:|
+|  0 | 1.1 |   2 |   3 |
+|  1 | 1.1 |   2 |   3 |
+
+```Python  
+>>> df.apply(pd.to_numeric)
+```  
+
+|    |   0 |   1 |   2 |
+|---:|----:|----:|----:|
+|  0 | 1.1 |   2 |   3 |
+|  1 | 1.1 |   2 |   3 |  
+
+```Python  
+>>> df = pd.DataFrame([['5us', pd.Timedelta('1day')]] * 2, dtype='O')  
+>>> df
+```  
+
+|    | 0   | 1               |
+|---:|:----|:----------------|
+|  0 | 5us | 1 days 00:00:00 |
+|  1 | 5us | 1 days 00:00:00 |  
+
+```Python  
+>>> df.apply(pd.to_timedelta)
+```  
+
+|    |    0 |        1 |
+|---:|-----:|---------:|
+|  0 | 5000 | 8.64e+13 |
+|  1 | 5000 | 8.64e+13 |
