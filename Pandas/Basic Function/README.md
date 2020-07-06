@@ -4174,3 +4174,128 @@ TimedeltaIndex(['0 days 00:00:00.000005', '1 days 00:00:00'], dtype='timedelta64
 |---:|-----:|---------:|
 |  0 | 5000 | 8.64e+13 |
 |  1 | 5000 | 8.64e+13 |
+
+### gotchas  
+
+integer 타입의 데이터들은 간단하게 floating 타입의 데이터로 upcast 할 수 있다. 하지만 입력받은 데이터의 dtypes가 누락값을 포함할 경우 원래의 타입이 보존되어 버린다.  
+
+```Python  
+>>> df1 = pd.DataFrame(np.random.rand(8, 1), columns=['A'], dtype='float32')  
+>>> df2 = pd.DataFrame({'A' : pd.Series(np.random.randn(8), dtype='float16'),  
+                   'B' : pd.Series(np.random.randn(8)),  
+                   'C' : pd.Series(np.array(np.random.randn(8), dtype='uint8'))})  
+>>> df3 = df1.reindex_like(df2).fillna(value=0.0) + df2  
+>>> print(df3.to_markdown())  
+```  
+
+|    |          A |          B |   C |
+|---:|-----------:|-----------:|----:|
+|  0 |  0.120773  |  0.580976  |   1 |
+|  1 |  0.900701  |  0.386704  | 255 |
+|  2 |  0.0283891 |  2.6454    |   0 |
+|  3 |  0.728369  | -0.246911  |   0 |
+|  4 | -0.908878  | -0.414127  |   0 |
+|  5 | -1.59645   |  1.09379   |   0 |
+|  6 |  0.0998989 |  0.695764  | 255 |
+|  7 |  1.57788   |  0.0770703 |   0 |  
+
+```Python  
+>>> dfi = df3.astype('int32')  
+>>> dfi['E'] = 1  
+>>> dfi
+```  
+
+|    |   A |   B |   C |   E |
+|---:|----:|----:|----:|----:|
+|  0 |   0 |   0 |   1 |   1 |
+|  1 |   0 |   0 | 255 |   1 |
+|  2 |   0 |   2 |   0 |   1 |
+|  3 |   0 |   0 |   0 |   1 |
+|  4 |   0 |   0 |   0 |   1 |
+|  5 |  -1 |   1 |   0 |   1 |
+|  6 |   0 |   0 | 255 |   1 |
+|  7 |   1 |   0 |   0 |   1 |  
+
+```Python  
+>>> dfi.dtypes
+```  
+
+```  
+A    int32  
+B    int32  
+C    int32  
+E    int64  
+dtype: object  
+```  
+
+```Python  
+>>> casted = dfi[dfi > 0]  
+>>> casted
+```  
+
+|    |   A |   B |   C |   E |
+|---:|----:|----:|----:|----:|
+|  0 | nan | nan |   1 |   1 |
+|  1 | nan | nan | 255 |   1 |
+|  2 | nan |   2 | nan |   1 |
+|  3 | nan | nan | nan |   1 |
+|  4 | nan | nan | nan |   1 |
+|  5 | nan |   1 | nan |   1 |
+|  6 | nan | nan | 255 |   1 |
+|  7 |   1 | nan | nan |   1 |  
+
+```Python  
+>>> casted.dtypes
+```  
+
+```   
+A    float64  
+B    float64  
+C    float64  
+E      int64  
+dtype: object  
+```
+
+반면 float dtypes는 변경할 수 없다.
+
+```Python  
+>>> dfa = df3.copy()  
+>>> dfa['A'] = dfa['A'].astype('float32')  
+>>> dfa.dtypes  
+```  
+
+```   
+A    float32  
+B    float64  
+C    float64  
+dtype: object  
+```  
+
+```Python  
+>>> casted = dfa[df2 > 0]  
+>>> casted  
+```  
+
+|    |          A |           B |   C |
+|---:|-----------:|------------:|----:|
+|  0 | nan        |   0.580976  |   1 |
+|  1 |   0.900701 |   0.386704  | 255 |
+|  2 | nan        |   2.6454    | nan |
+|  3 | nan        | nan         | nan |
+|  4 | nan        | nan         | nan |
+|  5 | nan        |   1.09379   | nan |
+|  6 | nan        |   0.695764  | 255 |
+|  7 |   1.57788  |   0.0770703 | nan |  
+
+```Python  
+>>> casted.dtypes
+```  
+
+```  
+A    float32  
+B    float64  
+C    float64  
+dtype: object  
+```
+
+## 14. Selecting columns based on dtype
