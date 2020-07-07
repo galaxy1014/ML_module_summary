@@ -4299,3 +4299,134 @@ dtype: object
 ```
 
 ## 14. Selecting columns based on dtype
+
+**select_dtypes()** 함수는 dtype을 기반으로 하여 열을 검색한다.  
+
+```Python  
+>>> df = pd.DataFrame({'string' : list('abc'),  
+                  'int' : list(range(1, 4)),   
+                  'uint8' : np.arange(3, 6).astype('u1'),  
+                  'float64' : np.arange(4.0, 7.0),  
+                  'bool1' : [True, False, True],  
+                  'bool2' : [False, True, False],  
+                  'dates' : pd.date_range('now', periods=3),  
+                  'category' : pd.Series(list("ABC")).astype('category')})  
+>>> df['tdeltas'] = df.dates.diff()  
+>>> df['uint64'] = np.arange(3, 6).astype('u8')  
+>>> df['other_dates'] = pd.date_range('20200707', periods=3)  
+>>> df['tz_aware_dates'] = pd.date_range('20200707', periods=3, tz='US/Eastern')   
+>>> df
+```  
+
+|    | string   |   int |   uint8 |   float64 | bool1   | bool2   | dates                      | category   | tdeltas         |   uint64 | other_dates         | tz_aware_dates            |
+|---:|:---------|------:|--------:|----------:|:--------|:--------|:---------------------------|:-----------|:----------------|---------:|:--------------------|:--------------------------|
+|  0 | a        |     1 |       3 |         4 | True    | False   | 2020-07-07 18:25:53.607871 | A          | NaT             |        3 | 2020-07-07 00:00:00 | 2020-07-07 00:00:00-04:00 |
+|  1 | b        |     2 |       4 |         5 | False   | True    | 2020-07-08 18:25:53.607871 | B          | 1 days 00:00:00 |        4 | 2020-07-08 00:00:00 | 2020-07-08 00:00:00-04:00 |
+|  2 | c        |     3 |       5 |         6 | True    | False   | 2020-07-09 18:25:53.607871 | C          | 1 days 00:00:00 |        5 | 2020-07-09 00:00:00 | 2020-07-09 00:00:00-04:00 |  
+
+위 데이터프레임에 대한 각 열의 dtypes는  
+
+```  
+string                                object  
+int                                    int64  
+uint8                                  uint8  
+float64                              float64  
+bool1                                   bool  
+bool2                                   bool  
+dates                         datetime64[ns]  
+category                            category  
+tdeltas                      timedelta64[ns]  
+uint64                                uint64  
+other_dates                   datetime64[ns]  
+tz_aware_dates    datetime64[ns, US/Eastern]  
+dtype: object  
+```  
+
+select_dtypes에는 두 개의 매개변수 include와 exclude가 있다. include는 특정 dtypes를 가지는 열들을 반환하며 해당 dtypes를 가지는 열을 제외시키고자 한다면 exclude를 사용한다.  
+
+```Python  
+# bool을 가지는 열 반환  
+>>> df.select_dtypes(include=[bool])  
+```  
+
+|    |   bool1 |   bool2 |
+|---:|--------:|--------:|
+|  0 |       1 |       0 |
+|  1 |       0 |       1 |
+|  2 |       1 |       0 |  
+
+```Python  
+# bool을 가지는 열 반환(Numpy 방식)  
+>>> df.select_dtypes(include=['bool'])
+```  
+
+|    |   bool1 |   bool2 |
+|---:|--------:|--------:|
+|  0 |       1 |       0 |
+|  1 |       0 |       1 |
+|  2 |       1 |       0 |  
+
+```Python  
+# 부호없는 정수값을 제외한 숫자, 불리언 열들을 반환  
+>>> df.select_dtypes(include=['number','bool'], exclude=['unsignedinteger'])
+```  
+
+|    |   int |   float64 | bool1   | bool2   | tdeltas         |
+|---:|------:|----------:|:--------|:--------|:----------------|
+|  0 |     1 |         4 | True    | False   | NaT             |
+|  1 |     2 |         5 | False   | True    | 1 days 00:00:00 |
+|  2 |     3 |         6 | True    | False   | 1 days 00:00:00 |  
+
+문자열을 가지는 열을 선택하고자 한다면 반드시 object dtype을 사용해야 한다.  
+
+```Python  
+>>> df.select_dtypes(include=['object'])
+```  
+
+|    | string   |
+|---:|:---------|
+|  0 | a        |
+|  1 | b        |
+|  2 | c        |  
+
+모든 Numpy dtypes는 **numpy.generic** 의 하위클래스이다.  
+
+```Python  
+>>> def subdtypes(dtype):  
+>>>    subs = dtype.__subclasses__()  
+>>>    if not subs:  
+>>>        return dtype  
+>>>    return [dtype, [subdtypes(dt) for dt in subs]]  
+
+>>> subdtypes(np.generic)
+```  
+
+```  
+[numpy.generic,  
+ [[numpy.number,  
+   [[numpy.integer,  
+     [[numpy.signedinteger,  
+       [numpy.int8,  
+        numpy.int16,  
+        numpy.int32,  
+        numpy.int64,  
+        numpy.int64,  
+        numpy.timedelta64]],  
+      [numpy.unsignedinteger,  
+       [numpy.uint8,  
+        numpy.uint16,  
+        numpy.uint32,  
+        numpy.uint64,  
+        numpy.uint64]]]],  
+    [numpy.inexact,  
+     [[numpy.floating,  
+       [numpy.float16, numpy.float32, numpy.float64, numpy.float128]],  
+      [numpy.complexfloating,  
+       [numpy.complex64, numpy.complex128, numpy.complex256]]]]]],  
+  [numpy.flexible,  
+   [[numpy.character, [numpy.bytes_, numpy.str_]],  
+    [numpy.void, [numpy.record]]]],  
+  numpy.bool_,  
+  numpy.datetime64,  
+  numpy.object_]]
+```
